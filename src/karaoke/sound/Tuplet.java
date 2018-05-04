@@ -2,6 +2,12 @@ package karaoke.sound;
 
 import java.util.List;
 
+/*
+ * AF(notes, duration) = Tuplet where notes is a list of notes and the duration is the enlarged/shrunken duration for the 
+ * specific type of tuplet (triplet, duplet, quadruplet)
+ * RI: true
+ * Safety from Rep: notes and duration are private and final and the data type is immutable
+ */
 /**
  * An immutable data type representing a tuplet 
  * A Tuplet is a consecutive group of notes that are to be played for a duration
