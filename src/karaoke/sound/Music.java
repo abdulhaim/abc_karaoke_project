@@ -6,17 +6,29 @@ package karaoke.sound;
  */
 public interface Music {
 
+    /*
+     * 
+     * Music = Note(duration : double, pitch : Pitch, instrument : Instrument)
+              + Rest(duration : double)
+              + Accidents()
+              + Chords()
+              + Tuplets()
+              + My Signature()
+              + Repeat()
+              + Concat(music1:Music, music2:Music)
+     */
+    
     /**
      * @return total duration of this piece in beats
      */
-    double getDuration();
+    public double getDuration();
 
     /**
      * Play this piece.
      * @param player player to play on
      * @param atBeat when to play
      */
-    void play(SequencePlayer player, double atBeat);
+    public void play(SequencePlayer player, double atBeat);
 
     
 }
