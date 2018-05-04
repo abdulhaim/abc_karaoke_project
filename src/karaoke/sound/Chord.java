@@ -12,6 +12,12 @@ public class Chord implements Music {
     private final double duration;
     private final List<Note> notes;
     
+    /*
+     * AF(notes, duration) = Chord where notes is a list of notes and the duration is the duration of the chord
+     * RI: true
+     * Safety from Rep: notes and duration are private and final and the data type is immutable
+     */
+    
     /**
      * Create a Chord made up of Notes that lasts for duration 
      * @param notes list of notes

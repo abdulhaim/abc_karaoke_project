@@ -1,10 +1,4 @@
 package karaoke.sound;
-/*
- * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
- * and second endings  
- * RI: true
- * Safety from Rep: music, ending1, ending2 and duration are private and final and the data type is immutable
- */
 /**
  * An immutable data type that represents a section of music that is to be repeated once
  * @author Myra
@@ -15,6 +9,14 @@ public class Repeat implements Music {
     private final Music ending1;
     private final Music ending2;
     private final double duration;
+    
+    /*
+     * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
+     * and second endings  
+     * RI: true
+     * Safety from Rep: music, ending1, ending2 and duration are private and final and the data type is immutable
+     */
+
     /**
      * Initialized a Repeat 
      * @param music the main music
