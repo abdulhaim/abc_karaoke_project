@@ -47,7 +47,6 @@ public class SequencePlayerTest {
         // played by 'instr' starting at 'startBeat' to be played for 'numBeats' beats.
         
         int startBeat = 0;
-        //C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3DDD (3BBB (3EEE (3CCC | G3/4 F1/4 E3/4 1/4D C2 
         player.addNote(piano, new Pitch('C'), startBeat, 1.0);
         player.addNote(piano, new Pitch('C'), startBeat +=1.0, 1.0);
         player.addNote(piano, new Pitch('C'), startBeat +=1.0, 3.0/4);
@@ -59,13 +58,13 @@ public class SequencePlayerTest {
         player.addNote(piano, new Pitch('F'), startBeat+=3.0/4, 1.0/4);
         player.addNote(piano, new Pitch('G'), startBeat+=1.0/4, 2.0);
         
-        player.addNote(piano, new Pitch('D'), startBeat +=2.0, 1.0/3);
-        player.addNote(piano, new Pitch('D'), startBeat +=1.0/3, 1.0/3);
-        player.addNote(piano, new Pitch('D'), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat +=2.0, 1.0/3);
+        player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat +=1.0/3, 1.0/3);
         
-        player.addNote(piano, new Pitch('B'), startBeat +=1.0/3, 1.0/3);
-        player.addNote(piano, new Pitch('B'), startBeat +=1.0/3, 1.0/3);
-        player.addNote(piano, new Pitch('B'), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('G'), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('G'), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('G'), startBeat +=1.0/3, 1.0/3);
         
         player.addNote(piano, new Pitch('E'), startBeat +=1.0/3, 1.0/3);
         player.addNote(piano, new Pitch('E'), startBeat +=1.0/3, 1.0/3);
