@@ -3,8 +3,8 @@ package karaoke.sound;
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
-import karaoke.parser.*;
 import karaoke.sound.Music; 
+// should import the grammar file but for some reason it was failing to compile when I had it -Myra
 /**
  * Parses a file in abc format 
  * @author Myra
