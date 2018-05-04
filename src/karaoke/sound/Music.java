@@ -2,20 +2,22 @@
 package karaoke.sound;
 
 /**
- * Immutable Music Interface represents a piece of music played by multiple instruments.
+ * Immutable Music Interface representing a piece of music played by multiple instruments.
+ * @author Marwa Abdulhai
+
  */
 public interface Music {
 
     /*
      * 
      * Music = Note(duration : double, pitch : Pitch, instrument : Instrument)
-              + Rest(duration : double)
-              + Accidents()
-              + Chords()
-              + Tuplets()
-              + My Signature()
-              + Repeat()
-              + Concat(music1:Music, music2:Music)
+     *        + Rest(duration : double)
+     *        + Accidental(duration: double, pitchChange: Pitch, bar: Bar)
+     *        + Chord()
+     *        + Tuplets()
+     *        + My Signature()
+     *        + Repeat()
+     *        + Concat(music1:Music, music2:Music)
      */
     
     /**

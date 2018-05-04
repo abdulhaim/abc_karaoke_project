@@ -1,7 +1,9 @@
 package karaoke.sound;
 
 /**
- * Note represents a note played by an instrument.
+ * Immutable data type Note represents a note played by an instrument.
+ * @author Marwa Abdulhai
+ * 
  */
 public class Note implements Music {
 

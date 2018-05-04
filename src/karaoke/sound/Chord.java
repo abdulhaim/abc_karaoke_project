@@ -1,11 +1,7 @@
 package karaoke.sound;
 
 import java.util.List;
-/*
- * AF(notes, duration) = Chord where notes is a list of notes and the duration is the duration of the chord
- * RI: true
- * Safety from Rep: notes and duration are private and final and the data type is immutable
- */
+
 /**
  * An immutable data type that represents a chord 
  * Chord represents a multiple notes played at the same time
