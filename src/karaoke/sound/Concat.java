@@ -22,6 +22,21 @@ public class Concat implements Music{
         this.music2 = music2;
     }
     
+    /**
+     * @return first piece in this concatenation
+     */
+    public Music first() {
+        return music1;
+    }
+
+    /**
+     * @return second piece in this concatenation
+     */
+    public Music second() {
+        return music2;
+    }
+
+    
     @Override
     public double getDuration() {
         // TODO Auto-generated method stub
