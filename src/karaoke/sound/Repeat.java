@@ -9,7 +9,7 @@ public class Repeat implements Music {
     private final Music ending1;
     private final Music ending2;
     private final double duration;
-    
+    //TODO: Use Optional Data type 
     /*
      * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
      * and second endings  

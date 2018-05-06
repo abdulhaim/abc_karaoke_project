@@ -134,16 +134,16 @@ public class SequencePlayerTest {
         player.addNote(piano, new Pitch('F').transpose(1), startBeat, 1.0/2);
         
         player.addNote(piano, new Pitch('E').transpose(Pitch.OCTAVE), startBeat+=1.0/2, 1.0/2);
-        player.addNote(piano, new Pitch('F'), startBeat, 1.0/2);
+        player.addNote(piano, new Pitch('F').transpose(1), startBeat, 1.0/2);
         
         player.addNote(piano, new Pitch('E').transpose(Pitch.OCTAVE), startBeat+=(1.0/2 +1.0/2), 1.0/2); //added rest 
         player.addNote(piano, new Pitch('F').transpose(1), startBeat, 1.0/2);
         
         player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat+=(1.0/2 + 1.0/2), 1.0/2); //added rest
-        player.addNote(piano, new Pitch('F'), startBeat, 1.0/2);
+        player.addNote(piano, new Pitch('F').transpose(1), startBeat, 1.0/2);
         
         player.addNote(piano, new Pitch('E').transpose(Pitch.OCTAVE), startBeat+=(1.0/2), 1.0);
-        player.addNote(piano, new Pitch('F'), startBeat, 1.0);
+        player.addNote(piano, new Pitch('F').transpose(1), startBeat, 1.0);
         
         player.addNote(piano, new Pitch('G').transpose(Pitch.OCTAVE), startBeat+=1.0, 1.0);
         player.addNote(piano, new Pitch('B'), startBeat, 1.0);
@@ -163,7 +163,7 @@ public class SequencePlayerTest {
         player.addNote(piano, new Pitch('A'), startBeat+=1.0/2, 1.0);
         player.addNote(piano, new Pitch('G'), startBeat +=1.0, 1.0/3);
         player.addNote(piano, new Pitch('E').transpose(Pitch.OCTAVE), startBeat +=1.0/3, 1.0/3);
-        player.addNote(piano, new Pitch('G'), startBeat +=1.0/3, 1.0/3);
+        player.addNote(piano, new Pitch('G').transpose(Pitch.OCTAVE), startBeat +=1.0/3, 1.0/3);
         player.addNote(piano, new Pitch('A').transpose(Pitch.OCTAVE), startBeat+=1.0/3, 1.0);
         player.addNote(piano, new Pitch('F').transpose(Pitch.OCTAVE), startBeat+=1.0, 1.0/2);
         player.addNote(piano, new Pitch('G').transpose(Pitch.OCTAVE), startBeat+=1.0/2, 1.0/2);
@@ -212,7 +212,7 @@ public class SequencePlayerTest {
         Instrument piano = Instrument.PIANO;
         List<String> words = Arrays.asList("A -", " ma - zing_ "," grace! How "," sweet the "," sound That" ," saved a "," wretch like ","me.");
         // create a new player
-        final int beatsPerMinute = 100; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int beatsPerMinute = 200; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 100; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         
