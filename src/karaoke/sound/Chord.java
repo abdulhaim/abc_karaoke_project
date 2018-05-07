@@ -9,11 +9,10 @@ import java.util.List;
  *
  */
 public class Chord implements Music {
-    private final double duration;
     private final List<Note> notes;
     
     /*
-     * AF(notes, duration) = Chord where notes is a list of notes and the duration is the duration of the chord
+     * AF(notes) = Chord where notes is a list of notes, the duration is  set using the duration of the first note 
      * RI: true
      * Safety from Rep: notes and duration are private and final and the data type is immutable
      */
@@ -21,11 +20,9 @@ public class Chord implements Music {
     /**
      * Create a Chord made up of Notes that lasts for duration 
      * @param notes list of notes
-     * @param duration duration length of chord, equal to the duration of a single note
      */
-    public Chord (List<Note> notes, double duration) {
+    public Chord (List<Note> notes) {
         this.notes  = notes;
-        this.duration = duration;  
     }
     
     //TODO checkRep, Chord should not contain rests or tuplets
@@ -45,7 +42,7 @@ public class Chord implements Music {
         String ans = "";
         ans += "[";
         for (Note note: notes) {
-            ans += note;
+            ans += note.getPitch();
         }
         ans += "]";
         return ans;     

@@ -38,7 +38,7 @@ public class SoundPlaybackTest {
         List<Note> chords = new ArrayList<Note>();
         chords.add(new Note(1, new Pitch ('C'), Instrument.PIANO));
         chords.add(new Note(1, new Pitch ('D'), Instrument.PIANO));
-        SoundPlayback.play(new Chord(chords,1));
+        SoundPlayback.play(new Chord(chords));
     }
     
     @Test
@@ -47,6 +47,6 @@ public class SoundPlaybackTest {
         notes.add(new Note(1, new Pitch ('C'), Instrument.PIANO));
         notes.add(new Note(1, new Pitch ('D'), Instrument.PIANO));
         notes.add(new Note(1, new Pitch ('G'), Instrument.PIANO));
-        SoundPlayback.play(new Tuplet(notes, 2));
+        SoundPlayback.play(new Tuplet(notes));
     }
 }
