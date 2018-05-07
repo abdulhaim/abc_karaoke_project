@@ -27,7 +27,15 @@ public class Tuplet implements Music {
      */
     public Tuplet(List<Note> notes, double duration) {
         this.notes = notes;
-        this.duration = duration;
+        if (notes.size() == 3) {
+            this.duration = 2;
+        }
+        else if (notes.size() ==2) {
+            this.duration = 3;
+        }
+        else {
+            this.duration = 3;
+        }
     }
     
     // TODO checkRep A tuplet may not contain rests, but it may contain chords.
