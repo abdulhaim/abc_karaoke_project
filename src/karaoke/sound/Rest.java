@@ -6,11 +6,20 @@ package karaoke.sound;
  */
 public class Rest implements Music {
 
+    // fields
     private final double duration;
 
-    private void checkRep() {
-        assert duration >= 0;
-    }
+    /*
+     * AF(duration): Music that represents a rest of duration {@param duration}
+     * 
+     * Rep Invariant:
+     * - duration >= 0
+     * 
+     * Safety Argument: the only field is duration (a primitive type) which is made a final. So this type is immutable
+     * 
+     * Thread-Safety Argument: This is an immutable type with only primitive fields. So different threads can only observe
+     *                         features of this ADT and not mutate it. Thus, this ADT is thread-safe.
+     */
 
     /**
      * Make a Rest that lasts for duration beats.
@@ -21,6 +30,10 @@ public class Rest implements Music {
         checkRep();
     }
 
+    private void checkRep() {
+        assert duration >= 0;
+    }
+    
     /**
      * @return duration of this rest
      */
