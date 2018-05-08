@@ -232,7 +232,6 @@ public class MusicLanguage {
             case ABCBODY: {
                 List<Music> music = new ArrayList<Music>();
                 for(int i = 0;i<children.size();i++) {
-                    System.out.println(children.get(i));
                     music.add(makeAbstractSyntaxTreeForMusic(children.get(i)));
                 }
                 return new Concat(music);    
@@ -243,7 +242,10 @@ public class MusicLanguage {
                 List<Music> concat = new ArrayList<Music>();
                 List<Music> barNotes = new ArrayList<Music>();
                 for(int i = 0; i< children.size(); i++) {
+                    System.out.println("CHILDREN!!" + children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
+                        if(i+1!=children.size()-1 && children.get(i+1).equals("[1")) {
+                        }
                         concat.add(new Bar(barNotes));
                         barNotes = new ArrayList<Music>();
                     }
