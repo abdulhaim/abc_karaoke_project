@@ -1,5 +1,7 @@
 package karaoke.sound;
 
+import java.util.List;
+
 /**
  * @author Bibek Kumar Pandit
  *
@@ -9,33 +11,17 @@ public class Concat implements Music{
 
     
     //fields
-    private final Music music1;
-    private final Music music2;
+    private final List<Music> music;
     
     /**
      * Constructor of Concat.
      * @param music1 first part of concatenated music
      * @param music2 second part of concatenated music
      */
-    public Concat(Music music1, Music music2) {
-        this.music1 = music1;
-        this.music2 = music2;
+    public Concat(List<Music> music) {
+        this.music = music;
     }
-    
-    /**
-     * @return first piece in this concatenation
-     */
-    public Music first() {
-        return music1;
-    }
-
-    /**
-     * @return second piece in this concatenation
-     */
-    public Music second() {
-        return music2;
-    }
-
+   
     
     @Override
     public double getDuration() {
@@ -46,6 +32,15 @@ public class Concat implements Music{
     @Override
     public void play(SequencePlayer player, double atBeat) {
         // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public String toString() {
+        String concat = "";
+        for(Music m: music) {
+            concat += m.toString();
+        }
+        return concat;
         
     }
     

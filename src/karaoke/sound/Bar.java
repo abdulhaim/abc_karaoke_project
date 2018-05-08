@@ -5,22 +5,22 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 
  * @author Bibek Kumar Pandit
- *
  * 
  */
-public class Bar implements Music{
+public class Bar implements Music {
 
-    //fields:
     private final List<Music> listOfSubMusic;
-    private final double totalDuration = this.getDuration();
+    private final double totalDuration;
     
     /**
      * Constructor of Bar.
      * @param subMusic list of Music types to be merged
      */
     public Bar(List<Music> subMusic) {
-        listOfSubMusic = Collections.unmodifiableList(new ArrayList<Music>(subMusic));
+        this.listOfSubMusic = subMusic;
+        this.totalDuration = this.getDuration();
     }
     
     private void checkRep() {
@@ -30,7 +30,7 @@ public class Bar implements Music{
     @Override
     public double getDuration() {
         double duration = 0;
-        for (Music music : listOfSubMusic) {
+        for (Music music : this.listOfSubMusic) {
             duration += music.getDuration();
         }
         return duration;
@@ -39,5 +39,14 @@ public class Bar implements Music{
     @Override
     public void play(SequencePlayer player, double atBeat) {
         throw new AssertionError();
+    }
+    @Override
+    public String toString() {
+        String bar = "";
+        for(int i = 0; i<this.listOfSubMusic.size();i++) {
+            bar+= listOfSubMusic.get(i) + " ";
+        }
+        return bar + "|";
+        
     }
 }

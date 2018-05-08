@@ -11,9 +11,11 @@ import java.util.List;
  */
 public class Tuplet implements Music {
     private final List<Note> notes;
+    private final double duration;
     
     /*
-     * AF(notes) = Tuplet where notes is a list of notes and the duration is calculated based off of the length of notes
+     * AF(notes, duration) = Tuplet where notes is a list of notes and the duration is the enlarged/shrunken duration for the 
+     * specific type of tuplet (triplet, duplet, quadruplet)
      * RI: true
      * Safety from Rep: notes and duration are private and final and the data type is immutable
      */
@@ -23,36 +25,30 @@ public class Tuplet implements Music {
      * @param notes
      * @param duration
      */
-    public Tuplet(List<Note> notes ) {
+    public Tuplet(List<Note> notes, double duration) {
         this.notes = notes;
+        this.duration = duration;
     }
     
     // TODO checkRep A tuplet may not contain rests, but it may contain chords.
 
     @Override
     public double getDuration() {
-        if (notes.size() == 3) {
-            return 2;
-        }
-        else if (notes.size() ==2) {
-            return 3;
-        }
-        else {
-            return 3;
-        }
+        return this.duration;
     }
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        // TODO Auto-generated method stub  
+        // TODO Auto-generated method stub
+        
     }
     
     @Override 
     public String toString() {
         String ans = "(";
-        ans += this.getDuration();
+        ans += this.duration;
         for (Note note: notes) {
-            ans += note.getPitch();
+            ans += note;
         }
         return ans;   
     }

@@ -30,23 +30,23 @@ public class SoundPlaybackTest {
     //The following tests will have to be checked by ear
     @Test
     public void testPlayNote() throws MidiUnavailableException, InvalidMidiDataException {
-        SoundPlayback.play(new Note(1, new Pitch('C'), Instrument.PIANO));   
+        SoundPlayback.play(new Note(new Pitch('C'), 1.0));   
     }
     
     @Test
     public void testPlayChord() throws MidiUnavailableException, InvalidMidiDataException {
         List<Note> chords = new ArrayList<Note>();
-        chords.add(new Note(1, new Pitch ('C'), Instrument.PIANO));
-        chords.add(new Note(1, new Pitch ('D'), Instrument.PIANO));
+        chords.add(new Note(new Pitch ('C'), 1.0));
+        chords.add(new Note(new Pitch ('D'), 1.0));
         SoundPlayback.play(new Chord(chords));
     }
     
     @Test
     public void testPlayTuplet() throws MidiUnavailableException, InvalidMidiDataException {
         List<Note> notes = new ArrayList<Note>();
-        notes.add(new Note(1, new Pitch ('C'), Instrument.PIANO));
-        notes.add(new Note(1, new Pitch ('D'), Instrument.PIANO));
-        notes.add(new Note(1, new Pitch ('G'), Instrument.PIANO));
-        SoundPlayback.play(new Tuplet(notes));
+        notes.add(new Note(new Pitch ('C'), 1.0));
+        notes.add(new Note(new Pitch ('D'), 1.0));
+        notes.add(new Note(new Pitch ('G'), 1.0));
+        SoundPlayback.play(new Tuplet(notes,3.0));
     }
 }
