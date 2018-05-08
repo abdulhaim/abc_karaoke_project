@@ -34,7 +34,6 @@ public class Note implements Music {
      * Make a Note played by instrument for duration beats.
      * @param duration duration in beats, must be >= 0
      * @param pitch pitch to play
-     * @param instrument instrument to use
      */
     public Note(Pitch pitch,double duration) {
         this.duration = duration;

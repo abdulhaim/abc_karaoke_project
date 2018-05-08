@@ -1,5 +1,7 @@
 package karaoke.sound;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,12 +11,21 @@ import java.util.List;
  *
  */
 public class Chord implements Music {
+    
+    //field
     private final List<Note> notes;
     
     /*
-     * AF(notes) = Chord where notes is a list of notes, the duration is  set using the duration of the first note 
-     * RI: true
-     * Safety from Rep: notes and duration are private and final and the data type is immutable
+     * AF(notes) = Chord whose notes are the notes in {@param notes}, the duration is set using the duration of the first note 
+     * 
+     * RI: notes.size >= 2
+     * 
+     * Safety from Rep: Only field notes is private and final. Notes is also made immutable by wrapping it around
+     *                  Collections.unmodifiable wrapper. So the class is immutable. There is no beneficient mutation too.
+     *                  
+     * Thread-Safety Argument: Only field notes is wrapped around thread-safe wrapper Collections.synchronizedList.
+     *                         Also, Note, the argument type of notes is thread-safe.
+     * 
      */
     
     /**
@@ -22,10 +33,15 @@ public class Chord implements Music {
      * @param notes list of notes
      */
     public Chord (List<Note> notes) {
-        this.notes  = notes;
+        this.notes  = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Note>(notes)));
+        checkRep();
     }
     
-    //TODO checkRep, Chord should not contain rests or tuplets, resolve List<Note> or List<Music> and duration
+    private void checkRep() {
+        assert notes != null;
+        assert notes.size() >= 2;
+    }
+   
     @Override
     public double getDuration() {
         return notes.get(0).getDuration();
@@ -38,6 +54,25 @@ public class Chord implements Music {
         }
         
     }
+    
+    @Override
+    public int hashCode() {
+        long durationBits = Double.doubleToLongBits(this.getDuration());
+        return (int) (durationBits ^ (durationBits >>> Integer.SIZE))
+                + notes.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        
+        final Chord other = (Chord) obj;
+        return this.getDuration() == other.getDuration()
+                && notes.equals(other.notes);
+    }
+    
     @Override
     public String toString() {
         String ans = "";
