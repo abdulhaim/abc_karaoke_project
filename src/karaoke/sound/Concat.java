@@ -15,8 +15,7 @@ public class Concat implements Music{
     
     /**
      * Constructor of Concat.
-     * @param music1 first part of concatenated music
-     * @param music2 second part of concatenated music
+     * @param this.music list of Music
      */
     public Concat(List<Music> music) {
         this.music = music;
@@ -25,13 +24,16 @@ public class Concat implements Music{
     
     @Override
     public double getDuration() {
-        return music1.getDuration() + music2.getDuration();
+        double duration = 0;
+        for(Music m: music) {
+            duration+=m.getDuration();
+        }
+        return duration;
     }
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        music1.play(player, atBeat);
-        music2.play(player, atBeat+music1.getDuration());
+        
     }
     @Override
     public String toString() {
