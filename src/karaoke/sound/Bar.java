@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 
  * @author Bibek Kumar Pandit
  *
  * Bar represents a bar in Music.
  */
-public class Bar implements Music{
+public class Bar implements Music {
 
     /* AF(listOfSubMusic, totalDuration): Represents a bar of music. The notes and rests in listOfMusic form the music
      *                                    sequence of the bar and {@param totalDuration} gives the total duration of the bar.
@@ -28,16 +29,18 @@ public class Bar implements Music{
     
     //fields:
     private final List<Music> listOfSubMusic;
-    private final double totalDuration = this.getDuration();
+    private final double totalDuration;
     
     /**
      * Constructor of Bar.
      * @param subMusic list of Music types to be merged
      */
     public Bar(List<Music> subMusic) {
+
         //Might not need synchronizedList
         listOfSubMusic = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Music>(subMusic)));
         checkRep();
+        this.totalDuration = this.getDuration();
     }
     
     private void checkRep() {
@@ -48,7 +51,7 @@ public class Bar implements Music{
     @Override
     public double getDuration() {
         double duration = 0;
-        for (Music music : listOfSubMusic) {
+        for (Music music : this.listOfSubMusic) {
             duration += music.getDuration();
         }
         checkRep();
@@ -84,6 +87,11 @@ public class Bar implements Music{
     
     @Override
     public String toString() {
-        return listOfSubMusic.toString() + " " + totalDuration;
+        String bar = "";
+        for(int i = 0; i<this.listOfSubMusic.size();i++) {
+            bar+= listOfSubMusic.get(i) + " ";
+        }
+        return bar + "|";
+        
     }
 }

@@ -24,7 +24,6 @@ public class Note implements Music {
     private final double duration;
     private final Pitch pitch;
     private final Instrument instrument;
-
     private void checkRep() {
         assert pitch != null;
         assert instrument != null;
@@ -37,10 +36,10 @@ public class Note implements Music {
      * @param pitch pitch to play
      * @param instrument instrument to use
      */
-    public Note(double duration, Pitch pitch, Instrument instrument) {
+    public Note(Pitch pitch,double duration) {
         this.duration = duration;
         this.pitch = pitch;
-        this.instrument = instrument;
+        this.instrument = Instrument.PIANO;
         checkRep();
     }
 
@@ -52,19 +51,13 @@ public class Note implements Music {
     }
 
     /**
-     * @return instrument that should play this note
-     */
-    public Instrument instrument() {
-        return instrument;
-    }
-
-    /**
      * @return duration of this note
      */
     @Override
     public double getDuration() {
         return duration;
     }
+    
 
     /**
      * Play this note.

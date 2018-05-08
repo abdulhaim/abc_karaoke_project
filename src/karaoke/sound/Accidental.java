@@ -5,8 +5,7 @@ public class Accidental implements Music {
 
     private final double duration;
     private final Pitch pitchChange;
-    private final Bar bar; 
-    //private final Instrument instr;
+    private final Music music;
 
     /*
      *  Abstraction Function:
@@ -27,12 +26,10 @@ public class Accidental implements Music {
      * @param pitchChange
      * @param bar
      */
-    public Accidental(double duration, Pitch pitchChange, Bar bar) {
+    public Accidental(double duration, Pitch pitchChange, Music music) {
         this.duration = duration;
         this.pitchChange = pitchChange;
-        this.bar = bar;
-        //this.instr = bar.getInstrument();
-    
+        this.music = music;
     }
     public double getDuration() {
         return duration;
@@ -42,5 +39,9 @@ public class Accidental implements Music {
         //player.addNote(, pitchChange, atBeat, duration);
         
     }
+    public String toString() {
+        return music.toString();
+    }
+    
 
 }

@@ -12,7 +12,7 @@ abcTune ::= abcHeader abcBody;
 	fieldComposer ::= "C:" text endOfLine;
 	fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
 	fieldMeter ::= "M:" meter endOfLine;
-	fieldTempo ::= "Q:" tempo endOfLine;
+	fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
 	fieldVoice ::= "V:" text endOfLine;
 	fieldKey ::= "K:" key endOfLine;
 	
@@ -24,13 +24,10 @@ abcTune ::= abcHeader abcBody;
 	meter ::= "C" | "C|" | meterFraction;
 	meterFraction ::= digit+ "/" digit+;
 	
-	tempo ::= meterFraction "=" digit+;
-
 }
 
 abcBody ::= abcLine+;
-abcLine ::= element+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
-element ::= noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab; 
+abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
 
 noteElement ::= note | chord;
 
@@ -60,13 +57,13 @@ lyricText ::= [A-Za-z]*;
 backslashHyphen ::= "\\" "-";
 
 comment ::= spaceOrTab* "%" commentText newline;
-commentText ::= [A-Za-z]*;
+commentText ::= [A-Za-z0-9.\t ]*;
 endOfLine ::= newline | comment;
 
 digit ::= [0-9];
-newline ::= "\n" | "\r" "\n"?;
+newline ::= "\n" | "\r\n"?;
 spaceOrTab ::= " " | "\t";
-text ::= [A-Za-z]*;
+text ::= [A-Za-z0-9'.\t ]*;
 whitespace ::= [ \t\r\n]+;
 
 
