@@ -7,10 +7,25 @@ import java.util.List;
 /**
  * @author Bibek Kumar Pandit
  *
- * 
+ * Bar represents a bar in Music.
  */
 public class Bar implements Music{
 
+    /* AF(listOfSubMusic, totalDuration): Represents a bar of music. The notes and rests in listOfMusic form the music
+     *                                    sequence of the bar and {@param totalDuration} gives the total duration of the bar.
+     * 
+     * Rep Invariant:
+     * - totalDuration >= 0
+     * 
+     * Safety From Rep Exposure: All fields are private and final. listOfSubMusic is the only mutable field which we
+     *                           have rendered immutable by wrapping into unmodifiable wrapper. So Bar is immutable.
+     * 
+     * ThreadSafety Argument: Bar is an immutable data-type with no beneficient mutation. totalDuration is a primitive
+     *                        datatype and thus threadsafe. listOfMusic is both unmodifiable and rendered threadsafe by
+     *                        wrapping it around Collections.synchronizedList. Also parameter of listOfMusic, Music, itself
+     *                        is thread-safe.
+     */
+    
     //fields:
     private final List<Music> listOfSubMusic;
     private final double totalDuration = this.getDuration();
@@ -20,11 +35,14 @@ public class Bar implements Music{
      * @param subMusic list of Music types to be merged
      */
     public Bar(List<Music> subMusic) {
-        listOfSubMusic = Collections.unmodifiableList(new ArrayList<Music>(subMusic));
+        //Might not need synchronizedList
+        listOfSubMusic = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Music>(subMusic)));
+        checkRep();
     }
     
     private void checkRep() {
-        assert totalDuration > 0;
+        assert listOfSubMusic != null;
+        assert totalDuration >= 0;
     }
     
     @Override
@@ -33,11 +51,39 @@ public class Bar implements Music{
         for (Music music : listOfSubMusic) {
             duration += music.getDuration();
         }
+        checkRep();
         return duration;
     }
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        throw new AssertionError();
+        double subDuration = 0;
+        for (Music music : listOfSubMusic) {
+            music.play(player, atBeat + subDuration);
+            subDuration += music.getDuration();
+        }
+    }
+    
+    @Override
+    public int hashCode() {
+        long durationBits = Double.doubleToLongBits(totalDuration);
+        return (int) (durationBits ^ (durationBits >>> Integer.SIZE))
+                + listOfSubMusic.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        
+        final Bar other = (Bar) obj;
+        return totalDuration == other.totalDuration
+                && listOfSubMusic.equals(other.listOfSubMusic);
+    }
+    
+    @Override
+    public String toString() {
+        return listOfSubMusic.toString() + " " + totalDuration;
     }
 }

@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
@@ -24,4 +25,5 @@ public class SoundPlayback {
         // start playing
         player.play();
     }
+    
 }

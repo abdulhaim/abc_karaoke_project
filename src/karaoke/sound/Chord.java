@@ -28,16 +28,17 @@ public class Chord implements Music {
         this.duration = duration;  
     }
     
-    //TODO checkRep, Chord should not contain rests or tuplets
+    //TODO checkRep, Chord should not contain rests or tuplets, resolve List<Note> or List<Music> and duration
     @Override
     public double getDuration() {
-        // TODO Auto-generated method stub
         return notes.get(0).getDuration();
     }
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        // TODO Auto-generated method stub
+        for (Note note : notes) {
+            note.play(player, atBeat);
+        }
         
     }
     @Override

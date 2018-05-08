@@ -30,7 +30,7 @@ public class Tuplet implements Music {
         this.duration = duration;
     }
     
-    // TODO checkRep A tuplet may not contain rests, but it may contain chords.
+    // TODO checkRep A tuplet may not contain rests, but it may not contain chords.
 
     @Override
     public double getDuration() {

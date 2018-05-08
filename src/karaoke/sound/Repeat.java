@@ -34,6 +34,7 @@ public class Repeat implements Music {
         // TODO Auto-generated method stub
         return 0;
     }
+    
     @Override
     public void play(SequencePlayer player, double atBeat) {
         // TODO Auto-generated method stub
