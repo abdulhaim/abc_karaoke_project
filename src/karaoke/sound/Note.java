@@ -89,7 +89,7 @@ public class Note implements Music {
 
     @Override
     public String toString() {
-        return pitch.toString() + duration;
+        return pitch.toString();
     }
 
 }

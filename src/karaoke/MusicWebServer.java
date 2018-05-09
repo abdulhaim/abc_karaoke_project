@@ -11,6 +11,16 @@ import com.sun.net.httpserver.HttpServer;
  * HTTP web server for Music.
  */
 public class MusicWebServer {
+    /*
+     * AF(server) = server that can handle connect and play requests 
+     * RI: true
+     * Safety from Rep Exposure: fields are private and final, mutable references are never exposed
+     * Thread Safety:
+     * Music is immutable, no threads can modify it
+     * At most one thread created for every person that listens 
+     * server is thredsafe because it's private and final 
+     * 
+     */
     
     //fields
     private static final int VALID_HTTP_CODE = 200;
@@ -48,7 +58,7 @@ public class MusicWebServer {
         
     }
     
-    // Implement private handle requests. We might have to implement handle request for something like watch and play.
+    // Implement private handle requests. We might have to implement handle request for something like connect and play.
     
     
 }

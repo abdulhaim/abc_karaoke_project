@@ -97,13 +97,13 @@ public class MusicTest {
         notes.add(new Note(new Pitch('G'),1.0));
         Bar bar = new Bar(notes);
         assertEquals(4, bar.getDuration(), 0.001);
-        String ans = "C1.0 D1.0 D1.0 G1.0 |";
+        String ans = "C D D G |";
         assertEquals(ans, bar.toString());
         
     }
     
     @Test
-    public void testConcart() {
+    public void testConcat() {
         List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
         notes.add(new Note(new Pitch('D'),1.0));
@@ -111,7 +111,7 @@ public class MusicTest {
         notes.add(new Note(new Pitch('G'),1.0));
         Concat concat = new Concat(notes);
         assertEquals(4, concat.getDuration(), 0.001);
-        String ans = "C1.0D1.0D1.0G1.0";
+        String ans = "CDDG";
         assertEquals(ans, concat.toString());
     }
 
