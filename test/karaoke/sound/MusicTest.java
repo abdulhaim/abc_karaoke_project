@@ -13,6 +13,11 @@ import org.junit.Test;
  *
  */
 public class MusicTest {
+    /*
+     * Automated Tests:
+     *  For each type of music test the functionality of their getDuration and toString functions
+     */
+    
     @Test
     public void testNote() {
         Note note = new Note(new Pitch('C'), 1.0);
@@ -75,5 +80,40 @@ public class MusicTest {
         assertEquals(chord.toString(), "[CD]");
     }
     
+    @Test
+    public void testRest() {
+        Rest rest = new Rest(1.0);
+        assertEquals(rest.getDuration(), 1, 0.0001);
+        String ans = "." + rest.getDuration();
+        assertEquals(rest.toString(), ans);
+    }
+    
+    @Test
+    public void testBar() {
+        List<Music> notes = new ArrayList<Music>();
+        notes.add(new Note(new Pitch('C'),1.0));
+        notes.add(new Note(new Pitch('D'),1.0));
+        notes.add(new Note(new Pitch('D'), 1.0));
+        notes.add(new Note(new Pitch('G'),1.0));
+        Bar bar = new Bar(notes);
+        assertEquals(4, bar.getDuration(), 0.001);
+        String ans = "C1.0 D1.0 D1.0 G1.0 |";
+        assertEquals(ans, bar.toString());
+        
+    }
+    
+    @Test
+    public void testConcart() {
+        List<Music> notes = new ArrayList<Music>();
+        notes.add(new Note(new Pitch('C'),1.0));
+        notes.add(new Note(new Pitch('D'),1.0));
+        notes.add(new Note(new Pitch('D'), 1.0));
+        notes.add(new Note(new Pitch('G'),1.0));
+        Concat concat = new Concat(notes);
+        assertEquals(4, concat.getDuration(), 0.001);
+        String ans = "C1.0D1.0D1.0G1.0";
+        assertEquals(ans, concat.toString());
+    }
+
 
 }
