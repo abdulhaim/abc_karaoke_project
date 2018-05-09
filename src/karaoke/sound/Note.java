@@ -20,7 +20,6 @@ public class Note implements Music {
      *                        Thus, Note is threadsafe.
      */
     
-    //fields
     private final double duration;
     private final Pitch pitch;
     private final Instrument instrument;

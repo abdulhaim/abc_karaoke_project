@@ -11,8 +11,6 @@ import java.util.List;
  *
  */
 public class Chord implements Music {
-    
-    //field
     private final List<Note> notes;
     
     /*

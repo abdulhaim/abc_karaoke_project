@@ -69,7 +69,7 @@ public class MusicLanguage {
                 "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
                 "d A B ^c d d e d/e/ | \r\n" + 
                 "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-        final Music music = MusicLanguage.parse(piece2);
+        final Music music = MusicLanguage.parse(piece1);
 
         
     }
@@ -108,10 +108,11 @@ public class MusicLanguage {
      */
     public static Music parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
+//        System.out.println(parseTree);
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-//        System.out.println(builder.getTotalMusic());
+        System.out.println(builder.getTotalMusic());
         return new Concat(builder.getTotalMusic());
 
     }
@@ -265,6 +266,7 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
+                    System.out.println(children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
