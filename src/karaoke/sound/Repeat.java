@@ -1,15 +1,15 @@
 package karaoke.sound;
+
+import java.util.List;
+
 /**
  * An immutable data type that represents a section of music that is to be repeated once
  * @author Myra
  *
  */
 public class Repeat implements Music {
-    private final Music music;
-    private final Music ending1;
-    private final Music ending2;
-    private final double duration;
-    //TODO: Use Optional Data type 
+    List<Music> music;
+    boolean repeatType;
     /*
      * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
      * and second endings  
@@ -23,11 +23,9 @@ public class Repeat implements Music {
      * @param ending1 the first ending
      * @param ending2 the second ending
      */
-    public Repeat(Music music, Music ending1, Music ending2, double duration) {
+    public Repeat(List<Music> music, boolean repeatType) {
         this.music= music;
-        this.ending1 =ending1;
-        this.ending2 = ending2;
-        this.duration = duration;
+        this.repeatType = repeatType;
     }
     @Override
     public double getDuration() {
@@ -43,15 +41,14 @@ public class Repeat implements Music {
     
     @Override
     public String toString() {
-        String ans = "|:";
-        ans += music.toString();
-        ans += ending1.toString();
-        ans += music.toString();
-        ans += ending2.toString();
-        
-        ans += ":|";
-        return ans;
-        
+        if(music.size() ==1) {  
+            return "|:" +  music.get(0).toString() + ":|";
+
+        }
+        else {
+            return "|:" + music.get(0).toString() + "|[1" + music.get(1).toString() +  ":|[2" + music.get(2).toString();
+
+        }
     }
 
 }
