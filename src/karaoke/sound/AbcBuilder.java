@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbcBuilder {
+    List<Music> totalMusic = new ArrayList<Music>();
+
     List<Music> barNotes = new ArrayList<Music>();
-    List<Music> repeatNotes = new ArrayList<Music>();
     List<Music> tupletNotes = new ArrayList<Music>();
     List<Note> chordNotes = new ArrayList<Note>();
-    List<Music> totalMusic = new ArrayList<Music>();
     List<Music> accidentals = new ArrayList<Music>();
-    boolean inRepeat;
+    
+    List<Music> beginRepeat = new ArrayList<Music>();
+    List<Music> firstRepeat = new ArrayList<Music>();
+    List<Music> secondRepeat = new ArrayList<Music>();
+
+    int repeatStatus;
     String status;
     
     public AbcBuilder() {
-        this.inRepeat = false;
+        this.repeatStatus = 0;
         status = "";
     }
 
@@ -110,7 +115,30 @@ public class AbcBuilder {
         }
         
         Bar bar = new Bar(newBar);
-        this.totalMusic.add(bar);
+        if(repeatStatus == 0) {
+            this.totalMusic.add(bar);
+        }
+        else if(repeatStatus == 1) {
+            this.beginRepeat.add(bar);
+
+        }
+        else if(repeatStatus ==2) {
+            this.firstRepeat.add(bar);
+        }
+        else if(repeatStatus == 3) {
+            this.secondRepeat.add(bar);
+            List<List<Music>> music = new ArrayList<>();
+            music.add(beginRepeat);
+            music.add(firstRepeat);
+            music.add(secondRepeat);
+            Repeat repeat = new Repeat(music,true);
+            totalMusic.add(repeat);
+            this.beginRepeat = new ArrayList<Music>();
+            this.firstRepeat = new ArrayList<Music>();
+            this.secondRepeat = new ArrayList<Music>();
+            this.repeatStatus = 0;
+            
+        }
         this.barNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.tupletNotes = new ArrayList<Music>();
@@ -119,13 +147,6 @@ public class AbcBuilder {
     }
 
 
-    public void transferFromBar() {
-        for(Music m: this.barNotes) {
-            this.repeatNotes.add(m);
-        }
-        this.barNotes = new ArrayList<Music>();
-        
-    }
 
 
     public String getStatus() {
@@ -174,6 +195,13 @@ public class AbcBuilder {
         this.chordNotes = new ArrayList<Note>();
         
     }
+
+
+    public void setRepeatStatus(int status) {
+        this.repeatStatus = status;
+        
+    }
+
 
 
 }

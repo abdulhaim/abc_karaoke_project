@@ -69,7 +69,7 @@ public class MusicLanguage {
                 "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
                 "d A B ^c d d e d/e/ | \r\n" + 
                 "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-        final Music music = MusicLanguage.parse(piece2);
+        final Music music = MusicLanguage.parse(paddy);
 
         
     }
@@ -112,7 +112,7 @@ public class MusicLanguage {
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-//        System.out.println(builder.getTotalMusic());
+        System.out.println(builder.getTotalMusic());
         return new Concat(builder.getTotalMusic());
 
     }
@@ -270,15 +270,19 @@ public class MusicLanguage {
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
-                    else if(i+1<children.size() && children.get(i+1).equals("[1")) {
-                        builder.setStatus("Repeat2");
-                        builder.transferFromBar();
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[1")) {
+                        builder.setRepeatStatus(1);
+                        builder.resetBar();
+                        builder.setRepeatStatus(2);
                     }
-                    else if(i+1<children.size() && children.get(i+1).equals("[2")) {
-                        builder.setStatus("Repeat2");
-                        builder.transferFromBar();
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[2")) {
+                        builder.resetBar();
+                        builder.setRepeatStatus(3);
                     }
+                    else if(children.get(i).equals("[1") || children.get(i).equals("[2")) {
+                        continue;
 
+                    }
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
@@ -338,7 +342,14 @@ public class MusicLanguage {
                 }
                 String meter = tune.getMeter();
                 
-                duration = duration*convertToDouble(tune.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+                if(tune.getNoteLength() != null) {
+                    duration = duration*convertToDouble(tune.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+
+                }
+                else {
+                    duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+
+                }
                 note = new Note(pitch,duration);
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
@@ -354,18 +365,7 @@ public class MusicLanguage {
                 }
                 return;
             }
-            case NOTELENGTHSTRICT:
-            {
-                
-            }
-            case ACCIDENTAL:
-            {
-                
-            }
-            case BASENOTE:
-            {
-                
-            }
+
             case RESTELEMENT:
             {
                 String durationString = children.get(0).text();
@@ -461,10 +461,6 @@ public class MusicLanguage {
                 return;
                 
             }
-            case NTHREPEAT:
-            {
-                
-            }
             case LYRIC:
             {
                 
@@ -498,176 +494,4 @@ public class MusicLanguage {
         }
     }
     
-//  private static Music makeAbstractSyntaxTreeForMusic(final ParseTree<MusicGrammar> parseTree) {
-//      final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
-//      switch (parseTree.name()) {
-//          case ABCBODY: {
-//              List<Music> music = new ArrayList<Music>();
-//              for(int i = 0;i<children.size();i++) {
-//                  music.add(makeAbstractSyntaxTreeForMusic(children.get(i)));
-//              }
-////              return new Concat(music);    
-//              
-//          }
-//          case ABCLINE:
-//          {
-//              List<Music> concat = new ArrayList<Music>();
-//              List<Music> barNotes = new ArrayList<Music>();
-//              List<Music> repeatNotes = new ArrayList<Music>();
-//              int repeatNumber = 0;
-//              for(int i = 0; i< children.size(); i++) {
-//                  System.out.println("CHILDREN!!" + children.get(i));
-//                  if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
-//                      if(i+1<children.size() && children.get(i+1).text().equals("[1")) {
-//                          repeatNotes.add(new Bar(barNotes));
-//                          repeatNumber = 1;
-//                          barNotes = new ArrayList<Music>();
-//                      }
-//                      else if(i+1<children.size() && children.get(i+1).text().equals("[2")) {
-//                          repeatNotes.add(new Bar(barNotes));
-//                          repeatNumber = 2;
-//                          barNotes = new ArrayList<Music>();
-//                      }
-//                      else if(children.get(i).equals("[2") || children.get(i).equals("[1")) {
-//                           System.out.println("HELLP");
-//                           continue;
-//                      }
-//                      else {
-//                          if(repeatNumber == 2) {
-//                              System.out.println("HEYYYYYYYYYYYYYY ");
-//                              repeatNotes.add(new Bar(barNotes));
-//                              repeatNumber = 0;
-//                              Repeat repeat = new Repeat(repeatNotes,true);
-//                              concat.add(repeat);
-//                              barNotes = new ArrayList<Music>();
-//                              repeatNotes = new ArrayList<Music>();
-//
-//                          }
-//                          else {
-//                              System.out.println("HELO");
-//                              concat.add(new Bar(barNotes));
-//                              barNotes = new ArrayList<Music>();
-//
-//                          }
-//
-//                      }
-//                  }
-//                  else if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
-//                      continue;
-//                  }
-//                  else if(children.get(i).name().equals(MusicGrammar.ENDOFLINE)) {
-//                      concat.add(new Bar(barNotes));
-//                      barNotes = new ArrayList<Music>();
-//                  }
-//                  else {
-//                      barNotes.add(makeAbstractSyntaxTreeForMusic(children.get(i)));
-//
-//                  }
-//                  
-//              }
-//              return new Concat(concat);
-//
-//          }
-//          case NOTEELEMENT:
-//          {
-//              Music music = makeAbstractSyntaxTreeForMusic(children.get(0)); //Note or Chord
-//              return music;
-//          }
-//          case NOTE: 
-//          {
-//              Character pitchString = children.get(0).text().charAt(0);
-//              Pitch pitch = new Pitch(Character.toUpperCase(pitchString));
-//
-//              if(Character.isLowerCase(pitchString)) {
-//                  pitch.transpose(Pitch.OCTAVE);
-//              }
-//              String noteLength = children.get(1).text();
-//              double duration;
-//              Note note;
-//              if(noteLength.length()==0) {
-//                  duration = 1;
-//              }
-//              else if(noteLength.length()==2){
-//                  duration = convertToDouble("1" + noteLength);
-//              }
-//              else {
-//                  duration = convertToDouble(noteLength);
-//
-//              }
-//              note = new Note(pitch,duration);
-//              return note;
-//              
-//          }
-//          case NOTELENGTHSTRICT:
-//          {
-//              
-//          }
-//          case ACCIDENTAL:
-//          {
-//              
-//          }
-//          case BASENOTE:
-//          {
-//              
-//          }
-//          case RESTELEMENT:
-//          {
-//              
-//          }
-//          case TUPLETELEMENT: 
-//          {
-//              String durationString = children.get(0).text().substring(1);
-//              double duration = 0;
-//              if(durationString.equals("3")) {
-//                  duration = 2.0/3;
-//              }
-//              else if(durationString.equals("2")) {
-//                  duration = 3.0/2;
-//
-//              }
-//              else if(durationString.equals("4")) {
-//                  duration = 3.0/4;
-//              }
-//              duration = (double) Math.round(duration * 100) / 100;
-//
-//              List<Note> notes = new ArrayList<>();
-//              for(int i =1; i<children.size(); i++) {
-//                  Note music = (Note) makeAbstractSyntaxTreeForMusic(children.get(i));
-//                  notes.add(new Note(music.getPitch(),music.getDuration()*duration));
-//              }
-//              return new Tuplet(notes,duration);
-//          }
-//          case CHORD:
-//              
-//          {
-//              
-//          }
-//          case NTHREPEAT:
-//          {
-//              
-//          }
-//          case LYRIC:
-//          {
-//              
-//          }
-//          case LYRICALELEMENT:
-//          {
-//              
-//          }
-//          case BACKSLASHHYPHEN:
-//          {
-//              
-//          }
-//          case MIDDLEOFBODYFIELD: 
-//          {
-//              
-//          }
-//          case LYRICTEXT:
-//          {
-//          }
-//
-//      }
-//      return null;
-//      
-//  }
 }

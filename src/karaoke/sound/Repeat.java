@@ -8,7 +8,7 @@ import java.util.List;
  *
  */
 public class Repeat implements Music {
-    List<Music> music;
+    List<List<Music>> music;
     boolean repeatType;
     /*
      * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
@@ -23,7 +23,7 @@ public class Repeat implements Music {
      * @param ending1 the first ending
      * @param ending2 the second ending
      */
-    public Repeat(List<Music> music, boolean repeatType) {
+    public Repeat(List<List<Music>> music,boolean repeatType) {
         this.music= music;
         this.repeatType = repeatType;
     }
@@ -46,7 +46,20 @@ public class Repeat implements Music {
 
         }
         else {
-            return "|:" + music.get(0).toString() + "|[1" + music.get(1).toString() +  ":|[2" + music.get(2).toString();
+            String beginRepeat = "";
+            String firstRepeat = "";
+            String secondRepeat = "";
+            for(Music m: music.get(0)) {
+                beginRepeat+= m.toString();
+            }
+            for(Music m: music.get(1)) {
+                firstRepeat+= m.toString();
+            }
+            for(Music m: music.get(2)) {
+                secondRepeat+= m.toString();
+            }
+
+            return "|:" + beginRepeat + "|[1" + firstRepeat +  ":|[2" + secondRepeat;
 
         }
     }
