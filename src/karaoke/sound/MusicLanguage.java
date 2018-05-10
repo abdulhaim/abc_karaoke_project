@@ -8,7 +8,6 @@ import java.util.List;
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
-import karaoke.sound.Music;
 
 /**
  * Parses a file in ABC format 
@@ -16,6 +15,7 @@ import karaoke.sound.Music;
  * Implementation Author: Marwa Abdulhai
  *
  */
+
 public class MusicLanguage {
     private final static AbcTune tune = new AbcTune();
     private final static AbcBuilder builder = new AbcBuilder();
@@ -23,7 +23,7 @@ public class MusicLanguage {
     /**
      * Main method. Parses and then reprints an example 
      * @param args command line arguments
-     * @throws UnableToParseException
+     * @throws UnableToParseException if cannot parse grammar file
      */
     public static void main(final String[] args) throws UnableToParseException {
         final String piece1 = "X:1 %Comment Testing \n" +
@@ -108,7 +108,6 @@ public class MusicLanguage {
      */
     public static Music parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
-//        System.out.println(parseTree);
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
@@ -122,7 +121,7 @@ public class MusicLanguage {
      * Convert a parse tree into an abstract syntax tree.
      * 
      * @param parseTree constructed according to the grammar in Abc.g
-     * @return abstract syntax tree corresponding to parseTree
+     * 
      */
     private static void makeAbstractSyntaxTree(final ParseTree<MusicGrammar> parseTree) {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
@@ -315,7 +314,7 @@ public class MusicLanguage {
                 }
                 if(pitchString.contains("^")) {
                     pitchChar = pitchString.charAt(1);
-                    builder.addAccidental(Character.toUpperCase(pitchChar));
+                    builder.addAccidental(Character.toString(pitchChar).toUpperCase());
 
                     
                 }
