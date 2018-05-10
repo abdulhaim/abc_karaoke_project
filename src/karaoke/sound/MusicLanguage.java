@@ -69,7 +69,7 @@ public class MusicLanguage {
                 "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
                 "d A B ^c d d e d/e/ | \r\n" + 
                 "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-        final Music music = MusicLanguage.parse(piece1);
+        final Music music = MusicLanguage.parse(piece2);
 
         
     }
@@ -112,7 +112,7 @@ public class MusicLanguage {
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        System.out.println(builder.getTotalMusic());
+//        System.out.println(builder.getTotalMusic());
         return new Concat(builder.getTotalMusic());
 
     }
@@ -258,6 +258,7 @@ public class MusicLanguage {
             case ABCBODY: {
                 for(int i = 0;i<children.size();i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
+                   
                 }
                 return;
                 
@@ -266,7 +267,6 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println(children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -282,7 +282,10 @@ public class MusicLanguage {
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
-                    makeAbstractSyntaxTreeMusic(children.get(i));
+                    else {
+                        makeAbstractSyntaxTreeMusic(children.get(i));
+
+                    }
                     
                 }
                 return;
@@ -333,8 +336,22 @@ public class MusicLanguage {
                     duration = convertToDouble(noteLength);
 
                 }
+                String meter = tune.getMeter();
+                
+                duration = duration*convertToDouble(tune.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
                 note = new Note(pitch,duration);
-                builder.addNote(note);
+                if(builder.getStatus().equals("Bar")) {
+                    builder.addToBar(note);
+                    
+                }
+                if(builder.getStatus().equals("Chord")) {
+                    builder.addToChord(note);
+
+                }
+                if(builder.getStatus().equals("Tuplet")) {
+                    builder.addToTuplet(note);
+
+                }
                 return;
             }
             case NOTELENGTHSTRICT:
@@ -363,12 +380,13 @@ public class MusicLanguage {
                     duration = convertToDouble(durationString);
 
                 }
-                builder.addNote(new Rest(duration));
+                builder.addToBar(new Rest(duration));
                 return;
                 
             }
             case TUPLETELEMENT: 
             {
+                String prevStatus = builder.getStatus();
                 builder.setStatus("Tuplet");
                 String durationString = children.get(0).text().substring(1);
                 double duration = 0;
@@ -387,28 +405,59 @@ public class MusicLanguage {
                 for(int i =1; i<children.size(); i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
                 }
-                List<Note> tupletNotes = builder.getTupletNotes();
-                List<Note> modifiedDuration = new ArrayList<Note>();
-                for(Note note: tupletNotes) {
-                    modifiedDuration.add(new Note(note.getPitch(),note.getDuration()*duration));
+                List<Music> tupletNotes = builder.getTupletNotes();
+                List<Music> modifiedDuration = new ArrayList<Music>();
+                for(Music note: tupletNotes) {
+                    if(note instanceof Note ) {
+                        Note n = (Note) note;
+                        modifiedDuration.add(new Note(n.getPitch(),n.getDuration()*duration));
+
+                    }
+                    if(note instanceof Chord) {
+                        Chord c = (Chord) note;
+                        List<Note> chordNotes = new ArrayList<Note>();
+
+                        for(Note n: c.getNotes()) {
+                            chordNotes.add(new Note(n.getPitch(),n.getDuration()*duration));
+
+                        }
+                        modifiedDuration.add(new Chord(chordNotes));
+
+                    }
                    
                 }
                 Tuplet tuplet = new Tuplet(modifiedDuration,Double.parseDouble(durationString));
-                builder.addTuplet(tuplet);
-                builder.setStatus("Bar");
+                builder.setStatus(prevStatus);
+                if(builder.getStatus().equals("Bar")) {
+                    builder.addToBar(tuplet);
+                    builder.resetTuplet();
+                    
+                }
 
                 return;
             }
             case CHORD:
             {
+                String prevStatus = builder.getStatus();
                 builder.setStatus("Chord");
                 for(int i =0; i<children.size();i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
                 }
                 List<Note> chordNotes = builder.getChordNotes();
-                builder.addChord(new Chord(chordNotes));
-                builder.setStatus("Bar");
+                Chord chord = new Chord(chordNotes);
+                builder.setStatus(prevStatus);
+                if(builder.getStatus().equals("Bar")) {
+                    builder.addToBar(chord);
+                    builder.resetChord();
 
+                    
+                }
+                if(builder.getStatus().equals("Tuplet")) {
+                    builder.addToTuplet(chord);
+                    builder.resetChord();
+
+
+                }
                 return;
                 
             }

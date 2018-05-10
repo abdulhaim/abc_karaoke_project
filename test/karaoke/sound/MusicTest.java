@@ -27,36 +27,38 @@ public class MusicTest {
     
     @Test
     public void testDuplet() {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'), 1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
         Tuplet duplet = new Tuplet(notes,2.0);
         assertEquals(duplet.getDuration(), 3, 0.001);
         String ans = "(" + duplet.getDuration();
-        for (Note note:notes) {
-            ans+= note.getPitch();
+        for (Music note:notes) {
+            Note n = (Note) note;
+            ans+= n.getPitch();
         }
         assertEquals(duplet.toString(), ans);
     }
     
     @Test
     public void testTriplet() {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'), 1.0));
         notes.add(new Note(new Pitch('D'),1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
         Tuplet triplet = new Tuplet(notes,3.0);
         assertEquals(triplet.getDuration(), 2, 0.001);
         String ans = "(" + triplet.getDuration();
-        for (Note note:notes) {
-            ans+= note.getPitch();
+        for (Music note:notes) {
+            Note n = (Note) note;
+            ans+= n.getPitch();
         }
         assertEquals(triplet.toString(), ans);
     }
     
     @Test
     public void testQuadruplet() {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
         notes.add(new Note(new Pitch('D'),1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
@@ -64,8 +66,9 @@ public class MusicTest {
         Tuplet quad = new Tuplet(notes,4.0);
         assertEquals(quad.getDuration(), 3, 0.001);
         String ans = "(" + quad.getDuration();
-        for (Note note:notes) {
-            ans+= note.getPitch();
+        for (Music note:notes) {
+            Note n = (Note) note;
+            ans+= n.getPitch();
         }
         assertEquals(quad.toString(), ans);
     }
@@ -77,7 +80,7 @@ public class MusicTest {
         chords.add(new Note(new Pitch ('D'),1.0));
         Chord chord = new Chord(chords);
         assertEquals(chord.getDuration(), 1, 0.0001);
-        assertEquals(chord.toString(), "[CD]");
+        assertEquals(chord.toString(), "[C1.0D1.0]");
     }
     
     @Test
@@ -97,7 +100,7 @@ public class MusicTest {
         notes.add(new Note(new Pitch('G'),1.0));
         Bar bar = new Bar(notes);
         assertEquals(4, bar.getDuration(), 0.001);
-        String ans = "C D D G |";
+        String ans = "C1.0 D1.0 D1.0 G1.0 |";
         assertEquals(ans, bar.toString());
         
     }
@@ -111,7 +114,7 @@ public class MusicTest {
         notes.add(new Note(new Pitch('G'),1.0));
         Concat concat = new Concat(notes);
         assertEquals(4, concat.getDuration(), 0.001);
-        String ans = "CDDG";
+        String ans = "C1.0D1.0D1.0G1.0";
         assertEquals(ans, concat.toString());
     }
 

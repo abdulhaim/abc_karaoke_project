@@ -6,7 +6,7 @@ import java.util.List;
 public class AbcBuilder {
     List<Music> barNotes = new ArrayList<Music>();
     List<Music> repeatNotes = new ArrayList<Music>();
-    List<Note> tupletNotes = new ArrayList<Note>();
+    List<Music> tupletNotes = new ArrayList<Music>();
     List<Note> chordNotes = new ArrayList<Note>();
     List<Music> totalMusic = new ArrayList<Music>();
     List<Music> accidentals = new ArrayList<Music>();
@@ -19,23 +19,15 @@ public class AbcBuilder {
     }
 
 
-    public void addNote(Music note) {
-        if(status.equals("Bar")) {
-            barNotes.add(note);
-            
-        }
-        if(status.equals("Tuplet")) {
-            
-        }
-        if(status.equals("Chord")) {
-            chordNotes.add((Note) note);
-            
-        }
-        if(status.equals("Repeat2")) {
-            repeatNotes.add(note);
-            
-        }
-        
+    public void addToBar(Music note) {
+        barNotes.add(note);
+
+    }
+    public void addToChord(Note note) {
+        chordNotes.add(note);
+    }
+    public void addToTuplet(Music m) {
+        tupletNotes.add(m);
     }
 
 
@@ -44,14 +36,14 @@ public class AbcBuilder {
     }
 
 
-    public List<Note> getTupletNotes() {
+    public List<Music> getTupletNotes() {
         return tupletNotes;
     }
 
 
     public void addTuplet(Tuplet tuplet) {
-        this.totalMusic.add(tuplet);
-        this.tupletNotes = new ArrayList<Note>();
+        this.barNotes.add(tuplet);
+        this.tupletNotes = new ArrayList<Music>();
 
     }
 
@@ -68,11 +60,61 @@ public class AbcBuilder {
                     newBar.add(note);
                 }
             }
+            if (m instanceof Chord) {
+                Chord chord = (Chord) m;
+                List<Note> newChord = new ArrayList<Note>();
+                for(Note note: chord.getNotes()) {
+                    if(this.accidentals.contains(note.getPitch().toString())) {
+                        newChord.add(new Note(note.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
+                    }
+                    else {
+                        newChord.add(note);
+                    }
+
+                }
+                newBar.add(new Chord(newChord));
+            }
+            if (m instanceof Tuplet) {
+                Tuplet tuplet = (Tuplet) m;
+                List<Music> newTuplet = new ArrayList<Music>();
+                for(Music note: tuplet.getMusic()) {
+                    if(note instanceof Note ) {
+                        Note n = (Note) note;
+                        if(this.accidentals.contains(n.getPitch().toString())) {
+                            newTuplet.add(new Note(n.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
+                        }
+                        else {
+                            newTuplet.add(n);
+                        }
+
+                    }
+                    if(note instanceof Chord) {
+                        Chord c = (Chord) note;
+                        List<Note> newChord = new ArrayList<Note>();
+                        for(Note n: c.getNotes()) {
+                            if(this.accidentals.contains(n.getPitch().toString())) {
+                                newChord.add(new Note(n.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
+                            }
+                            else {
+                                newChord.add(n);
+                            }
+
+                        }
+                        newTuplet.add(new Chord(newChord));
+                    }
+
+                }
+                newBar.add(new Tuplet(newTuplet,tuplet.getDuration()));
+
+            }
         }
         
         Bar bar = new Bar(newBar);
         this.totalMusic.add(bar);
         this.barNotes = new ArrayList<Music>();
+        this.chordNotes = new ArrayList<Note>();
+        this.tupletNotes = new ArrayList<Music>();
+
         
     }
 
@@ -118,6 +160,18 @@ public class AbcBuilder {
 
     public void addAccidental(Character pitchString) {
         // TODO Auto-generated method stub
+        
+    }
+
+
+    public void resetTuplet() {
+        this.tupletNotes = new ArrayList<Music>();
+        
+    }
+
+
+    public void resetChord() {
+        this.chordNotes = new ArrayList<Note>();
         
     }
 

@@ -51,7 +51,6 @@ public class Bar implements Music {
     @Override
     public double getDuration() {
         double duration = 0;
-        System.out.println(this.listOfSubMusic);
         for (Music music : this.listOfSubMusic) {
             duration += music.getDuration();
         }

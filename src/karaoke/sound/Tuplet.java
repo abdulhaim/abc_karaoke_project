@@ -43,7 +43,7 @@ enum TupletType{
 public class Tuplet implements Music {
     
     
-    private final List<Note> notes;
+    private final List<Music> notes;
     //private final TupletType tupletType;
     private final double duration;
     
@@ -65,11 +65,11 @@ public class Tuplet implements Music {
 
     /**
      * Creates a Tuplet consisting of notes fitted to the proper duration
-     * @param notes
+     * @param modifiedDuration
      * @param duration
      */
-    public Tuplet(List<Note> notes, double duration) {
-        this.notes = notes;
+    public Tuplet(List<Music> modifiedDuration, double duration) {
+        this.notes = modifiedDuration;
         this.duration = duration;
     }
     
@@ -90,10 +90,14 @@ public class Tuplet implements Music {
     public String toString() {
         String ans = "(";
         ans += this.duration;
-        for (Note note: notes) {
-            ans += note;
+        for (Music note: notes) {
+            ans += note.toString();
         }
         return ans;   
+    }
+
+    public List<Music> getMusic() {
+        return this.notes;
     }
     
 

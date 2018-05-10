@@ -41,7 +41,7 @@ public class SoundPlaybackTest {
     
     @Test
     public void testPlayTriplet() throws MidiUnavailableException, InvalidMidiDataException {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch ('C'), 1.0));
         notes.add(new Note(new Pitch ('D'), 1.0));
         notes.add(new Note(new Pitch ('G'), 1.0));
@@ -50,7 +50,7 @@ public class SoundPlaybackTest {
     
     @Test
     public void testPlayDuplet() throws MidiUnavailableException, InvalidMidiDataException {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'), 1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
         Tuplet duplet = new Tuplet(notes,2.0);
@@ -59,7 +59,7 @@ public class SoundPlaybackTest {
     
     @Test 
     public void testPlayQuadruplet() throws MidiUnavailableException, InvalidMidiDataException {
-        List<Note> notes = new ArrayList<Note>();
+        List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
         notes.add(new Note(new Pitch('D'),1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
