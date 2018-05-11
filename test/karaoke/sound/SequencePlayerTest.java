@@ -53,10 +53,10 @@ public class SequencePlayerTest {
         player.addNote(piano, new Pitch('D'), startBeat +=3.0/4, 1.0/4);
         player.addNote(piano, new Pitch('E'), startBeat +=1.0/4, 1.0);
         player.addNote(piano, new Pitch('E'), startBeat +=1.0, 3.0/4);
-        player.addNote(piano, new Pitch('D'), startBeat+=3.0/4, 1.0/4);
-        player.addNote(piano, new Pitch('E'), startBeat+=1.0/4, 3.0/4);
-        player.addNote(piano, new Pitch('F'), startBeat+=3.0/4, 1.0/4);
-        player.addNote(piano, new Pitch('G'), startBeat+=1.0/4, 2.0);
+        player.addNote(piano, new Pitch('D'), startBeat +=3.0/4, 1.0/4);
+        player.addNote(piano, new Pitch('E'), startBeat +=1.0/4, 3.0/4);
+        player.addNote(piano, new Pitch('F'), startBeat +=3.0/4, 1.0/4);
+        player.addNote(piano, new Pitch('G'), startBeat +=1.0/4, 2.0);
         
         player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat +=2.0, 1.0/3);
         player.addNote(piano, new Pitch('C').transpose(Pitch.OCTAVE), startBeat +=1.0/3, 1.0/3);

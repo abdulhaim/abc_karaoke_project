@@ -15,32 +15,32 @@ import examples.StreamingExample;
 public class ServerMain {
     /**
      * TAKEN FROM STREAMING EXAMPLE
-     * Web server that demonstrates several ways to stream text to a web browser.
+     * Web server uses plain text stream
      *     
      * @param args not used
      * @throws IOException if network failure
      */
+
     public static void main(String[] args) throws IOException {
         
         // make a web server
         final int serverPort = 4567;
-        final HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
+        final MusicWebServer server = new MusicWebServer(serverPort);
+        // HttpServer.create(new InetSocketAddress(serverPort), 0);
         
         // handle concurrent requests with multiple threads
-        server.setExecutor(Executors.newCachedThreadPool());
+       // server.setExecutor(Executors.newCachedThreadPool());
 
         // register handlers
-        server.createContext("/textStream", ServerMain::textStream);
+       // server.createContext("/textStream", ServerMain::textStream);
         //server.createContext("/htmlStream", StreamingExample::htmlStream);
         //server.createContext("/htmlWaitReload", StreamingExample::htmlWaitReload);
 
         // start the server
         server.start();
         System.out.println("server running, browse to one of these URLs:");
-        System.out.println("http://localhost:4567/textStream");
-        System.out.println("http://localhost:4567/htmlStream");
-        System.out.println("http://localhost:4567/htmlStream/autoscroll");
-        System.out.println("http://localhost:4567/htmlWaitReload");
+        System.out.println("http://localhost:4567/connect");
+
     }
     /**
      * This handler sends a plain text stream to the web browser,
@@ -81,10 +81,11 @@ public class ServerMain {
             
             final int numberOfLinesToSend = 100;
             final int millisecondsBetweenLines = 200;
-            for (int i = 0; i < numberOfLinesToSend; ++i) {
+           // for (int i = 0; i < numberOfLinesToSend; ++i) {
                 
                 // print a line of text
-                out.println(System.currentTimeMillis()); // also flushes
+                out.println("Please submit an Abc file for playback");
+               // out.println(System.currentTimeMillis()); // also flushes
 
                 // wait a bit
                 try {
@@ -92,7 +93,7 @@ public class ServerMain {
                 } catch (InterruptedException e) {
                     return;
                 }
-            }
+            //}
             
         } finally {
             exchange.close();

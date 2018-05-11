@@ -38,14 +38,14 @@ public class Bar implements Music {
     public Bar(List<Music> subMusic) {
 
         //Might not need synchronizedList
-        listOfSubMusic = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Music>(subMusic)));
+        this.listOfSubMusic = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Music>(subMusic)));
         checkRep();
         this.totalDuration = this.getDuration();
     }
     
     private void checkRep() {
-        assert listOfSubMusic != null;
-        assert totalDuration >= 0;
+        assert this.listOfSubMusic != null;
+        assert this.totalDuration >= 0;
     }
     
     @Override

@@ -11,8 +11,6 @@ import java.util.List;
  *
  */
 public class Chord implements Music {
-    
-    //field
     private final List<Note> notes;
     
     /*
@@ -78,10 +76,14 @@ public class Chord implements Music {
         String ans = "";
         ans += "[";
         for (Note note: notes) {
-            ans += note.getPitch();
+            ans += note.toString();
         }
         ans += "]";
         return ans;     
+    }
+
+    public List<Note> getNotes() {
+        return this.notes;
     }
 
 }

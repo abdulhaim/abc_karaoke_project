@@ -59,6 +59,7 @@ public class MusicLanguageTest {
         String musicFile = readFile(path);
         Music parsedMusic = MusicLanguage.parse(musicFile);
         System.out.println("HEHHHHHHHHHHHHHHH "+parsedMusic.getDuration());
+        System.out.println(parsedMusic);
         assertEquals(16.0, parsedMusic.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
         parsedMusic.play(player, 0);
