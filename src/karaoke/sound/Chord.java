@@ -50,7 +50,7 @@ public class Chord implements Music {
         for (Note note : notes) {
             note.play(player, atBeat);
         }
-        
+       
     }
     
     @Override
