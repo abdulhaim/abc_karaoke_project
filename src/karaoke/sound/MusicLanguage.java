@@ -17,8 +17,8 @@ import edu.mit.eecs.parserlib.UnableToParseException;
  */
 
 public class MusicLanguage {
-    private final static AbcTune tune = new AbcTune();
-    private final static AbcBuilder builder = new AbcBuilder();
+    private static final AbcTune TUNE = new AbcTune();
+    private static AbcBuilder builder = new AbcBuilder();
 
     /**
      * Main method. Parses and then reprints an example 
@@ -69,7 +69,20 @@ public class MusicLanguage {
                 "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
                 "d A B ^c d d e d/e/ | \r\n" + 
                 "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-        final Music music = MusicLanguage.parse(paddy);
+        
+        final String easyRepeat = "X:1 %Comment Testing \n" +
+                "T:First" + "\n" + 
+                "M:4/4\n" + 
+                "K:Cm\n" + "|: C D E F | G A B c :|";
+//        final Music musicPiece1 = MusicLanguage.parse(piece1);
+//        final Music musicPiece2 = MusicLanguage.parse(piece2);
+//        final Music musicPaddy = MusicLanguage.parse(paddy);
+        final Music musicEasyRepeat = MusicLanguage.parse(easyRepeat);
+
+//        System.out.println(musicPiece1);
+//        System.out.println(musicPiece2);
+//        System.out.println(musicPaddy);
+        System.out.println(musicEasyRepeat);
 
         
     }
@@ -111,7 +124,6 @@ public class MusicLanguage {
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        System.out.println(builder.getTotalMusic());
         return new Concat(builder.getTotalMusic());
 
     }
@@ -135,9 +147,8 @@ public class MusicLanguage {
             }
             case FIELDNUMBER:  // "X:" digit+ endOfLine;
             {
-                String digitString = children.get(0).toString();
                 int digit = Integer.parseInt(children.get(0).text());
-                tune.setIndexNumber(digit);    
+                TUNE.setIndexNumber(digit);    
                 return;
                 
             }
@@ -152,7 +163,7 @@ public class MusicLanguage {
             case FIELDTITLE: // fieldTitle ::= "T:" text endOfLine;
             {   
                 String title = children.get(0).text();
-                tune.setTitle(title);    
+                TUNE.setTitle(title);    
                 return;
 
 
@@ -169,52 +180,52 @@ public class MusicLanguage {
             case FIELDCOMPOSER: //fieldComposer ::= "C:" text endOfLine;
             {
                 String composer = children.get(0).text();
-                tune.setComposer(composer);
+                TUNE.setComposer(composer);
                 return;
             }
             
-            case FIELDDEFAULTLENGTH:
+            case FIELDDEFAULTLENGTH: //fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
+                                     //noteLengthStrict ::= digit+ "/" digit+;
             {
                 String numerator = children.get(0).text();
                 String denominator = children.get(1).text();
-                tune.setNoteLength(numerator + "/" + denominator);
+                TUNE.setNoteLength(numerator + "/" + denominator);
                 return;
             
             }
-            case FIELDMETER:
+            case FIELDMETER: // fieldMeter ::= "M:" meter endOfLine;
             {                
                 makeAbstractSyntaxTree(children.get(0));
                 return;
                 
                 
             }
-            case FIELDTEMPO:
+            case FIELDTEMPO: // fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
             {
-                
                 makeAbstractSyntaxTree(children.get(0));
                 return;
             }
-            case FIELDVOICE:
+            case FIELDVOICE: // fieldVoice ::= "V:" text endOfLine;
             {
                 System.out.println("FILED VOICE");
             }
-            case FIELDKEY:
+            case FIELDKEY: //   fieldKey ::= "K:" key endOfLine;
             {
                 makeAbstractSyntaxTree(children.get(0));
                 return;
             }
-            case KEY:
+            case KEY: //    key ::= keynote modeMinor?;
             {
                 makeAbstractSyntaxTree(children.get(0)); //keynote
                 if(children.size()>1) {
-                   tune.setMinor(true);
+                   TUNE.setMinor(true);
                 }
                 return;
             }
-            case KEYNOTE:
+            case KEYNOTE: //    keynote ::= basenote keyAccidental?;
             {
                 String accidental = children.get(0).text();
-                tune.setAccidental(accidental);
+                TUNE.setAccidental(accidental);
                 return;
             }
             case METER:
@@ -224,22 +235,23 @@ public class MusicLanguage {
                 }
                 else {
                     if(children.toString().indexOf("C|")!=-1) {
-                        tune.setMeter("2/2");
+                        TUNE.setMeter("2/2");
                     }
                     else if(children.toString().indexOf("C")!=-1) {
-                        tune.setMeter("4/4");
+                        TUNE.setMeter("4/4");
                     }
                 }
                 return;
             }
-            case METERFRACTION:
+            case METERFRACTION: //  meter ::= "C" | "C|" | meterFraction;
+                                //   meterFraction ::= digit+ "/" digit+;
             {
                 String numerator = children.get(0).text();
                 String denominator = children.get(1).text();
-                tune.setMeter(numerator + "/" + denominator);
+                TUNE.setMeter(numerator + "/" + denominator);
                 return;
             }
-            case ABCBODY:
+            case ABCBODY: //abcBody ::= abcLine+;
             {
                 makeAbstractSyntaxTreeMusic(parseTree);
                 return;
@@ -266,9 +278,11 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
+                    System.out.println(children.get(i).text());
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
+                    
                     else if(i+1<children.size() && children.get(i+1).text().equals("[1")) {
                         builder.setRepeatStatus(1);
                         builder.resetBar();
@@ -281,6 +295,11 @@ public class MusicLanguage {
                     else if(children.get(i).equals("[1") || children.get(i).equals("[2")) {
                         continue;
 
+                    }
+                    else if(children.get(i).text().equals("|:")) {
+                        builder.setRepeatStatus(1);
+                        builder.resetBar();
+                        builder.setRepeatStatus(2);
                     }
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
@@ -339,10 +358,10 @@ public class MusicLanguage {
                     duration = convertToDouble(noteLength);
 
                 }
-                String meter = tune.getMeter();
+                String meter = TUNE.getMeter();
                 
-                if(tune.getNoteLength() != null) {
-                    duration = duration*convertToDouble(tune.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+                if(TUNE.getNoteLength() != null) {
+                    duration = duration*convertToDouble(TUNE.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
 
                 }
                 else {
