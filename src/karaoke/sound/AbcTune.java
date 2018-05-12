@@ -14,7 +14,7 @@ public class AbcTune {
     private int indexNumber;
     private String accidental;
     private boolean minor;
-    public List<Music> musicLines;
+    private List<Music> musicLines;
     
     private List<String> keySignature;
     private List<String> voices;
