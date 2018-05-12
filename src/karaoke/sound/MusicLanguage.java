@@ -121,7 +121,7 @@ public class MusicLanguage {
      */
     public static Music parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
-        
+        System.out.println(parseTree);
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
         return new Concat(builder.getTotalMusic());
