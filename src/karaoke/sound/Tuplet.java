@@ -1,5 +1,7 @@
 package karaoke.sound;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,20 +15,20 @@ enum TupletType{
     TRIPLET (3, 2.0),
     QUADRUPLET (4, 3.0);
     
-    private final int numberOfNotes;
+    private final int numberOfSubMusic;
     private final double totalDuration;
     
     /**
      * Constructor of enum TupletType
-     * @param numberOfNotes number of notes associated witht Tuplet
+     * @param numberOflistOfSubMusic number of listOfSubMusic associated witht Tuplet
      * @param totalDuration duration for which the tuplet plays.
      */
-    TupletType(int numberOfNotes, double totalDuration){
-        this.numberOfNotes = numberOfNotes;
+    TupletType(int numberOfSubMusic, double totalDuration){
+        this.numberOfSubMusic = numberOfSubMusic;
         this.totalDuration = totalDuration;
     }
     
-    public int getNumOfNotes() {return numberOfNotes;}
+    public int getNumOfSubMusic() {return numberOfSubMusic;}
     public double totalDuration() {return totalDuration;}
 }
 
@@ -34,8 +36,8 @@ enum TupletType{
 /**
  * An immutable data type representing a tuplet 
  * 
- * A Tuplet is a consecutive group of notes that are to be played for a duration
- * that is either greater or less than the sum of the individual notes within that group
+ * A Tuplet is a consecutive group of listOfSubMusic that are to be played for a duration
+ * that is either greater or less than the sum of the individual listOfSubMusic within that group
  * 
  * @author Myra
  *
@@ -43,61 +45,76 @@ enum TupletType{
 public class Tuplet implements Music {
     
     
-    private final List<Music> notes;
+    private final List<Music> listOfSubMusic;
     //private final TupletType tupletType;
-    private final double duration;
+    private final double tupletSize;
+    private final double durationPerMusic;
     
     /*
-     * AF(notes, tupletType, duration): 
-     *  -  Tuplet where notes is the list of notes that forms the tuplet, tupletType tells the type of tuplet and 
+     * AF(listOfSubMusic, tupletType, duration): 
+     *  -  Tuplet where listOfSubMusic is the list of listOfSubMusic that forms the tuplet, tupletType tells the type of tuplet and 
      *     duration is the enlarged/shrunken duration for the entire tuplet
      * 
      * specific type of tuplet (triplet, duplet, quadruplet)
      * Rep Invariant:
-     * - notes.size() == tupletType.getNumOfNotes()
+     * - listOfSubMusic.size() == 2 or 3 or 4
      * - duration == tupletType.getTotalDuration()
      * 
      * Safety from Rep: All fields are private and final. tupletType is enum and duration is primitive type, so
-     *                  they are immutable. notes is made immutable by wrapping it around the immutable wrapper
+     *                  they are immutable. listOfSubMusic is made immutable by wrapping it around the immutable wrapper
      *                  Collections.unmodifiable(). This ADT cannot be mutated, not even beneficient mutation.
      *                             
      */
 
     /**
-     * Creates a Tuplet consisting of notes fitted to the proper duration
+     * Creates a Tuplet consisting of listOfSubMusic fitted to the proper duration
      * @param modifiedDuration
      * @param duration
      */
-    public Tuplet(List<Music> modifiedDuration, double duration) {
-        this.notes = modifiedDuration;
-        this.duration = duration;
+    public Tuplet(List<Music> modifiedDuration, double tupletSize) {
+        this.listOfSubMusic = Collections.synchronizedList(Collections.unmodifiableList(modifiedDuration));
+        this.tupletSize = tupletSize;
+        this.durationPerMusic = modifiedDuration.get(0).getDuration();
+        checkRep();
+    }   
+    
+    private void checkRep() {
+        for (Music music: listOfSubMusic) {
+            assert music.getDuration() == this.durationPerMusic;
+        }
+        assert listOfSubMusic.size() == (int) this.tupletSize;
     }
     
-    // TODO checkRep A tuplet may not contain rests, but it may not contain chords.
-
+    
     @Override
     public double getDuration() {
-        return this.duration;
+        return this.tupletSize + this.durationPerMusic;
     }
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        // TODO Auto-generated method stub
-        
+        double offsetDuration = 0;
+        for (Music music : this.listOfSubMusic) {
+            music.play(player, atBeat + offsetDuration);
+            offsetDuration += this.durationPerMusic;
+        } 
     }
     
     @Override 
     public String toString() {
         String ans = "(";
-        ans += this.duration;
-        for (Music note: notes) {
-            ans += note.toString();
+        ans += this.tupletSize;
+        for (Music subMusic: listOfSubMusic) {
+            ans += subMusic.toString();
         }
         return ans;   
     }
-
+    
+    /**
+     * @return list of music that form tuplet
+     */
     public List<Music> getMusic() {
-        return this.notes;
+        return new ArrayList<Music>(this.listOfSubMusic);
     }
     
 

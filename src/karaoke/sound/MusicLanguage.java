@@ -195,6 +195,7 @@ public class MusicLanguage {
             }
             case FIELDMETER: // fieldMeter ::= "M:" meter endOfLine;
             {                
+                System.out.println("FieldMeter" + children.get(0).text());
                 makeAbstractSyntaxTree(children.get(0));
                 return;
                 
@@ -266,15 +267,15 @@ public class MusicLanguage {
     private static void makeAbstractSyntaxTreeMusic(final ParseTree<MusicGrammar> parseTree) {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
         switch (parseTree.name()) {
-            case ABCBODY: {
+            case ABCBODY: {     //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
-                    makeAbstractSyntaxTreeMusic(children.get(i));
-                   
+                    makeAbstractSyntaxTreeMusic(children.get(i));                   
                 }
                 return;
                 
             }
-            case ABCLINE:
+            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ 
+                          //             endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
