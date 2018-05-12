@@ -1,8 +1,0 @@
-X: 2
-T:Piece No.3
-M:3/4
-L:1/8
-Q:1/4=200
-K:C
-z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6
-w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.

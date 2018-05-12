@@ -27,12 +27,12 @@ public class MusicLanguage {
      */
     public static void main(final String[] args) throws UnableToParseException {
         final String piece1 = "X:1 %Comment Testing \n" +
-                "T:First" + "\n" + 
-                "M:4/4\n" + 
-                "L:1/4\n" + "C: W. Mozart\n" + 
+                "T:First Music!" + "\n" + 
+                "M:4/4  %Comment Testing\n" + 
+                "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
                 "K:Cm\n" + 
-                "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
+                "C'' ^C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -74,16 +74,85 @@ public class MusicLanguage {
                 "T:First" + "\n" + 
                 "M:4/4\n" + 
                 "K:Cm\n" + "|: C D E F | G A B c :|";
-//        final Music musicPiece1 = MusicLanguage.parse(piece1);
-//        final Music musicPiece2 = MusicLanguage.parse(piece2);
-//        final Music musicPaddy = MusicLanguage.parse(paddy);
-        final Music musicEasyRepeat = MusicLanguage.parse(easyRepeat);
-
-//        System.out.println(musicPiece1);
-//        System.out.println(musicPiece2);
-//        System.out.println(musicPaddy);
-        System.out.println(musicEasyRepeat);
-
+        final String differentVoices = "X:1868\r\n" + 
+                "T:Invention no. 1\r\n" + 
+                "C:Johann Sebastian Bach\r\n" + 
+                "V:1\r\n" + 
+                "V:2\r\n" + 
+                "M:C\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=70\r\n" + 
+                "K:C\r\n" + 
+                "V:1\r\n" + 
+                "z/C/D/E/ F/D/E/C/ GcBc|d/G/A/B/ c/A/B/G/ dgfg|\r\n" + 
+                "V:2\r\n" + 
+                "z4 z/C,/D,/E,/ F,/D,/E,/C,/|G,G,, z2 z/G,/A,/B,/ C/A,/B,/G,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "e/a/g/f/ e/g/f/a/ g/f/e/d/ c/e/d/f/|e/d/c/B/ A/c/B/d/ c/B/A/G/ ^F/A/G/B/|\r\n" + 
+                "V:2\r\n" + 
+                "CB,CD EG,A,B,|CE,^F,G, A,B,C2|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "AD c3/d/ B/A/G/^F/ E/G/F/A/|G/B/A/c/ B/d/c/e/ d/B/4c/4d/g/ BA/G/|\r\n" + 
+                "V:2\r\n" + 
+                "C/D,/E,/^F,/ G,/E,/F,/D,/ G,B,,C,D,|E,^F,G,E, B,,C, D,D,,|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "Gz z2 z/G/A/B/ c/A/B/G/|^Fz3 z/A/B/c/ d/B/c/A/|\r\n" + 
+                "V:2\r\n" + 
+                "z/G,,/A,,/B,,/ C,/A,,/B,,/G,,/ D,G,^F,G,|A,/D,/E,/^F,/ G,/E,/F,/D,/ A,DCD|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "Bz z2 z/d/c/B/ A/c/B/d/|cz z2 z/e/d/c/ B/d/^c/e/|\r\n" + 
+                "V:2\r\n" + 
+                "G,/G/=F/E/ D/F/E/G/ FEFD|E/A/G/F/ E/G/F/A/ GFGE|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "d^cde fA=Bc|d^F^GA Bcd2|\r\n" + 
+                "V:2\r\n" + 
+                "F/_B/A/G/ F/A/G/B/ A/G/F/E/ D/F/E/G/|F/E/D/C/ B,/D/C/E/ D/C/B,/A,/ ^G,/B,/A,/C/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "d/E/^F/^G/ A/F/G/E/ e/d/c/e/ d/c/B/d/|c/a/^g/b/ a/e/f/d/ ^G/f/e/d/ cB/A/|\r\n" + 
+                "V:2\r\n" + 
+                "B,E, D3/E/ C/B,/A,/=G,/ ^F,/A,/^G,/B,/|A,/C/B,/D/ C/E/D/F/ EA,EE,|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "A/a/g/f/ e/g/f/a/ g4|g/e/f/g/ a/f/g/e/ f4|\r\n" + 
+                "V:2\r\n" + 
+                "A,A,, z2 z/E/D/C/ B,/D/^C/E/|D4 D/A,/B,/=C/ D/B,/C/A,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "f/g/f/e/ d/f/e/g/ f4|f/d/e/f/ g/e/f/d/ e4|\r\n" + 
+                "V:2\r\n" + 
+                "B,4 B,/D/C/B,/ A,/C/B,/D/|C4 C/G,/A,/_B,/ C/A,/^A,/G,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "e/c/d/e/ f/d/e/c/ d/e/f/g/ a/f/g/e/|f/g/a/b/ c'/a/b/g/ c'g ed/c/|\r\n" + 
+                "V:2\r\n" + 
+                "A,_B,A,G, F,DCB,|A,FED E/D,/E,/F,/ G,/E,/F,/D,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
+                "V:2\r\n" + 
+                "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
+        final String withLyrics = "X:2167\r\n" + 
+                "T:Waxie's Dargle\r\n" + 
+                "M:4/4\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=180\r\n" + 
+                "K:G\r\n" + 
+                "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
+                "w: Sa-ys my au-l' wan to your aul' wan Will~ye come to the Wa-x-ies dar-gle? Sa-ys\r\n" + 
+                "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
+                "w: your aul'_ wan to my aul' wan, Sure I ha-ven't got a far-thing.\r\n" + 
+                "B2d2 e2f2|g2d2 BAG2|Bcd2 e2f2|g4 f2gf|\r\n" + 
+                "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
+                "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
+                "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
+        final Music musicPiece1 = MusicLanguage.parse(withLyrics);
+        System.out.println(musicPiece1);
         
     }
     /**
@@ -124,7 +193,7 @@ public class MusicLanguage {
         System.out.println(parseTree);
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        return new Concat(builder.getTotalMusic());
+        return new Concat(TUNE.getMusicLine());
 
     }
 
@@ -160,6 +229,10 @@ public class MusicLanguage {
                 return;
 
             }
+            case COMMENTTEXT:
+                
+                return;
+                
             case FIELDTITLE: // fieldTitle ::= "T:" text endOfLine;
             {   
                 String title = children.get(0).text();
@@ -187,9 +260,8 @@ public class MusicLanguage {
             case FIELDDEFAULTLENGTH: //fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
                                      //noteLengthStrict ::= digit+ "/" digit+;
             {
-                String numerator = children.get(0).text();
-                String denominator = children.get(1).text();
-                TUNE.setNoteLength(numerator + "/" + denominator);
+                String number = children.get(0).text();
+                TUNE.setNoteLength(number);
                 return;
             
             }
@@ -203,7 +275,11 @@ public class MusicLanguage {
             }
             case FIELDTEMPO: // fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
             {
-                makeAbstractSyntaxTree(children.get(0));
+                String tempo = "";
+                for(int i = 1;i<children.size()-1;i++) {
+                    tempo+=children.get(i);
+                }
+                TUNE.setTempo(tempo);
                 return;
             }
             case FIELDVOICE: // fieldVoice ::= "V:" text endOfLine;
@@ -232,7 +308,7 @@ public class MusicLanguage {
             case METER:
             {
                 if(children.toString().indexOf("METERFRACTION")!=-1) {
-                    makeAbstractSyntaxTree(children.get(0));
+                    TUNE.setMeter(children.get(0).text());
                 }
                 else {
                     if(children.toString().indexOf("C|")!=-1) {
@@ -242,14 +318,6 @@ public class MusicLanguage {
                         TUNE.setMeter("4/4");
                     }
                 }
-                return;
-            }
-            case METERFRACTION: //  meter ::= "C" | "C|" | meterFraction;
-                                //   meterFraction ::= digit+ "/" digit+;
-            {
-                String numerator = children.get(0).text();
-                String denominator = children.get(1).text();
-                TUNE.setMeter(numerator + "/" + denominator);
                 return;
             }
             case ABCBODY: //abcBody ::= abcLine+;
@@ -267,45 +335,55 @@ public class MusicLanguage {
     private static void makeAbstractSyntaxTreeMusic(final ParseTree<MusicGrammar> parseTree) {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
         switch (parseTree.name()) {
-            case ABCBODY: {     //abcBody ::= abcLine+;
+            case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
-                    makeAbstractSyntaxTreeMusic(children.get(i));                   
+                    
+                    makeAbstractSyntaxTreeMusic(children.get(i));
+                    List<Music> music = builder.getMusicLine();
+                    TUNE.addMusicLine(new Concat(music));
+                    builder = new AbcBuilder();
+                   
                 }
                 return;
                 
             }
-            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ 
-                          //             endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
+            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println(children.get(i).text());
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
                     
-                    else if(i+1<children.size() && children.get(i+1).text().equals("[1")) {
-                        builder.setRepeatStatus(1);
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[1")) { //if at first repeat ending
                         builder.resetBar();
                         builder.setRepeatStatus(2);
                     }
-                    else if(i+1<children.size() && children.get(i+1).text().equals("[2")) {
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[2")) { //if at second repeat ending
                         builder.resetBar();
                         builder.setRepeatStatus(3);
                     }
-                    else if(children.get(i).equals("[1") || children.get(i).equals("[2")) {
+                    else if(children.get(i).equals("[1") || children.get(i).equals("[2") || children.get(i).equals("|:")) {
                         continue;
 
                     }
-                    else if(children.get(i).text().equals("|:")) {
-                        builder.setRepeatStatus(1);
-                        builder.resetBar();
+                    else if((i+1<children.size() && children.get(i).text().equals("|:"))) {
+                        if(builder.getBarNotesSize()!=0) {
+                            builder.resetBar();
+                        }
                         builder.setRepeatStatus(2);
                     }
+                    else if(children.get(i).text().equals(":|")) {
+                        builder.flagSimpleRepeat(true);
+                        builder.setRepeatStatus(3);
+                        builder.resetBar();
+                    }
+
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
                     else {
+
                         makeAbstractSyntaxTreeMusic(children.get(i));
 
                     }
@@ -319,38 +397,99 @@ public class MusicLanguage {
                 makeAbstractSyntaxTreeMusic(children.get(0));
                 return;
             }
-            case NOTE: 
+            case NOTE:  //note ::= pitch noteLength?;
             {
-                String pitchString = children.get(0).text();
-                Character pitchChar = 'A';
-                boolean isOctave = false;
-                if(pitchString.length()==1) {
-                    pitchChar = pitchString.charAt(0);
-                }
-                else if(pitchString.contains("'")) {
-                    pitchChar = pitchString.charAt(pitchString.length()-2);
-                    isOctave = true;
-                    
-                }
-                if(pitchString.contains("^")) {
-                    pitchChar = pitchString.charAt(1);
-                    builder.addAccidental(Character.toString(pitchChar).toUpperCase());
+                //calculating pitch 
+                //pitch ::= accidental? basenote octave?;
+                List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
+                Character pitchChar = null;
+                Pitch pitch = null;
 
+                if(pitchList.size()==1) {
+                    pitchChar = pitchList.get(0).text().charAt(0);
                     
+                    pitch = builder.applyAccidental(Character.toUpperCase(pitchChar));
                 }
-                Pitch pitch = new Pitch(Character.toUpperCase(pitchChar));
+                else if(pitchList.size()==2) {
+                    //found accidental
+                    if(pitchList.get(0).name().equals(MusicGrammar.ACCIDENTAL)) {
+                        pitchChar = pitchList.get(1).text().charAt(0); 
+                        String accidentalType = pitchList.get(0).text();
+                        builder.addAccidental(Character.toUpperCase(pitchChar),accidentalType);
+                        
+                        pitch = new Pitch(Character.toUpperCase(pitchChar));
+
+                        if(accidentalType.indexOf("^")!=-1) {
+                            for(int i = 0; i<accidentalType.length();i++) {
+                                pitch.transpose(1);
+                            }
+                        }
+                        else if(accidentalType.indexOf("_")!=-1) {
+                            for(int i = 0; i<accidentalType.length();i++) {
+                                pitch.transpose(-1);
+                            }
+                        }
+                    }
+                    //found octave
+                    else {
+                        pitchChar = pitchList.get(0).text().charAt(0);
+                        String octaveType = pitchList.get(1).text();
+                        
+                        pitch = builder.applyAccidental(pitchChar);
+
+                        if(octaveType.indexOf("'")!=-1) {
+                            for(int i = 0; i<octaveType.length();i++) {
+                                pitch.transpose(Pitch.OCTAVE);
+                            }
+                        }
+                        else if(octaveType.indexOf(",")!=-1) {
+                            for(int i = 0; i<octaveType.length();i++) {
+                                pitch.transpose(-Pitch.OCTAVE);
+                            }
+                        }                        
+                    }
+                }
+                else if(pitchList.size() == 3) {
+                    String accidentalType = pitchList.get(0).text();
+                    pitchChar = pitchList.get(1).text().charAt(0); 
+                    String octaveType = pitchList.get(2).text();
+                    
+                    pitch = new Pitch(Character.toUpperCase(pitchChar));
+
+                    if(accidentalType.indexOf("^")!=-1) {
+                        for(int i = 0; i<accidentalType.length();i++) {
+                            pitch.transpose(1);
+                        }
+                    }
+                    else if(accidentalType.indexOf("_")!=-1) {
+                        for(int i = 0; i<accidentalType.length();i++) {
+                            pitch.transpose(-1);
+                        }
+                    }
+
+                    if(octaveType.indexOf("'")!=-1) {
+                        for(int i = 0; i<octaveType.length();i++) {
+                            pitch.transpose(Pitch.OCTAVE);
+                        }
+                    }
+                    else if(octaveType.indexOf(",")!=-1) {
+                        for(int i = 0; i<octaveType.length();i++) {
+                            pitch.transpose(-Pitch.OCTAVE);
+                        }
+                    }                        
+
+                }
                 if(Character.isLowerCase(pitchChar)) {
                     pitch.transpose(Pitch.OCTAVE);
                 }
 
                 String noteLength = children.get(1).text();
                 double duration;
-                Note note;
                 if(noteLength.length()==0) {
                     duration = 1;
                 }
                 else if(noteLength.equals("/")) {
-                    duration = 1.0/2; //need to change
+                    duration = 1.0/2;
                 }
                 else if(noteLength.length()==2){
                     duration = convertToDouble("1" + noteLength);
@@ -369,7 +508,7 @@ public class MusicLanguage {
                     duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
 
                 }
-                note = new Note(pitch,duration);
+                Note note = new Note(pitch,duration);
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
                     
@@ -482,7 +621,12 @@ public class MusicLanguage {
             }
             case LYRIC:
             {
-                
+               List<Music> musicLines = TUNE.getMusicLine();
+               Concat currentLine = (Concat) musicLines.get(musicLines.size()-1);
+               List<Music> bars = currentLine.getMusic();
+               for(int i =0; i<children.size();i++) {
+                   System.out.println("LOOPING THROUGH CHILDREN   " + children.get(i));
+               }
             }
             case LYRICALELEMENT:
             {
@@ -499,6 +643,8 @@ public class MusicLanguage {
             case LYRICTEXT:
             {
             }
+        default:
+            break;
 
         }
         

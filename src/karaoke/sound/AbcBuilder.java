@@ -1,7 +1,9 @@
 package karaoke.sound;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * AbcBuilder Class to build Abc Music Object as you parse through the AbcBody in MusicLanguageParser Class
@@ -16,7 +18,7 @@ public class AbcBuilder {
     private List<Music> barNotes;
     private List<Music> tupletNotes;
     private List<Note> chordNotes;
-    private List<String> accidentals;
+    private Map<Character,String> accidentals;
     
     private List<Music> beginRepeat;
     private List<Music> firstRepeat;
@@ -24,10 +26,11 @@ public class AbcBuilder {
 
     private int repeatStatus;
     private String status;
+    private boolean repeatType;
     
     private final int beginRepeatStatus = 1;
     private final int firstRepeatEndingStatus = 2;
-    private final int secondRepeatEndingStatus = 2;
+    private final int secondRepeatEndingStatus = 3;
 
     
     /*
@@ -45,7 +48,7 @@ public class AbcBuilder {
         this.barNotes  = new ArrayList<Music>();
         this.tupletNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
-        this.accidentals = new ArrayList<String>();
+        this.accidentals = new HashMap<Character,String>();
         
         this.beginRepeat = new ArrayList<Music>();
         this.firstRepeat = new ArrayList<Music>();
@@ -135,10 +138,10 @@ public class AbcBuilder {
 
     /**
      * Add Accidental found in the Bar
-     * @param pitchString that accidental is applied on
+     * @param c that accidental is applied on
      */
-    public void addAccidental(String pitchString) {
-        this.accidentals.add(pitchString);
+    public void addAccidental(char c,String type) {
+        this.accidentals.put(c, type);
         
     }
 
@@ -176,67 +179,7 @@ public class AbcBuilder {
      * Applies Accidentals to Music Notes in the Bar
      */
     public void resetBar() {
-        ArrayList<Music> newBar = new ArrayList<Music>();
-        for(Music m: this.barNotes) {
-            if(m instanceof Note) {
-                Note note = (Note) m;
-                if(this.accidentals.contains(note.getPitch().toString())) {
-                    newBar.add(new Note(note.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
-                }
-                else {
-                    newBar.add(note);
-                }
-            }
-            if (m instanceof Chord) {
-                Chord chord = (Chord) m;
-                List<Note> newChord = new ArrayList<Note>();
-                for(Note note: chord.getNotes()) {
-                    if(this.accidentals.contains(note.getPitch().toString())) {
-                        newChord.add(new Note(note.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
-                    }
-                    else {
-                        newChord.add(note);
-                    }
-
-                }
-                newBar.add(new Chord(newChord));
-            }
-            if (m instanceof Tuplet) {
-                Tuplet tuplet = (Tuplet) m;
-                List<Music> newTuplet = new ArrayList<Music>();
-                for(Music note: tuplet.getMusic()) {
-                    if(note instanceof Note ) {
-                        Note n = (Note) note;
-                        if(this.accidentals.contains(n.getPitch().toString())) {
-                            newTuplet.add(new Note(n.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
-                        }
-                        else {
-                            newTuplet.add(n);
-                        }
-
-                    }
-                    if(note instanceof Chord) {
-                        Chord c = (Chord) note;
-                        List<Note> newChord = new ArrayList<Note>();
-                        for(Note n: c.getNotes()) {
-                            if(this.accidentals.contains(n.getPitch().toString())) {
-                                newChord.add(new Note(n.getPitch().transpose(Pitch.OCTAVE),note.getDuration()));
-                            }
-                            else {
-                                newChord.add(n);
-                            }
-
-                        }
-                        newTuplet.add(new Chord(newChord));
-                    }
-
-                }
-                newBar.add(new Tuplet(newTuplet,tuplet.getDuration()));
-
-            }
-        }
-        
-        Bar bar = new Bar(newBar);
+        Bar bar = new Bar(this.barNotes);
         if(repeatStatus == 0) {
             this.totalMusic.add(bar);
         }
@@ -246,6 +189,18 @@ public class AbcBuilder {
         }
         else if(repeatStatus == firstRepeatEndingStatus) {
             this.firstRepeat.add(bar);
+        }
+        else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) {
+            List<List<Music>> music = new ArrayList<>();
+            music.add(this.firstRepeat);
+            Repeat repeat = new Repeat(music,false);
+            totalMusic.add(repeat);
+            this.beginRepeat = new ArrayList<Music>();
+            this.firstRepeat = new ArrayList<Music>();
+            this.secondRepeat = new ArrayList<Music>();
+            this.repeatStatus = 0;
+            this.repeatType = false;
+
         }
         else if(repeatStatus == secondRepeatEndingStatus) {
             this.secondRepeat.add(bar);
@@ -264,7 +219,7 @@ public class AbcBuilder {
         this.barNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.tupletNotes = new ArrayList<Music>();
-        this.accidentals = new ArrayList<String>();
+        this.accidentals = new HashMap<Character,String>();
         
     }
 
@@ -281,6 +236,37 @@ public class AbcBuilder {
             
         }
         return total;
+    }
+
+    public List<Music> getMusicLine() {
+        return this.totalMusic;
+    }
+
+    public Pitch applyAccidental(Character pitchChar) {
+        Pitch pitch = new Pitch(pitchChar);
+        if(this.accidentals.containsKey(pitchChar)) {
+            String type = this.accidentals.get(pitchChar);
+            if(type.indexOf("^")!=-1) {
+                for(int i = 0; i<type.length();i++) {
+                    pitch.transpose(1);
+                }
+            }
+            else if(type.indexOf("_")!=-1) {
+                for(int i = 0; i<type.length();i++) {
+                    pitch.transpose(-1);
+                }
+            }
+        }
+        return pitch;
+    }
+
+
+    public void flagSimpleRepeat(boolean b) {
+        this.repeatType = b;
+    }
+
+    public int getBarNotesSize() {
+        return this.barNotes.size();
     }
 
 
