@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbcTune {
@@ -13,29 +14,15 @@ public class AbcTune {
     private int indexNumber;
     private String accidental;
     private boolean minor;
+    public List<Music> musicLines;
     
-    public List<String> getKeySignature() {
-        return keySignature;
-    }
-    
-    public void setKeySignature(List<String> keySignature) {
-        this.keySignature = keySignature;
-    }
-    
-    public List<String> getVoices() {
-        return voices;
-    }
-    
-    public void setVoices(List<String> voices) {
-        this.voices = voices;
-    }
     private List<String> keySignature;
     private List<String> voices;
-    private Music music;
     
-
     
     public AbcTune() {
+        this.musicLines = new ArrayList<Music>();
+        this.keySignature = new ArrayList<String>();
         
     }
     public String getTitle() {
@@ -90,14 +77,11 @@ public class AbcTune {
     
 
     
-    public Music getMusic() {
-        return music;
+    public List<Music> getMusicLine() {
+        return this.musicLines;
     }
 
     
-    public void setMusic(Music music) {
-        this.music = music;
-    }
     public int getIndexNumber() {
         return indexNumber;
     }
@@ -120,6 +104,27 @@ public class AbcTune {
     public void setMinor(boolean minor) {
         this.minor = minor;
     }
+    public List<String> getKeySignature() {
+        return keySignature;
+    }
+    
+    public void setKeySignature(List<String> keySignature) {
+        this.keySignature = keySignature;
+    }
+    
+    public List<String> getVoices() {
+        return voices;
+    }
+    
+    public void setVoices(List<String> voices) {
+        this.voices = voices;
+    }
+    public void addMusicLine(Concat concat) {
+        this.musicLines.add(concat);
+        
+    }
+
+
 
 
 }

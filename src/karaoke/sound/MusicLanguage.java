@@ -27,12 +27,12 @@ public class MusicLanguage {
      */
     public static void main(final String[] args) throws UnableToParseException {
         final String piece1 = "X:1 %Comment Testing \n" +
-                "T:First" + "\n" + 
-                "M:4/4\n" + 
-                "L:1/4\n" + "C: W. Mozart\n" + 
+                "T:First Music!" + "\n" + 
+                "M:4/4  %Comment Testing\n" + 
+                "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
                 "K:Cm\n" + 
-                "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
+                "C'' ^C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -74,16 +74,8 @@ public class MusicLanguage {
                 "T:First" + "\n" + 
                 "M:4/4\n" + 
                 "K:Cm\n" + "|: C D E F | G A B c :|";
-//        final Music musicPiece1 = MusicLanguage.parse(piece1);
-//        final Music musicPiece2 = MusicLanguage.parse(piece2);
-//        final Music musicPaddy = MusicLanguage.parse(paddy);
-        final Music musicEasyRepeat = MusicLanguage.parse(easyRepeat);
-
-//        System.out.println(musicPiece1);
-//        System.out.println(musicPiece2);
-//        System.out.println(musicPaddy);
-        System.out.println(musicEasyRepeat);
-
+        final Music musicPiece1 = MusicLanguage.parse(paddy);
+        System.out.println(musicPiece1);
         
     }
     /**
@@ -124,7 +116,7 @@ public class MusicLanguage {
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        return new Concat(builder.getTotalMusic());
+        return new Concat(TUNE.musicLines);
 
     }
 
@@ -160,6 +152,10 @@ public class MusicLanguage {
                 return;
 
             }
+            case COMMENTTEXT:
+                
+                return;
+                
             case FIELDTITLE: // fieldTitle ::= "T:" text endOfLine;
             {   
                 String title = children.get(0).text();
@@ -187,9 +183,8 @@ public class MusicLanguage {
             case FIELDDEFAULTLENGTH: //fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
                                      //noteLengthStrict ::= digit+ "/" digit+;
             {
-                String numerator = children.get(0).text();
-                String denominator = children.get(1).text();
-                TUNE.setNoteLength(numerator + "/" + denominator);
+                String number = children.get(0).text();
+                TUNE.setNoteLength(number);
                 return;
             
             }
@@ -202,7 +197,11 @@ public class MusicLanguage {
             }
             case FIELDTEMPO: // fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
             {
-                makeAbstractSyntaxTree(children.get(0));
+                String tempo = "";
+                for(int i = 1;i<children.size()-1;i++) {
+                    tempo+=children.get(i);
+                }
+                TUNE.setTempo(tempo);
                 return;
             }
             case FIELDVOICE: // fieldVoice ::= "V:" text endOfLine;
@@ -231,7 +230,7 @@ public class MusicLanguage {
             case METER:
             {
                 if(children.toString().indexOf("METERFRACTION")!=-1) {
-                    makeAbstractSyntaxTree(children.get(0));
+                    TUNE.setMeter(children.get(0).text());
                 }
                 else {
                     if(children.toString().indexOf("C|")!=-1) {
@@ -241,14 +240,6 @@ public class MusicLanguage {
                         TUNE.setMeter("4/4");
                     }
                 }
-                return;
-            }
-            case METERFRACTION: //  meter ::= "C" | "C|" | meterFraction;
-                                //   meterFraction ::= digit+ "/" digit+;
-            {
-                String numerator = children.get(0).text();
-                String denominator = children.get(1).text();
-                TUNE.setMeter(numerator + "/" + denominator);
                 return;
             }
             case ABCBODY: //abcBody ::= abcLine+;
@@ -266,29 +257,31 @@ public class MusicLanguage {
     private static void makeAbstractSyntaxTreeMusic(final ParseTree<MusicGrammar> parseTree) {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
         switch (parseTree.name()) {
-            case ABCBODY: {
+            case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
+                    List<Music> music = builder.getMusicLine();
+                    TUNE.addMusicLine(new Concat(music));
+                    builder = new AbcBuilder();
                    
                 }
                 return;
                 
             }
-            case ABCLINE:
+            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println(children.get(i).text());
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
                     
-                    else if(i+1<children.size() && children.get(i+1).text().equals("[1")) {
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[1")) { //if at first repeat ending
                         builder.setRepeatStatus(1);
                         builder.resetBar();
                         builder.setRepeatStatus(2);
                     }
-                    else if(i+1<children.size() && children.get(i+1).text().equals("[2")) {
+                    else if(i+1<children.size() && children.get(i+1).text().equals("[2")) { //if at second repeat ending
                         builder.resetBar();
                         builder.setRepeatStatus(3);
                     }
@@ -296,11 +289,12 @@ public class MusicLanguage {
                         continue;
 
                     }
-                    else if(children.get(i).text().equals("|:")) {
-                        builder.setRepeatStatus(1);
-                        builder.resetBar();
-                        builder.setRepeatStatus(2);
-                    }
+//                    else if(children.get(i).text().equals("|:")) {
+//                        System.out.p
+//                        builder.setRepeatStatus(1);
+//                        builder.resetBar();
+//                        builder.setRepeatStatus(2);
+//                    }
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
@@ -318,26 +312,88 @@ public class MusicLanguage {
                 makeAbstractSyntaxTreeMusic(children.get(0));
                 return;
             }
-            case NOTE: 
+            case NOTE:  //note ::= pitch noteLength?;
             {
-                String pitchString = children.get(0).text();
+                //calculating pitch 
+                //pitch ::= accidental? basenote octave?;
+                List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
                 Character pitchChar = 'A';
-                boolean isOctave = false;
-                if(pitchString.length()==1) {
-                    pitchChar = pitchString.charAt(0);
-                }
-                else if(pitchString.contains("'")) {
-                    pitchChar = pitchString.charAt(pitchString.length()-2);
-                    isOctave = true;
-                    
-                }
-                if(pitchString.contains("^")) {
-                    pitchChar = pitchString.charAt(1);
-                    builder.addAccidental(Character.toString(pitchChar).toUpperCase());
+                Pitch pitch = null;
 
+                if(pitchList.size()==1) {
+                    pitchChar = pitchList.get(0).toString().charAt(0);
                     
+                    pitch = builder.applyAccidental(pitchChar);
                 }
-                Pitch pitch = new Pitch(Character.toUpperCase(pitchChar));
+                else if(pitchList.size()==2) {
+                    //found accidental
+                    if(pitchList.get(0).name().equals(MusicGrammar.ACCIDENTAL)) {
+                        pitchChar = pitchList.get(1).text().charAt(0); 
+                        String accidentalType = pitchList.get(0).text();
+                        builder.addAccidental(Character.toUpperCase(pitchChar),accidentalType);
+                        
+                        pitch = new Pitch(Character.toUpperCase(pitchChar));
+
+                        if(accidentalType.indexOf("^")!=-1) {
+                            for(int i = 0; i<accidentalType.length();i++) {
+                                pitch.transpose(1);
+                            }
+                        }
+                        else if(accidentalType.indexOf("_")!=-1) {
+                            for(int i = 0; i<accidentalType.length();i++) {
+                                pitch.transpose(-1);
+                            }
+                        }
+                    }
+                    //found octave
+                    else {
+                        pitchChar = pitchList.get(0).text().charAt(0);
+                        String octaveType = pitchList.get(1).text();
+                        
+                        pitch = builder.applyAccidental(pitchChar);
+
+                        if(octaveType.indexOf("'")!=-1) {
+                            for(int i = 0; i<octaveType.length();i++) {
+                                pitch.transpose(Pitch.OCTAVE);
+                            }
+                        }
+                        else if(octaveType.indexOf(",")!=-1) {
+                            for(int i = 0; i<octaveType.length();i++) {
+                                pitch.transpose(-Pitch.OCTAVE);
+                            }
+                        }                        
+                    }
+                }
+                else if(pitchList.size() == 3) {
+                    String accidentalType = pitchList.get(0).text();
+                    pitchChar = pitchList.get(1).text().charAt(0); 
+                    String octaveType = pitchList.get(2).text();
+                    
+                    pitch = new Pitch(Character.toUpperCase(pitchChar));
+
+                    if(accidentalType.indexOf("^")!=-1) {
+                        for(int i = 0; i<accidentalType.length();i++) {
+                            pitch.transpose(1);
+                        }
+                    }
+                    else if(accidentalType.indexOf("_")!=-1) {
+                        for(int i = 0; i<accidentalType.length();i++) {
+                            pitch.transpose(-1);
+                        }
+                    }
+
+                    if(octaveType.indexOf("'")!=-1) {
+                        for(int i = 0; i<octaveType.length();i++) {
+                            pitch.transpose(Pitch.OCTAVE);
+                        }
+                    }
+                    else if(octaveType.indexOf(",")!=-1) {
+                        for(int i = 0; i<octaveType.length();i++) {
+                            pitch.transpose(-Pitch.OCTAVE);
+                        }
+                    }                        
+
+                }
                 if(Character.isLowerCase(pitchChar)) {
                     pitch.transpose(Pitch.OCTAVE);
                 }
@@ -498,6 +554,8 @@ public class MusicLanguage {
             case LYRICTEXT:
             {
             }
+        default:
+            break;
 
         }
         

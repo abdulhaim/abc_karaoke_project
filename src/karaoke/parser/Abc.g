@@ -63,7 +63,7 @@ endOfLine ::= newline | comment;
 digit ::= [0-9];
 newline ::= "\n" | "\r\n"?;
 spaceOrTab ::= " " | "\t";
-text ::= [A-Za-z0-9'.\t ]*;
+text ::= [A-Za-z0-9!'.\t ]*;
 whitespace ::= [ \t\r\n]+;
 
 
