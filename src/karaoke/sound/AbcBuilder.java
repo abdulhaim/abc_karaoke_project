@@ -26,10 +26,11 @@ public class AbcBuilder {
 
     private int repeatStatus;
     private String status;
+    private boolean repeatType;
     
     private final int beginRepeatStatus = 1;
     private final int firstRepeatEndingStatus = 2;
-    private final int secondRepeatEndingStatus = 2;
+    private final int secondRepeatEndingStatus = 3;
 
     
     /*
@@ -189,6 +190,18 @@ public class AbcBuilder {
         else if(repeatStatus == firstRepeatEndingStatus) {
             this.firstRepeat.add(bar);
         }
+        else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) {
+            List<List<Music>> music = new ArrayList<>();
+            music.add(this.firstRepeat);
+            Repeat repeat = new Repeat(music,false);
+            totalMusic.add(repeat);
+            this.beginRepeat = new ArrayList<Music>();
+            this.firstRepeat = new ArrayList<Music>();
+            this.secondRepeat = new ArrayList<Music>();
+            this.repeatStatus = 0;
+            this.repeatType = false;
+
+        }
         else if(repeatStatus == secondRepeatEndingStatus) {
             this.secondRepeat.add(bar);
             List<List<Music>> music = new ArrayList<>();
@@ -245,6 +258,15 @@ public class AbcBuilder {
             }
         }
         return pitch;
+    }
+
+
+    public void flagSimpleRepeat(boolean b) {
+        this.repeatType = b;
+    }
+
+    public int getBarNotesSize() {
+        return this.barNotes.size();
     }
 
 
