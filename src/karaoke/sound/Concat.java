@@ -43,12 +43,12 @@ public class Concat implements Music{
     }
     
     private void checkRep() {
-        assert music != null;
-        assert mapOfRepeats != null;
-        assert musicToPlay != null;
-        for (Bar bar: musicToPlay) {
-            assert bar.getDuration() == durationEachBar;
-        }
+//        assert music != null;
+//        assert mapOfRepeats != null;
+//        assert musicToPlay != null;
+//        for (Bar bar: musicToPlay) {
+//            assert bar.getDuration() == durationEachBar;
+//        }
     }
     
     private List<Bar> encapsulateRepeat(){
@@ -75,7 +75,7 @@ public class Concat implements Music{
         double offsetDuration = 0;
         for (Bar bar : musicToPlay) {
             bar.play(player, atBeat+offsetDuration);
-            offsetDuration += durationEachBar;
+            offsetDuration += bar.getDuration();
         }
     }
     

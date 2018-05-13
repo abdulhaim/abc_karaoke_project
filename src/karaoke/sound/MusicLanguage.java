@@ -2,7 +2,6 @@ package karaoke.sound;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -36,8 +35,7 @@ public class MusicLanguage {
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
-                "K:Cm\n" + 
-                "C C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
+                "K:Cm\n" + "(3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -156,13 +154,13 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
-        final int beatsPerMinute = 200; // a beat is a quarter note, so this is 120 quarter notes per minute
-        final int ticksPerBeat = 96; // allows up to 1/64-beat notes to be played with fidelity
-
+        final List<Concat> musicPiece1 = MusicLanguage.parse(piece2);
+        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+        System.out.println(musicPiece1);
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
-            c.play(player, 0);
+            c.play(player, 0.0);
         }
         player.play();
         
@@ -362,6 +360,7 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
+                    System.out.println("CHILDREN" + children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -394,6 +393,9 @@ public class MusicLanguage {
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
+                    else if(children.get(i).name().equals(MusicGrammar.ENDOFLINE)) {
+                        builder.resetBar();
+                    }
                     else {
 
                         makeAbstractSyntaxTreeMusic(children.get(i));
@@ -411,7 +413,7 @@ public class MusicLanguage {
             }
             case NOTE:  //note ::= pitch noteLength?;
             {
-                //calculating pitch 
+                //calculating pitch
                 //pitch ::= accidental? basenote octave?;
                 List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
                 Character pitchChar = null;
@@ -429,16 +431,16 @@ public class MusicLanguage {
                         String accidentalType = pitchList.get(0).text();
                         builder.addAccidental(Character.toUpperCase(pitchChar),accidentalType);
                         
-                        pitch = new Pitch(Character.toUpperCase(pitchChar));
+                       pitch = new Pitch(Character.toUpperCase(pitchChar));
 
                         if(accidentalType.indexOf("^")!=-1) {
                             for(int i = 0; i<accidentalType.length();i++) {
-                                pitch.transpose(1);
+                                pitch = pitch.transpose(1);
                             }
                         }
                         else if(accidentalType.indexOf("_")!=-1) {
                             for(int i = 0; i<accidentalType.length();i++) {
-                                pitch.transpose(-1);
+                                pitch = pitch.transpose(-1);
                             }
                         }
                     }
@@ -447,16 +449,16 @@ public class MusicLanguage {
                         pitchChar = pitchList.get(0).text().charAt(0);
                         String octaveType = pitchList.get(1).text();
                         
-                        pitch = builder.applyAccidental(pitchChar);
+                        pitch = builder.applyAccidental(Character.toUpperCase(pitchChar));
 
                         if(octaveType.indexOf("'")!=-1) {
                             for(int i = 0; i<octaveType.length();i++) {
-                                pitch.transpose(Pitch.OCTAVE);
+                                pitch = pitch.transpose(Pitch.OCTAVE);
                             }
                         }
                         else if(octaveType.indexOf(",")!=-1) {
                             for(int i = 0; i<octaveType.length();i++) {
-                                pitch.transpose(-Pitch.OCTAVE);
+                                pitch = pitch.transpose(-Pitch.OCTAVE);
                             }
                         }                        
                     }
@@ -470,29 +472,29 @@ public class MusicLanguage {
 
                     if(accidentalType.indexOf("^")!=-1) {
                         for(int i = 0; i<accidentalType.length();i++) {
-                            pitch.transpose(1);
+                            pitch = pitch.transpose(1);
                         }
                     }
                     else if(accidentalType.indexOf("_")!=-1) {
                         for(int i = 0; i<accidentalType.length();i++) {
-                            pitch.transpose(-1);
+                            pitch = pitch.transpose(-1);
                         }
                     }
 
                     if(octaveType.indexOf("'")!=-1) {
                         for(int i = 0; i<octaveType.length();i++) {
-                            pitch.transpose(Pitch.OCTAVE);
+                            pitch = pitch.transpose(Pitch.OCTAVE);
                         }
                     }
                     else if(octaveType.indexOf(",")!=-1) {
                         for(int i = 0; i<octaveType.length();i++) {
-                            pitch.transpose(-Pitch.OCTAVE);
+                            pitch = pitch.transpose(-Pitch.OCTAVE);
                         }
                     }                        
 
                 }
                 if(Character.isLowerCase(pitchChar)) {
-                    pitch.transpose(Pitch.OCTAVE);
+                    pitch = pitch.transpose(Pitch.OCTAVE);
                 }
 
                 String noteLength = children.get(1).text();
@@ -519,6 +521,9 @@ public class MusicLanguage {
                 else {
                     duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
 
+                }
+                if(builder.getStatus().equals("Tuplet")) {
+                    duration*=builder.getTupletDuration()*(1.0/2);
                 }
                 Note note = new Note(pitch,duration);
                 if(builder.getStatus().equals("Bar")) {
@@ -571,31 +576,12 @@ public class MusicLanguage {
                     duration = 3.0/4;
                 }
                 duration = (double) Math.round(duration * 100) / 100;
-
+                builder.setTupletDuration(duration);
                 for(int i =1; i<children.size(); i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
                 }
                 List<Music> tupletNotes = builder.getTupletNotes();
-                List<Music> modifiedDuration = new ArrayList<Music>();
-                for(Music note: tupletNotes) {
-                    if(note instanceof Note ) {
-                        Note n = (Note) note;
-                        modifiedDuration.add(new Note(n.getPitch(),n.getDuration()*duration));
-
-                    }
-                    if(note instanceof Chord) {
-                        Chord c = (Chord) note;
-                        List<Note> chordNotes = new ArrayList<Note>();
-
-                        for(Note n: c.getNotes()) {
-                            chordNotes.add(new Note(n.getPitch(),n.getDuration()*duration));
-                        }
-                        modifiedDuration.add(new Chord(chordNotes));
-
-                    }
-                   
-                }
-                Tuplet tuplet = new Tuplet(modifiedDuration,Double.parseDouble(durationString));
+                Tuplet tuplet = new Tuplet(tupletNotes,Double.parseDouble(durationString));
                 builder.setStatus(prevStatus);
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(tuplet);
