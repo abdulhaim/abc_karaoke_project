@@ -35,7 +35,7 @@ public class MusicLanguage {
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
-                "K:Cm\n" + "(3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2";
+                "K:Cm\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -48,6 +48,14 @@ public class MusicLanguage {
                 "A3 B3|efe efg|faf gfe|[1 dfe dcB:|[2 dfe dBA|]\r\n" + 
                 "fAA eAA| def gfe|fAA eAA|dfe dBA|\r\n" + 
                 "fAA eAA| def gfe|faf gfe|dfe dBA:|\r\n";
+        
+        final String mario = "X: 2\r\n" + 
+                "T:Piece No.2\r\n" + 
+                "M:4/4\r\n" + 
+                "L:1/4\r\n" + 
+                "Q:1/4=200\r\n" + 
+                "K:C\r\n" + 
+                "[e/2^F/2] [e/2F/2] z/2 [e/2^F/2] z/2 [c/2F/2] [eF] |[gBG] z G z | c3/2 G/2 z E | E/2 A B  _B/2 A | (3GeG a f/2 g/2 |z/2 e c/2 d/2 B3/4\r\n";
         final String piece2 = "X:1\r\n" + 
                 "T:Little Night Music Mvt. 1\r\n" + 
                 "C:Wolfgang Amadeus Mozart\r\n" + 
@@ -154,8 +162,8 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final List<Concat> musicPiece1 = MusicLanguage.parse(piece2);
-        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final List<Concat> musicPiece1 = MusicLanguage.parse(mario);
+        final int beatsPerMinute = 200; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         System.out.println(musicPiece1);
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
@@ -360,7 +368,6 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println("CHILDREN" + children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -523,7 +530,7 @@ public class MusicLanguage {
 
                 }
                 if(builder.getStatus().equals("Tuplet")) {
-                    duration*=builder.getTupletDuration()*(1.0/2);
+                    duration*=builder.getTupletDuration();
                 }
                 Note note = new Note(pitch,duration);
                 if(builder.getStatus().equals("Bar")) {

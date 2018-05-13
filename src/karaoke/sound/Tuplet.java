@@ -97,9 +97,6 @@ public class Tuplet implements Music {
         double offsetDuration = 0.0;
         for (Music music : this.listOfSubMusic) {
             music.play(player, atBeat + offsetDuration);
-            System.out.println("DURATION PER MMUSIC" + this.durationPerMusic);
-            System.out.println("AT THIS BEAT" + atBeat);
-
             offsetDuration += this.durationPerMusic;
         } 
     }
