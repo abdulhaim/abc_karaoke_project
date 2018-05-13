@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
@@ -24,15 +27,17 @@ public class MusicLanguage {
      * Main method. Parses and then reprints an example 
      * @param args command line arguments
      * @throws UnableToParseException if cannot parse grammar file
+     * @throws InvalidMidiDataException 
+     * @throws MidiUnavailableException 
      */
-    public static void main(final String[] args) throws UnableToParseException {
+    public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
         final String piece1 = "X:1 %Comment Testing \n" +
                 "T:First Music!" + "\n" + 
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
                 "K:Cm\n" + 
-                "C'' ^C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
+                "C C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -151,8 +156,15 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
-        System.out.println(musicPiece1);
+        final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
+        final int beatsPerMinute = 200; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int ticksPerBeat = 96; // allows up to 1/64-beat notes to be played with fidelity
+
+        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
+        for(Concat c: musicPiece1) {
+            c.play(player, 0);
+        }
+        player.play();
         
         
     }
