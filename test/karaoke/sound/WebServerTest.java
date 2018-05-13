@@ -20,7 +20,7 @@ public class WebServerTest {
      * Test 1:
      * Open one command prompt and browse to the ps4 folder.
      * For the first command prompt window, paste the following:
-     *      java -cp bin karaoke.ServerMain web 8080 3 3 1F308 1F984
+     *      java -cp bin karaoke.ServerMain 
      *      
      * Open two windows.
      * Connect one person to listen 
