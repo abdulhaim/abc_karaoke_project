@@ -53,7 +53,7 @@ public class MusicLanguageTest {
     }
     
     
-    @Test
+   /* @Test
     public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece1.abc";
         String musicFile = readFile(path);
@@ -99,7 +99,7 @@ public class MusicLanguageTest {
         String path = "sample-abc/piece3.abc";
         String musicFile = readFile(path);
         MusicLanguage.parse(musicFile);
-    }
+    }*/
    
    
 }

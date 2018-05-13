@@ -85,7 +85,7 @@ public class SoundPlaybackTest {
         SoundPlayback.play(bar);
     }
     
-    @Test 
+/*    @Test 
     public void testConcat() throws MidiUnavailableException, InvalidMidiDataException {
         List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
@@ -94,7 +94,7 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch('G'),1.0));
         Concat concat = new Concat(notes);
         SoundPlayback.play(concat);
-    }
+    }*/
     
     @Test 
     public void testParseThenPlay() {
