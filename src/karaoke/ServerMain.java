@@ -5,6 +5,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -14,7 +15,6 @@ import examples.StreamingExample;
 
 public class ServerMain {
     /**
-     * TAKEN FROM STREAMING EXAMPLE
      * Web server uses plain text stream
      *     
      * @param args not used
@@ -26,20 +26,29 @@ public class ServerMain {
         // make a web server
         final int serverPort = 4567;
         final MusicWebServer server = new MusicWebServer(serverPort);
+        //final HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
+
         // HttpServer.create(new InetSocketAddress(serverPort), 0);
         
         // handle concurrent requests with multiple threads
-       // server.setExecutor(Executors.newCachedThreadPool());
+        //server.setExecutor(Executors.newCachedThreadPool());
 
         // register handlers
-       // server.createContext("/textStream", ServerMain::textStream);
+        //server.createContext("/connect", ServerMain::textStream);
         //server.createContext("/htmlStream", StreamingExample::htmlStream);
         //server.createContext("/htmlWaitReload", StreamingExample::htmlWaitReload);
 
         // start the server
         server.start();
-        System.out.println("server running, browse to one of these URLs:");
-        System.out.println("http://localhost:4567/connect");
+        System.out.println("HEADER HERE");
+        System.out.println("Instructions: \nBrowse to \nhttp://localhost:4567/connect \nThen begin karaoke by pressing enter" );
+        //System.out.println("server running, browse to one of these URLs:");
+       // System.out.println("http://localhost:4567/textStream");
+        Scanner sc = new Scanner(System.in);
+        if (sc.nextLine() == "\n") {
+            System.out.println("started karaoke");
+        }
+        sc.close();
 
     }
     /**
@@ -81,10 +90,11 @@ public class ServerMain {
             
             final int numberOfLinesToSend = 100;
             final int millisecondsBetweenLines = 200;
+            out.println("Karaoke will begin soon");
            // for (int i = 0; i < numberOfLinesToSend; ++i) {
                 
                 // print a line of text
-                out.println("Please submit an Abc file for playback");
+                // LYRICS STREAMING GOES HERE
                // out.println(System.currentTimeMillis()); // also flushes
 
                 // wait a bit
@@ -98,7 +108,7 @@ public class ServerMain {
         } finally {
             exchange.close();
         }
-        System.err.println("done streaming request");
+        System.err.println("done");
     }
 
 }

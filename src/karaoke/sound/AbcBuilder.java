@@ -36,6 +36,8 @@ public class AbcBuilder {
     
     // repeatMap provides information on when to repeat
     private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
+
+    private double tupletDuration ;
     
     /*
      * AF(totalMusic, barNotes, tupletNotes, chordNotes, =  Builds an Abc Body into a list of Music objects in totalMusic
@@ -284,6 +286,14 @@ public class AbcBuilder {
         return this.repeatMap;
     }
 
+    public void setTupletDuration(double duration) {
+       this.tupletDuration = duration;
+        
+    }
+    public double getTupletDuration() {
+        return this.tupletDuration;
+         
+     }
 
 }
 
