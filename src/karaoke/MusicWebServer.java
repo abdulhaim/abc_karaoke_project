@@ -21,6 +21,7 @@ import com.sun.net.httpserver.HttpServer;
 
 
 
+
 /**
  * @author Bibek Kumar Pandit
  *
@@ -59,7 +60,7 @@ public class MusicWebServer {
         // all responses will be plain-text UTF-8
         headers.add("Content-Type", "text/plain; charset=utf-8");
         List<Filter> filterList = Arrays.asList(log, headers);
-        HttpContext watch = server.createContext("/connect/", this::handleConnect);
+        HttpContext watch = server.createContext("/connect", this::handleConnect);
         watch.getFilters().addAll(filterList);
         HttpContext look = server.createContext("/play/", this::handlePlay);
         look.getFilters().addAll(filterList);
@@ -103,16 +104,26 @@ public class MusicWebServer {
      * @throws IOException
      */
     private void handleConnect (HttpExchange exchange) throws IOException  {
-        String startPath = exchange.getHttpContext().getPath();
+        //String startPath = exchange.getHttpContext().getPath();
         String  getPath = exchange.getRequestURI().getPath();
-        String path = getPath.substring(startPath.length());
+        System.err.println("received request " + getPath);
         players.add(players.size() + 1.0);
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "connected... now waiting for play";
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
-        out.println(response);
-        exchange.close(); 
+        try {
+            // IMPORTANT: some web browsers don't start displaying a page until at least 2K bytes
+            // have been received.  So we'll send a line containing 2K spaces first.
+            final int enoughBytesToStartStreaming = 2048;
+            for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
+                out.print(' ');
+            }
+            out.println();
+        out.println(response); }
+        finally {
+            exchange.close();
+        }
     }
     
     /**
@@ -121,7 +132,16 @@ public class MusicWebServer {
      * @throws IOException
      */
     private void handlePlay(HttpExchange exchange) throws IOException {
-        
+        String startPath = exchange.getHttpContext().getPath();
+        String  getPath = exchange.getRequestURI().getPath();
+        String path = getPath.substring(startPath.length());
+        String[] arguments = path.split("/");
+        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+        String response = "playing now"; 
+        OutputStream body = exchange.getResponseBody();
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
+        out.println(response);
+        exchange.close(); 
     }
     
     
