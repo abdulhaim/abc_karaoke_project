@@ -93,10 +93,11 @@ public class Tuplet implements Music {
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        double offsetDuration = 0;
+        double currentBeat = atBeat;
         for (Music music : this.listOfSubMusic) {
-            music.play(player, atBeat + offsetDuration);
-            offsetDuration += this.durationPerMusic;
+            music.play(player, currentBeat);
+            currentBeat += music.getDuration();
+            //offsetDuration += this.durationPerMusic;
         } 
     }
     

@@ -37,7 +37,8 @@ public class MusicLanguage {
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
                 "K:Cm\n" + 
-                "C C C3/4 D'/4 E | E3/4 D/4 E'3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2\n";
+                //"C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | "
+                "(3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2 \r\n";
         final String paddy = "X:1\r\n" + 
                 "T:Paddy O'Rafferty\r\n" + 
                 "C:Trad.\r\n" + 
@@ -157,8 +158,10 @@ public class MusicLanguage {
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
         final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
-        final int beatsPerMinute = 200; // a beat is a quarter note, so this is 120 quarter notes per minute
-        final int ticksPerBeat = 96; // allows up to 1/64-beat notes to be played with fidelity
+        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+        System.out.println(musicPiece1);
+        //C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2 
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
@@ -362,6 +365,7 @@ public class MusicLanguage {
             {
                 builder.setStatus("Bar");
                 for(int i = 0; i< children.size(); i++) {
+                    System.out.println("CHILDREN" + children.get(i));
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -394,6 +398,9 @@ public class MusicLanguage {
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
+                    else if(children.get(i).name().equals(MusicGrammar.ENDOFLINE)) {
+                        builder.resetBar();
+                    }
                     else {
 
                         makeAbstractSyntaxTreeMusic(children.get(i));
@@ -414,6 +421,7 @@ public class MusicLanguage {
                 //calculating pitch 
                 //pitch ::= accidental? basenote octave?;
                 List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
+//                System.out.println("pitchList" + pitchList);
                 Character pitchChar = null;
                 Pitch pitch = null;
 
@@ -492,6 +500,9 @@ public class MusicLanguage {
 
                 }
                 if(Character.isLowerCase(pitchChar)) {
+                    System.out.println(pitchChar);
+
+                    System.out.println("IT IS LOWER CASE AND OCTAVE UPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
                     pitch.transpose(Pitch.OCTAVE);
                 }
 
@@ -580,6 +591,9 @@ public class MusicLanguage {
                 for(Music note: tupletNotes) {
                     if(note instanceof Note ) {
                         Note n = (Note) note;
+//                        System.out.println("DURATION OF THE TUPLETTTTTTTTTTTTTTTTTTTTT");
+//                        System.out.println(n);
+//                        System.out.println(n.getDuration());
                         modifiedDuration.add(new Note(n.getPitch(),n.getDuration()*duration));
 
                     }
@@ -633,7 +647,7 @@ public class MusicLanguage {
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
                List<Concat> musicLines = TUNE.getMusicLine();
-               System.out.println("MUSIC LINES" + musicLines);
+//               System.out.println("MUSIC LINES" + musicLines);
                for(int i =0; i<children.size();i++) {
                    System.out.println("LOOPING THROUGH CHILDREN   " + children.get(i));
                }
