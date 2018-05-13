@@ -60,10 +60,10 @@ public class Bar implements Music {
     
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        double subDuration = 0;
+        double offsetDuration = 0;
         for (Music music : listOfSubMusic) {
-            music.play(player, atBeat + subDuration);
-            subDuration += music.getDuration();
+            music.play(player, atBeat + offsetDuration);
+            offsetDuration += music.getDuration();
         }
     }
     

@@ -151,8 +151,9 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final Music musicPiece1 = MusicLanguage.parse(withLyrics);
+        final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
         System.out.println(musicPiece1);
+        
         
     }
     /**
@@ -188,12 +189,12 @@ public class MusicLanguage {
      * @return Music parsed from the string
      * @throws UnableToParseException if the string doesn't match the Music grammar
      */
-    public static Music parse(final String string) throws UnableToParseException {
+    public static List<Concat> parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
-        System.out.println(parseTree);
+//        System.out.println(parseTree);
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        return new Concat(TUNE.getMusicLine());
+        return TUNE.getMusicLine();
 
     }
 
@@ -267,7 +268,6 @@ public class MusicLanguage {
             }
             case FIELDMETER: // fieldMeter ::= "M:" meter endOfLine;
             {                
-                System.out.println("FieldMeter" + children.get(0).text());
                 makeAbstractSyntaxTree(children.get(0));
                 return;
                 
@@ -339,10 +339,9 @@ public class MusicLanguage {
                 for(int i = 0;i<children.size();i++) {
                     
                     makeAbstractSyntaxTreeMusic(children.get(i));
-                    List<Music> music = builder.getMusicLine();
-                    TUNE.addMusicLine(new Concat(music));
-                    builder = new AbcBuilder();
-                   
+                    Concat music = new Concat(builder.getMusicLine(),builder.getHashMap());
+                    TUNE.addMusicLine(music);
+                    builder = new AbcBuilder();    
                 }
                 return;
                 
@@ -363,7 +362,7 @@ public class MusicLanguage {
                         builder.resetBar();
                         builder.setRepeatStatus(3);
                     }
-                    else if(children.get(i).equals("[1") || children.get(i).equals("[2") || children.get(i).equals("|:")) {
+                    else if(children.get(i).equals("[1") || children.get(i).equals("[2")) {
                         continue;
 
                     }
@@ -373,6 +372,7 @@ public class MusicLanguage {
                         }
                         builder.setRepeatStatus(2);
                     }
+
                     else if(children.get(i).text().equals(":|")) {
                         builder.flagSimpleRepeat(true);
                         builder.setRepeatStatus(3);
@@ -577,7 +577,6 @@ public class MusicLanguage {
 
                         for(Note n: c.getNotes()) {
                             chordNotes.add(new Note(n.getPitch(),n.getDuration()*duration));
-
                         }
                         modifiedDuration.add(new Chord(chordNotes));
 
@@ -619,11 +618,10 @@ public class MusicLanguage {
                 return;
                 
             }
-            case LYRIC:
+            case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-               List<Music> musicLines = TUNE.getMusicLine();
-               Concat currentLine = (Concat) musicLines.get(musicLines.size()-1);
-               List<Music> bars = currentLine.getMusic();
+               List<Concat> musicLines = TUNE.getMusicLine();
+               System.out.println("MUSIC LINES" + musicLines);
                for(int i =0; i<children.size();i++) {
                    System.out.println("LOOPING THROUGH CHILDREN   " + children.get(i));
                }

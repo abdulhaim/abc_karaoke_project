@@ -1,6 +1,7 @@
 package karaoke.sound;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +14,16 @@ import java.util.Map;
  *
  */
 public class AbcBuilder {
-    private final List<Music> totalMusic;
+    private final List<Bar> totalMusic;
 
     private List<Music> barNotes;
     private List<Music> tupletNotes;
     private List<Note> chordNotes;
     private Map<Character,String> accidentals;
     
-    private List<Music> beginRepeat;
-    private List<Music> firstRepeat;
-    private List<Music> secondRepeat;
+    private List<Bar> beginRepeat;
+    private List<Bar> firstRepeat;
+    private List<Bar> secondRepeat;
 
     private int repeatStatus;
     private String status;
@@ -32,6 +33,9 @@ public class AbcBuilder {
     private final int firstRepeatEndingStatus = 2;
     private final int secondRepeatEndingStatus = 3;
 
+    
+    // repeatMap provides information on when to repeat
+    private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
     
     /*
      * AF(totalMusic, barNotes, tupletNotes, chordNotes, =  Builds an Abc Body into a list of Music objects in totalMusic
@@ -43,16 +47,16 @@ public class AbcBuilder {
      * with Repeats inside Bar, Bars inside Repeats and Concats
      */
     public AbcBuilder() {
-        this.totalMusic = new ArrayList<Music>();
+        this.totalMusic = new ArrayList<Bar>();
 
         this.barNotes  = new ArrayList<Music>();
         this.tupletNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.accidentals = new HashMap<Character,String>();
         
-        this.beginRepeat = new ArrayList<Music>();
-        this.firstRepeat = new ArrayList<Music>();
-        this.secondRepeat = new ArrayList<Music>();
+        this.beginRepeat = new ArrayList<Bar>();
+        this.firstRepeat = new ArrayList<Bar>();
+        this.secondRepeat = new ArrayList<Bar>();
         this.repeatStatus = 0;
         status = "";
     }
@@ -103,7 +107,7 @@ public class AbcBuilder {
      * Return current accumulation of the music objects
      * @return list of music gathered so far
      */
-    public List<Music> getTotalMusic() {
+    public List<Bar> getTotalMusic() {
         return this.totalMusic;
     }
 
@@ -191,28 +195,35 @@ public class AbcBuilder {
             this.firstRepeat.add(bar);
         }
         else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) {
-            List<List<Music>> music = new ArrayList<>();
-            music.add(this.firstRepeat);
-            Repeat repeat = new Repeat(music,false);
-            totalMusic.add(repeat);
-            this.beginRepeat = new ArrayList<Music>();
-            this.firstRepeat = new ArrayList<Music>();
-            this.secondRepeat = new ArrayList<Music>();
+            this.firstRepeat.add(bar);
+            // putting (key, value) into the repeat map. This tells u
+            int key = this.totalMusic.size() + this.firstRepeat.size();
+            List<Integer> value = Arrays.asList(this.totalMusic.size(),this.totalMusic.size()+this.firstRepeat.size());
+
+            repeatMap.put(key,value);
+            for(Bar b: this.firstRepeat) {
+                totalMusic.add(b);
+            }
+            this.beginRepeat = new ArrayList<Bar>();
+            this.firstRepeat = new ArrayList<Bar>();
+            this.secondRepeat = new ArrayList<Bar>();
             this.repeatStatus = 0;
             this.repeatType = false;
 
         }
         else if(repeatStatus == secondRepeatEndingStatus) {
             this.secondRepeat.add(bar);
-            List<List<Music>> music = new ArrayList<>();
-            music.add(beginRepeat);
-            music.add(firstRepeat);
-            music.add(secondRepeat);
-            Repeat repeat = new Repeat(music,true);
-            totalMusic.add(repeat);
-            this.beginRepeat = new ArrayList<Music>();
-            this.firstRepeat = new ArrayList<Music>();
-            this.secondRepeat = new ArrayList<Music>();
+            int key = this.totalMusic.size()+this.beginRepeat.size()+this.firstRepeat.size();
+            List<Integer> value = Arrays.asList(this.totalMusic.size(),
+                                                this.totalMusic.size()+this.beginRepeat.size());
+            repeatMap.put(key, value);
+            totalMusic.addAll(this.beginRepeat);
+            totalMusic.addAll(this.firstRepeat);
+            totalMusic.addAll(this.secondRepeat);
+
+            this.beginRepeat = new ArrayList<Bar>();
+            this.firstRepeat = new ArrayList<Bar>();
+            this.secondRepeat = new ArrayList<Bar>();
             this.repeatStatus = 0;
             
         }
@@ -238,7 +249,7 @@ public class AbcBuilder {
         return total;
     }
 
-    public List<Music> getMusicLine() {
+    public List<Bar> getMusicLine() {
         return this.totalMusic;
     }
 
@@ -267,6 +278,10 @@ public class AbcBuilder {
 
     public int getBarNotesSize() {
         return this.barNotes.size();
+    }
+
+    public Map<Integer, List<Integer>> getHashMap() {
+        return this.repeatMap;
     }
 
 

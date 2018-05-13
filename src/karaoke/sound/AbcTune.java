@@ -2,9 +2,9 @@ package karaoke.sound;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AbcTune {
-    
     
     private String title;
     private String composer;
@@ -14,14 +14,13 @@ public class AbcTune {
     private int indexNumber;
     private String accidental;
     private boolean minor;
-    private List<Music> musicLines;
-    
+    private List<Concat> musicLines;
     private List<String> keySignature;
     private List<String> voices;
     
     
     public AbcTune() {
-        this.musicLines = new ArrayList<Music>();
+        this.musicLines = new ArrayList<>();
         this.keySignature = new ArrayList<String>();
         
     }
@@ -77,7 +76,7 @@ public class AbcTune {
     
 
     
-    public List<Music> getMusicLine() {
+    public List<Concat> getMusicLine() {
         return this.musicLines;
     }
 
@@ -119,10 +118,11 @@ public class AbcTune {
     public void setVoices(List<String> voices) {
         this.voices = voices;
     }
-    public void addMusicLine(Concat concat) {
-        this.musicLines.add(concat);
+    public void addMusicLine(Concat music) {
+        this.musicLines.add(music);
         
     }
+
 
 
 
