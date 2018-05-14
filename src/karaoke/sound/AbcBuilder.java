@@ -121,12 +121,12 @@ public class AbcBuilder {
      */
     public void addTuplet(Tuplet tuplet) {
         this.barNotes.add(tuplet);
-        this.tupletNotes = new ArrayList<Music>();
+        //this.tupletNotes = new ArrayList<Music>(); // is the following necessary after this one
 
     }
 
     /**
-     * Reset Chord after adding to Bar
+     * Reset Tuplet after adding to Bar
      */
     public void resetTuplet() {
         this.tupletNotes = new ArrayList<Music>();
@@ -176,7 +176,7 @@ public class AbcBuilder {
      * @param status string representing status of where to add music object
      *        Can take values of "Bar", "Chord" or "Tuplet"
      */
-    public void setStatus(String status) {
+    public void setStatus(String status) {  //assert statement here
         this.status = status;
     }
 
@@ -196,13 +196,17 @@ public class AbcBuilder {
         else if(repeatStatus == firstRepeatEndingStatus) {
             this.firstRepeat.add(bar);
         }
-        else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) {
+        else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) { //initial value of repeat type?
             this.firstRepeat.add(bar);
-            // putting (key, value) into the repeat map. This tells u
+            // putting (key, value) into the repeat map. key holds the position of where repeat has to start
+            // value specifies the range of sub-list of bars that has to be repeated at position key.
+            // key = L + l_0
+            // value = [L, L+ l_0]
             int key = this.totalMusic.size() + this.firstRepeat.size();
-            List<Integer> value = Arrays.asList(this.totalMusic.size(),this.totalMusic.size()+this.firstRepeat.size());
-
+            List<Integer> value = Arrays.asList(this.totalMusic.size(),
+                                                this.totalMusic.size()+this.firstRepeat.size());
             repeatMap.put(key,value);
+            
             for(Bar b: this.firstRepeat) {
                 totalMusic.add(b);
             }
@@ -215,6 +219,8 @@ public class AbcBuilder {
         }
         else if(repeatStatus == secondRepeatEndingStatus) {
             this.secondRepeat.add(bar);
+            // key = L + l_0 + l_1
+            // value = [L, L+ l_0]
             int key = this.totalMusic.size()+this.beginRepeat.size()+this.firstRepeat.size();
             List<Integer> value = Arrays.asList(this.totalMusic.size(),
                                                 this.totalMusic.size()+this.beginRepeat.size());
@@ -257,7 +263,7 @@ public class AbcBuilder {
 
     public Pitch applyAccidental(Character pitchChar) {
         Pitch pitch = new Pitch(pitchChar);
-        if(this.accidentals.containsKey(pitchChar)) {
+        if(this.accidentals.containsKey(pitchChar)) { //how is accidental being handled
             String type = this.accidentals.get(pitchChar);
             if(type.indexOf("^")!=-1) {
                 for(int i = 0; i<type.length();i++) {
@@ -296,4 +302,3 @@ public class AbcBuilder {
      }
 
 }
-
