@@ -88,7 +88,6 @@ public class Tuplet implements Music {
     
     @Override
     public double getDuration() {
-        System.out.println("DURATION NNNNNNNNNNN" + this.durationPerMusic);
         return this.tupletSize*this.durationPerMusic;
     }
     

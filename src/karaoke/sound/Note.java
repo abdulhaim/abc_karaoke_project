@@ -64,8 +64,6 @@ public class Note implements Music {
      */
     @Override
     public void play(SequencePlayer player, double atBeat) {
-        System.out.println("AT BEAT"+ atBeat);
-        System.out.println("AT DURATION" + duration);
         player.addNote(instrument, pitch, atBeat, duration);
     }
 
