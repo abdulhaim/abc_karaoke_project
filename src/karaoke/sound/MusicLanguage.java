@@ -157,6 +157,7 @@ public class MusicLanguage {
                 "M:4/4\r\n" + 
                 "L:1/8\r\n" + 
                 "Q:1/4=180\r\n" + 
+
                 "K:Gb\r\n" + 
                 "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
                 "w: Sa-ys my au-l' wan to your aul' wan Will~ye come to the Wa-x-ies dar-gle? Sa-ys\r\n" + 
@@ -167,9 +168,11 @@ public class MusicLanguage {
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
 
+
         final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+
         System.out.println(musicPiece1);
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
@@ -363,6 +366,7 @@ public class MusicLanguage {
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
+                    
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
                     TUNE.addMusicLine(music);
@@ -377,14 +381,15 @@ public class MusicLanguage {
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
-                    
+                    // also how do we parse the last note in the bar if we do this
                     else if(i+1<children.size() && children.get(i+1).text().equals("[1")) { //if at first repeat ending
                         builder.setRepeatStatus(1);
                         builder.resetBar();
                         builder.setRepeatStatus(2);
                     }
+                    
                     else if(i+1<children.size() && children.get(i+1).text().equals("[2")) { //if at second repeat ending
-                        builder.resetBar();
+                        builder.resetBar(); // maybe assert repeatStatus(2)
                         builder.setRepeatStatus(3);
                     }
                     else if(children.get(i).equals("[1") || children.get(i).equals("[2")) {
@@ -426,7 +431,7 @@ public class MusicLanguage {
                 return;
 
             }
-            case NOTEELEMENT:
+            case NOTEELEMENT: //noteElement ::= note | chord;
             {
                 makeAbstractSyntaxTreeMusic(children.get(0));
                 return;
@@ -437,13 +442,13 @@ public class MusicLanguage {
                 //pitch ::= accidental? basenote octave?;
                 List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
 //                System.out.println("pitchList" + pitchList);
-                Character pitchChar = null;
+                Character pitchChar = null; // do we really need null here.
                 Pitch pitch = null;
 
                 if(pitchList.size()==1) {
-                    pitchChar = pitchList.get(0).text().charAt(0);
+                    pitchChar = pitchList.get(0).text().charAt(0); // assert length of text() == 1
                     
-                    pitch = builder.applyAccidental(Character.toUpperCase(pitchChar));
+                    pitch = builder.applyAccidental(Character.toUpperCase(pitchChar)); // why uppercase
                 }
                 else if(pitchList.size()==2) {
                     //found accidental
@@ -453,7 +458,8 @@ public class MusicLanguage {
                         builder.addAccidental(Character.toUpperCase(pitchChar),accidentalType);
                         
                        pitch = new Pitch(Character.toUpperCase(pitchChar));
-
+                       
+                       // what if accidental of type "^^", "__", "="
                         if(accidentalType.indexOf("^")!=-1) {
                             for(int i = 0; i<accidentalType.length();i++) {
                                 pitch = pitch.transpose(1);
@@ -471,7 +477,7 @@ public class MusicLanguage {
                         String octaveType = pitchList.get(1).text();
                         
                         pitch = builder.applyAccidental(Character.toUpperCase(pitchChar));
-
+                        // what if multiple ' or ,
                         if(octaveType.indexOf("'")!=-1) {
                             for(int i = 0; i<octaveType.length();i++) {
                                 pitch = pitch.transpose(Pitch.OCTAVE);
@@ -484,6 +490,9 @@ public class MusicLanguage {
                         }                        
                     }
                 }
+                
+                // can use an else statement here and an assert in the beginning to assert
+                // pitchList.size() is either 1, 2 or 3
                 else if(pitchList.size() == 3) {
                     String accidentalType = pitchList.get(0).text();
                     pitchChar = pitchList.get(1).text().charAt(0); 
@@ -519,8 +528,8 @@ public class MusicLanguage {
                     pitch = pitch.transpose(Pitch.OCTAVE);
 
                 }
-
-                String noteLength = children.get(1).text();
+                // maybe start a new method here
+                String noteLength = children.get(1).text(); // notelength might not be present
                 double duration;
                 if(noteLength.length()==0) {
                     duration = 1;
@@ -542,7 +551,7 @@ public class MusicLanguage {
 
                 }
                 else {
-                    duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+                    duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1)); // multiply by 1/4 since that's implicit
 
                 }
                 if(builder.getStatus().equals("Tuplet")) {
@@ -564,7 +573,7 @@ public class MusicLanguage {
                 return;
             }
 
-            case RESTELEMENT:
+            case RESTELEMENT: // similar calculation like above for rest might be necessary here too
             {
                 String durationString = children.get(0).text();
                 double duration;
@@ -582,9 +591,10 @@ public class MusicLanguage {
                 return;
                 
             }
-            case TUPLETELEMENT: 
+            case TUPLETELEMENT:  // tupletElement ::= tupletSpec noteElement+;
+                                 // tupletSpec ::= "(" digit;
             {
-                String prevStatus = builder.getStatus();
+                String prevStatus = builder.getStatus(); // why all this
                 builder.setStatus("Tuplet");
                 String durationString = children.get(0).text().substring(1);
                 double duration = 0;
@@ -616,7 +626,7 @@ public class MusicLanguage {
 
                 return;
             }
-            case CHORD:
+            case CHORD: //chord ::= "[" note+ "]"
             {
                 String prevStatus = builder.getStatus();
                 builder.setStatus("Chord");
