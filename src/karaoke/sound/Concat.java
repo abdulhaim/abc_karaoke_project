@@ -104,13 +104,5 @@ public class Concat implements Music{
         return concat;
         
     }
-<<<<<<< HEAD
 
-
-    public List<Music> getMusic() {
-        return this.music;
-    }
-    
-=======
->>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
 }

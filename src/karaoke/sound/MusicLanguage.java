@@ -157,11 +157,8 @@ public class MusicLanguage {
                 "M:4/4\r\n" + 
                 "L:1/8\r\n" + 
                 "Q:1/4=180\r\n" + 
-<<<<<<< HEAD
-                "K:G\r\n" + 
-=======
+
                 "K:Gb\r\n" + 
->>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
                 "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
                 "w: Sa-ys my au-l' wan to your aul' wan Will~ye come to the Wa-x-ies dar-gle? Sa-ys\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
@@ -170,14 +167,12 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-<<<<<<< HEAD
-        final Music musicPiece1 = MusicLanguage.parse(withLyrics);
-=======
+
 
         final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
->>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
+
         System.out.println(musicPiece1);
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
@@ -226,11 +221,7 @@ public class MusicLanguage {
 //        System.out.println(parseTree);
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-<<<<<<< HEAD
-        return new Concat(TUNE.getMusicLine());
-=======
         return TUNE.getMusicLine();
->>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
 
     }
 
@@ -656,18 +647,6 @@ public class MusicLanguage {
             }
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-<<<<<<< HEAD
-               List<Music> musicLines = TUNE.getMusicLine();
-               Concat currentLine = (Concat) musicLines.get(musicLines.size()-1);
-               List<Music> bars = currentLine.getMusic();
-               for(int i =0; i<children.size();i++) {
-                   System.out.println("LOOPING THROUGH CHILDREN   " + children.get(i));
-               }
-            }
-            case LYRICALELEMENT:
-            {
-                
-=======
                List<Concat> musicLines = TUNE.getMusicLine();
                List<String> lyrics = new ArrayList<String>();
                boolean atEnding = false;
@@ -707,7 +686,6 @@ public class MusicLanguage {
                    }
                }
                builder.setLyrics(lyrics);
->>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
             }
             case BACKSLASHHYPHEN:
             {

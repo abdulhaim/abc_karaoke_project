@@ -303,9 +303,7 @@ public class AbcBuilder {
          
      }
 
-<<<<<<< HEAD
-}
-=======
+
     public void setLyrics(List<String> lyrics) {
         this.lyrics = lyrics;
         
@@ -317,4 +315,3 @@ public class AbcBuilder {
 
 }
 
->>>>>>> 3f6c4b9e77ea66bf4875a7cd7f492d50284e115d
