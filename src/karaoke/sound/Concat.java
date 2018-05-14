@@ -104,4 +104,8 @@ public class Concat implements Music{
         return concat;
         
     }
+
+    public List<String> getLyrics() {
+        return this.lyrics;
+    }
 }

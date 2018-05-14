@@ -174,6 +174,8 @@ public class MusicLanguage {
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
+            System.out.println(c);
+            System.out.println(c.getLyrics());
             c.play(player, 0.0);
         }
         player.play();
@@ -377,6 +379,7 @@ public class MusicLanguage {
                     }
                     
                     else if(i+1<children.size() && children.get(i+1).text().equals("[1")) { //if at first repeat ending
+                        builder.setRepeatStatus(1);
                         builder.resetBar();
                         builder.setRepeatStatus(2);
                     }
@@ -399,7 +402,10 @@ public class MusicLanguage {
                         builder.flagSimpleRepeat(true);
                         builder.setRepeatStatus(3);
                         builder.resetBar();
+                        
+                        
                     }
+                    //add coment
 
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
@@ -676,6 +682,7 @@ public class MusicLanguage {
                    }
                }
                builder.setLyrics(lyrics);
+               
             }
             case BACKSLASHHYPHEN:
             {
