@@ -20,18 +20,20 @@ public class Concat implements Music{
     private final Map<Integer, List<Integer>> mapOfRepeats;
     private final List<Bar> musicToPlay;
     private final double durationEachBar;
+    private List<String> lyrics;
     
     /**
      * Constructor of Concat
      * @param music list of bars to play which doesn't encapsulate repeats yet
      * @param map map carrying information of repeat positions and music to repeat
+     * @param list 
      */
-    public Concat(List<Bar> music, Map<Integer, List<Integer>> map) {
+    public Concat(List<Bar> music, Map<Integer, List<Integer>> map, List<String> list) {
         
         this.music = Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Bar>(music)));
         this.mapOfRepeats = Collections.synchronizedMap(Collections.unmodifiableMap(new HashMap<Integer, List<Integer>>(map)));
         this.musicToPlay = this.encapsulateRepeat();
-        
+        this.lyrics = list;
         if (this.musicToPlay.isEmpty()) {
             this.durationEachBar = 0.0;
         }
@@ -102,4 +104,13 @@ public class Concat implements Music{
         return concat;
         
     }
+<<<<<<< HEAD
+
+
+    public List<Music> getMusic() {
+        return this.music;
+    }
+    
+=======
+>>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
 }

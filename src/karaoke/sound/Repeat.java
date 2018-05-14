@@ -14,14 +14,13 @@ public class Repeat implements Music {
      * AF(music, ending1, ending2) = Repeat music is the main music to be repeated and ending1 and ending2 are the first
      * and second endings  
      * RI: true
-     * Safety from Rep: music, ending1, ending2 and duration are private and final and the data type is immutable
+     * Safety from Rep: music are private and final and the data type is immutable
      */
 
     /**
      * Initialized a Repeat 
      * @param music the main music
-     * @param ending1 the first ending
-     * @param ending2 the second ending
+     * @param repeatType the type of repeat
      */
     public Repeat(List<List<Music>> music,boolean repeatType) {
         this.music= music;

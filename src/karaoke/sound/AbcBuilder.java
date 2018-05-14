@@ -38,6 +38,8 @@ public class AbcBuilder {
     private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
 
     private double tupletDuration ;
+
+    private List<String> lyrics;
     
     /*
      * AF(totalMusic, barNotes, tupletNotes, chordNotes, =  Builds an Abc Body into a list of Music objects in totalMusic
@@ -301,4 +303,18 @@ public class AbcBuilder {
          
      }
 
+<<<<<<< HEAD
 }
+=======
+    public void setLyrics(List<String> lyrics) {
+        this.lyrics = lyrics;
+        
+    }
+    public List<String> getLyrics() {
+        return this.lyrics;
+        
+    }
+
+}
+
+>>>>>>> 3f6c4b9e77ea66bf4875a7cd7f492d50284e115d

@@ -1,5 +1,7 @@
 package karaoke;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -26,89 +28,40 @@ public class ServerMain {
         // make a web server
         final int serverPort = 4567;
         final MusicWebServer server = new MusicWebServer(serverPort);
-        //final HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
 
-        // HttpServer.create(new InetSocketAddress(serverPort), 0);
-        
-        // handle concurrent requests with multiple threads
-        //server.setExecutor(Executors.newCachedThreadPool());
-
-        // register handlers
-        //server.createContext("/connect", ServerMain::textStream);
-        //server.createContext("/htmlStream", StreamingExample::htmlStream);
-        //server.createContext("/htmlWaitReload", StreamingExample::htmlWaitReload);
-
+        String header = getHeaderFromFile(args[0]);
         // start the server
         server.start();
-        System.out.println("HEADER HERE");
-        System.out.println("Instructions: \nBrowse to \nhttp://localhost:4567/connect \nThen begin karaoke by pressing enter" );
-        //System.out.println("server running, browse to one of these URLs:");
-       // System.out.println("http://localhost:4567/textStream");
-        Scanner sc = new Scanner(System.in);
-        if (sc.nextLine() == "\n") {
-            System.out.println("started karaoke");
-        }
-        sc.close();
-
+        System.out.println(header);
+        System.out.println("Instructions: \nTo begin play browse to: \n    http://localhost:4567/play \nTo view lyrics browse to \n    http://localhost:4567/stream" );
     }
+
     /**
-     * This handler sends a plain text stream to the web browser,
-     * one line at a time, pausing briefly between each line.
-     * Returns after the entire stream has been sent.
-     * 
-     * @param exchange request/reply object
-     * @throws IOException if network problem
+     * gets the Title and Composer from the header of the file
+     * @param filePath the path to the abc file
+     * @return A string representing the title and composer
      */
-    private static void textStream(HttpExchange exchange) throws IOException {
-        final String path = exchange.getRequestURI().getPath();
-        System.err.println("received request " + path);
-
-        // plain text response
-        exchange.getResponseHeaders().add("Content-Type", "text/plain; charset=utf-8");
-
-        // must call sendResponseHeaders() before calling getResponseBody()
-        final int successCode = 200;
-        final int lengthNotKnownYet = 0;
-        exchange.sendResponseHeaders(successCode, lengthNotKnownYet);
-
-        // get output stream to write to web browser
-        final boolean autoflushOnPrintln = true;
-        PrintWriter out = new PrintWriter(
-                              new OutputStreamWriter(
-                                  exchange.getResponseBody(), 
-                                  StandardCharsets.UTF_8), 
-                              autoflushOnPrintln);
-        
-        try {
-            // IMPORTANT: some web browsers don't start displaying a page until at least 2K bytes
-            // have been received.  So we'll send a line containing 2K spaces first.
-            final int enoughBytesToStartStreaming = 2048;
-            for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
-                out.print(' ');
-            }
-            out.println(); // also flushes
-            
-            final int numberOfLinesToSend = 100;
-            final int millisecondsBetweenLines = 200;
-            out.println("Karaoke will begin soon");
-           // for (int i = 0; i < numberOfLinesToSend; ++i) {
-                
-                // print a line of text
-                // LYRICS STREAMING GOES HERE
-               // out.println(System.currentTimeMillis()); // also flushes
-
-                // wait a bit
-                try {
-                    Thread.sleep(millisecondsBetweenLines);
-                } catch (InterruptedException e) {
-                    return;
+    private static String getHeaderFromFile(String filePath){
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+     
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                if (sCurrentLine.startsWith("T:")) {
+                    contentBuilder.append(sCurrentLine).append("\n");
                 }
-            //}
-            
-        } finally {
-            exchange.close();
-        }
-        System.err.println("done");
-    }
+                else if (sCurrentLine.startsWith("C:")) {
+                    contentBuilder.append(sCurrentLine).append("\n");
 
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("File either not readable or does not exist. \nPlease check the file path and try again");
+        }
+        return contentBuilder.toString().trim();
+    }
 }

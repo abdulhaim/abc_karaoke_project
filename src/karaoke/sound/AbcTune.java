@@ -14,7 +14,12 @@ public class AbcTune {
     private int indexNumber;
     private String accidental;
     private boolean minor;
+<<<<<<< HEAD
+    private List<Music> musicLines;
+    
+=======
     private List<Concat> musicLines;
+>>>>>>> 8a6744979b30c4bec0b74b85f8620f00696ac4cf
     private List<String> keySignature;
     private List<String> voices;
     
