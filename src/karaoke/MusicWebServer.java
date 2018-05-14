@@ -8,16 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
-import com.sun.net.httpserver.Filter;
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+
 
 
 
@@ -42,6 +39,7 @@ public class MusicWebServer {
 
     private final Set<Double> players = new HashSet<Double>();
     private final HttpServer server;
+    private boolean play = false;
     
     /**
      * Make a new web server for Music that listens for connections on port.
@@ -52,17 +50,8 @@ public class MusicWebServer {
     public MusicWebServer(int port) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         server.setExecutor(Executors.newCachedThreadPool());
-        LogFilter log = new LogFilter();
-        HeadersFilter headers = new HeadersFilter();
-        // allow requests from web pages hosted anywhere
-        headers.add("Access-Control-Allow-Origin", "*");
-        // all responses will be plain-text UTF-8
-        headers.add("Content-Type", "text/plain; charset=utf-8");
-        List<Filter> filterList = Arrays.asList(log, headers);
-        HttpContext watch = server.createContext("/connect/", this::handleConnect);
-        watch.getFilters().addAll(filterList);
-        HttpContext look = server.createContext("/play/", this::handlePlay);
-        look.getFilters().addAll(filterList);
+        server.createContext("/stream", this::handleStream);
+        server.createContext("/play", this::handlePlay);
         checkRep();
     }
     /**
@@ -102,17 +91,35 @@ public class MusicWebServer {
      * @param exchange
      * @throws IOException
      */
-    private void handleConnect (HttpExchange exchange) throws IOException  {
-        String startPath = exchange.getHttpContext().getPath();
+    private void handleStream (HttpExchange exchange) throws IOException  {
+        //String startPath = exchange.getHttpContext().getPath();
         String  getPath = exchange.getRequestURI().getPath();
-        String path = getPath.substring(startPath.length());
+        System.err.println("received request " + getPath);
         players.add(players.size() + 1.0);
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-        String response = "connected... now waiting for play";
+
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
-        out.println(response);
-        exchange.close(); 
+        try {
+            // IMPORTANT: some web browsers don't start displaying a page until at least 2K bytes
+            // have been received.  So we'll send a line containing 2K spaces first.
+            final int enoughBytesToStartStreaming = 2048;
+            for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
+                out.print(' ');
+            }
+            out.println();
+            if (!play) {
+                String response = "Streaming will begin once play has been triggered.";
+                out.print(response);
+                }
+            else {
+                String response = "Lyrics played line by line";
+                out.println(response);
+                }
+        }
+        finally {
+            exchange.close();
+        }
     }
     
     /**
@@ -121,7 +128,13 @@ public class MusicWebServer {
      * @throws IOException
      */
     private void handlePlay(HttpExchange exchange) throws IOException {
-        
+        play = true;
+        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+        String response = "Playing now \n To view stream browse to \nhttp://localhost:4567/stream"; 
+        OutputStream body = exchange.getResponseBody();
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
+        out.println(response);
+        exchange.close(); 
     }
     
     

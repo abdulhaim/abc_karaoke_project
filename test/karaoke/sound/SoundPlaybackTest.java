@@ -85,19 +85,39 @@ public class SoundPlaybackTest {
         SoundPlayback.play(bar);
     }
     
-    @Test 
-    public void testConcat() throws MidiUnavailableException, InvalidMidiDataException {
+    @Test
+    public void testRepeatSameEnding() throws MidiUnavailableException, InvalidMidiDataException {
         List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
         notes.add(new Note(new Pitch('D'),1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
         notes.add(new Note(new Pitch('G'),1.0));
-        Concat concat = new Concat(notes);
-        SoundPlayback.play(concat);
+        List<List<Music>> repeatList = new ArrayList<List<Music>>();
+        repeatList.add(notes);
+        Repeat rep = new Repeat(repeatList, false);
+        SoundPlayback.play(rep);
     }
     
-    @Test 
-    public void testParseThenPlay() {
-        //TODO once Parser is finished
+    @Test
+    public void testRepeatDifferentEnding() throws MidiUnavailableException, InvalidMidiDataException {
+        List<Music> notes = new ArrayList<Music>();
+        notes.add(new Note(new Pitch('C'),1.0));
+        notes.add(new Note(new Pitch('D'),1.0));
+        notes.add(new Note(new Pitch('D'), 1.0));
+        notes.add(new Note(new Pitch('G'),1.0));
+        List<List<Music>> repeatList = new ArrayList<List<Music>>();
+        repeatList.add(notes);
+        List<Music> ending1 = new ArrayList<Music>();
+        ending1.add(new Note(new Pitch('A'), 1.0));
+        List<Music> ending2 = new ArrayList<Music>();
+        ending2.add(new Note(new Pitch('F'), 1.0));
+        repeatList.add(ending1);
+        repeatList.add(ending2);
+        Repeat rep = new Repeat(repeatList, true);
+        SoundPlayback.play(rep);
     }
+    
+
+    
+    
 }

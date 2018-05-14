@@ -105,7 +105,7 @@ public class MusicTest {
         
     }
     
-    @Test
+/*    @Test
     public void testConcat() {
         List<Music> notes = new ArrayList<Music>();
         notes.add(new Note(new Pitch('C'),1.0));
@@ -116,7 +116,7 @@ public class MusicTest {
         assertEquals(4, concat.getDuration(), 0.001);
         String ans = "C1.0D1.0D1.0G1.0";
         assertEquals(ans, concat.toString());
-    }
+    }*/
 
 
 }

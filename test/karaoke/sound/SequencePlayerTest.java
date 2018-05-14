@@ -45,7 +45,8 @@ public class SequencePlayerTest {
         
         // addNote(instr, pitch, startBeat, numBeats) schedules a note with pitch value 'pitch'
         // played by 'instr' starting at 'startBeat' to be played for 'numBeats' beats.
-        
+        //C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3ccc (3GGG (3EEE (3CCC | G3/4 F/4 E3/4 D/4 C2 
+
         double startBeat = 0;
         player.addNote(piano, new Pitch('C'), startBeat, 1.0);
         player.addNote(piano, new Pitch('C'), startBeat +=1.0, 1.0);
@@ -70,6 +71,7 @@ public class SequencePlayerTest {
         player.addNote(piano, new Pitch('E'), startBeat +=1.0/3, 1.0/3);
         player.addNote(piano, new Pitch('E'), startBeat +=1.0/3, 1.0/3);
         
+       
         player.addNote(piano, new Pitch('C'), startBeat +=1.0/3, 1.0/3);
         player.addNote(piano, new Pitch('C'), startBeat +=1.0/3, 1.0/3);
         player.addNote(piano, new Pitch('C'), startBeat +=1.0/3, 1.0/3);
@@ -115,7 +117,7 @@ public class SequencePlayerTest {
      * @throws MidiUnavailableException
      * @throws InvalidMidiDataException
      */
-    @Test
+    
     public void testPlayPiece2() throws MidiUnavailableException, InvalidMidiDataException {
         Instrument piano = Instrument.PIANO;
 
@@ -207,7 +209,7 @@ public class SequencePlayerTest {
      * @throws MidiUnavailableException
      * @throws InvalidMidiDataException
      */
-    @Test
+    
     public void testPlayPiece3() throws MidiUnavailableException, InvalidMidiDataException {
         Instrument piano = Instrument.PIANO;
         List<String> words = Arrays.asList("A -", " ma - zing_ "," grace! How "," sweet the "," sound That" ," saved a "," wretch like ","me.");
