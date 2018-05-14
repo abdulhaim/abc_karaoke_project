@@ -143,7 +143,7 @@ public class MusicLanguage {
                 "L:1/8\r\n" + 
                 "Q:1/4=180\r\n" + 
                 "K:G\r\n" + 
-                " gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
+                "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
                 "w: Sa-ys my au-l' wan to your aul' wan Will~ye come to the Wa-x-ies dar-gle? Sa-ys\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: your aul'_ wan to my aul' wan, Sure I ha-ven't got a far-thing.\r\n" + 
@@ -151,7 +151,7 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final Music musicPiece1 = MusicLanguage.parse(piece1);
+        final Music musicPiece1 = MusicLanguage.parse(withLyrics);
         System.out.println(musicPiece1);
         
     }
@@ -193,7 +193,7 @@ public class MusicLanguage {
         
         // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
-        return new Concat(TUNE.musicLines);
+        return new Concat(TUNE.getMusicLine());
 
     }
 
@@ -336,6 +336,7 @@ public class MusicLanguage {
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
+                    
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     List<Music> music = builder.getMusicLine();
                     TUNE.addMusicLine(new Concat(music));
@@ -619,7 +620,12 @@ public class MusicLanguage {
             }
             case LYRIC:
             {
-                
+               List<Music> musicLines = TUNE.getMusicLine();
+               Concat currentLine = (Concat) musicLines.get(musicLines.size()-1);
+               List<Music> bars = currentLine.getMusic();
+               for(int i =0; i<children.size();i++) {
+                   System.out.println("LOOPING THROUGH CHILDREN   " + children.get(i));
+               }
             }
             case LYRICALELEMENT:
             {

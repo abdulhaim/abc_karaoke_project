@@ -44,5 +44,10 @@ public class Concat implements Music{
         return concat;
         
     }
+
+
+    public List<Music> getMusic() {
+        return this.music;
+    }
     
 }
