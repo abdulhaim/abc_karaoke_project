@@ -169,7 +169,7 @@ public class MusicLanguage {
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
 
 
-        final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
+        final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
 
@@ -329,7 +329,7 @@ public class MusicLanguage {
             case KEYNOTE: //    keynote ::= basenote keyAccidental?;
             {
                 String accidental = children.get(0).text();
-                String baseNote = children.get(1).text();
+//                String baseNote = children.get(1).text();
 
                 TUNE.setAccidental(accidental);
                 return;
