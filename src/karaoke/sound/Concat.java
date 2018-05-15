@@ -19,13 +19,25 @@ public class Concat implements Music{
     private final Map<Integer, List<Integer>> mapOfRepeats;
     private final List<Bar> musicToPlay;
     private final double durationEachBar;
-    private List<String> lyrics;
+    private final List<String> lyrics;
     
     /**
      * Constructor of Concat
      * @param music list of bars to play which doesn't encapsulate repeats yet
      * @param map map carrying information of repeat positions and music to repeat
      * @param list 
+     */
+    /*
+     * AF(music, mapOfRepeats, musicToPlay, durationEachBar, lyrics) = A concat made of the list of bars to concatenate (@param music)
+     *          a map that represents the Repeat structure as given in the spec (@param mapOfRepeats), 
+     *          a list of bars of the final music to be played once concatenated (@param musicToPlay), the duration of each bar
+     *          (@param durationEachBar), and the corresponding lyrics for the Music (@param lyrics)
+     * RI = true
+     * - mapOfRepeats is empty if the concat represents just concatenated bars and not a Repeat
+     * Safety From Rep Exposure: 
+     *  all fields are private and final and can only be mutated within this class
+     * ThreadSafety: 
+     *  No beneficent mutation and Concat is an immutable type
      */
     public Concat(List<Bar> music, Map<Integer, List<Integer>> map, List<String> list) {
         

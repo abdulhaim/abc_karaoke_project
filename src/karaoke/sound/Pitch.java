@@ -24,6 +24,9 @@ public class Pitch {
      *   AF(0),...,AF(11) map to middle C, C-sharp, D, ..., A, A-sharp, B.
      *   AF(i+12n) maps to n octaves above middle AF(i)
      *   AF(i-12n) maps to n octaves below middle AF(i)
+     * Safety from rep:
+     *   value is private and final, Pitch is an immutable data type
+     * Threadsafety: Pitch is immutable without any beneficent mutation 
      */
 
     private static final int[] SCALE = {

@@ -11,7 +11,21 @@ import java.util.Map;
  * Implementation Author: Marwa Abdulhai
  *
  */
-
+/*AF (title, composer, meter, tempo, noteLength, indexNumber, accidental, music, keySignature, voices) = 
+ *      represents the contents of a music file with a title (@param title) and a composer (@param composer)
+ *      with a specified meter (@param meter), tempo (@param tempo), note length (@param noteLength), and with a track number on its album if applicable (@param indexNumber).
+ *      The music file may also contain an accidental (@param accidental) different voices represented by Voices object (@param music), a key signature (@param keySignature)
+ *      and a list of the voices as specified in the header which is used to creates the variable music (@param voices)
+ *RI: true
+ * Some fields have default settings if not specified in the header
+ *      noteLength has a default value of 1/8 or 1/16 depending on meter
+ *      meter has a default value of 4/4
+ *      tempo has a default value of 100 beats/minute
+ *      composer has a default value of Unknown Composer
+ *      
+ * 
+ * 
+ */
 
 public class AbcTune {
     
@@ -22,7 +36,6 @@ public class AbcTune {
     private String noteLength;
     private int indexNumber;
     private String accidental;
-//    private List<Concat> musicLines;
     private Voices music;
     private List<String> keySignature;
     private List<String> voices;

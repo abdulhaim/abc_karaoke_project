@@ -7,11 +7,12 @@ package karaoke.sound;
  */
 public class Note implements Music {
 
-    /* AF(duration, pitch, instrument): Represents a note of pitch {@param pitch} played on instrument {@param instrument}
-     *                                  for duration (in number of beats) {@param duration}  
+    /* AF(duration, pitch, instrument, lyrics ): Represents a note of pitch {@param pitch} played on instrument {@param instrument}
+     *                                  for duration (in number of beats) {@param duration}  with corresponding syllable (@param lyrics)
      *  
      * Rep Invariant:
      * - duration >= 0
+     * - lyrics is the corresponding syllable or "no lyrics" if no lyrics 
      * 
      * Safety From Rep Exposure: All fields are private, final and immutable. Note itself is immutable too.
      * 
