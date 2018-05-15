@@ -144,10 +144,6 @@ public class AbcTune {
     }
     
     public List<String> getVoices() {
-        if(voices.size()==0) {
-            voices.add(Integer.toString(this.getIndexNumber()));
-            return voices;
-        }
         return voices;
     }
     
@@ -172,10 +168,5 @@ public class AbcTune {
             return Double.parseDouble(ratio);
         }
     }
-
-
-
-
-
 
 }

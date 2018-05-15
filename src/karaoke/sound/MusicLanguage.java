@@ -454,11 +454,18 @@ public class MusicLanguage {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
-                Voices voice = new Voices(voices);
+                Voices voice;
+                if(voice.size()==0) {
+                    voice = new Voices();
+                }
+                else {
+                    voice = new Voices(voices);
+                }
                 for(int i = 0;i<children.size();i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     if(builder.inMusic()) {
                         Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
+                        System.out.println(builder.getSinger());
                         voice = voice.addMusic(builder.getSinger(), music);
                         builder = new AbcBuilder();
                         builder.setInMusic(false);

@@ -427,7 +427,6 @@ public class AbcBuilder {
     public List<String> getLyrics() {
         return this.lyrics;
         
-    }
 
     public String getSinger() {
         return this.currentSinger;
