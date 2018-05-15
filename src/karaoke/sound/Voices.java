@@ -1,7 +1,6 @@
 package karaoke.sound;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +11,16 @@ public class Voices implements Music{
     //fields
     private final Map<String, List<Concat>> voiceToMusic;
     
+    
+    /**
+     * Constructor of Voices with unspecified voice.
+     */
+    public Voices() {
+        String singer = "V";
+        Map<String, List<Concat>> map = new HashMap<String, List<Concat>>();
+        map.put(singer, Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Concat>())));
+        this.voiceToMusic = Collections.synchronizedMap(Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
+    }
     /**
      * Constructor of Voices
      * @param singers different voices that are present
@@ -70,7 +79,16 @@ public class Voices implements Music{
         }
         return new Voices(listOfSingers, concats);
     }
-
+    
+    /**
+     * OverLoad method for addMusic without a singer
+     * @param concMusic music to be added
+     * @return new Voice object incorporating that change.
+     */
+    public Voices addMusic(Concat concMusic) {
+        String singer = "V";
+        return addMusic(singer, concMusic);
+    }
 
     @Override
     public double getDuration() {
