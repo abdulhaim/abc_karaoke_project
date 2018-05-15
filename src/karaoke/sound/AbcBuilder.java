@@ -132,8 +132,6 @@ public class AbcBuilder {
     public String getLyricOnCount() {
         try {
             if(lyrics.isEmpty()) {
-                System.out.println(lyrics);
-                System.out.println("here i am");
                 return "No Lyrics";
             }
             if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
@@ -427,7 +425,7 @@ public class AbcBuilder {
     public List<String> getLyrics() {
         return this.lyrics;
         
-
+    }
     public String getSinger() {
         return this.currentSinger;
     }

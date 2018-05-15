@@ -317,7 +317,6 @@ public class MusicLanguage {
      * @throws UnableToParseException if the string doesn't match the Music grammar
      */
     public static AbcTune parse(final String string) throws UnableToParseException {
-        System.out.println(string);
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
         makeAbstractSyntaxTree(parseTree);
         return TUNE;
@@ -455,7 +454,7 @@ public class MusicLanguage {
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
                 Voices voice;
-                if(voice.size()==0) {
+                if(voices.size()==0) {
                     voice = new Voices();
                 }
                 else {
@@ -465,8 +464,13 @@ public class MusicLanguage {
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     if(builder.inMusic()) {
                         Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
-                        System.out.println(builder.getSinger());
-                        voice = voice.addMusic(builder.getSinger(), music);
+                        if(voices.size()==0) {
+                            voice = voice.addMusic(music);
+                        }
+                        else {
+                            voice = voice.addMusic(builder.getSinger(), music);
+
+                        }
                         builder = new AbcBuilder();
                         builder.setInMusic(false);
 
