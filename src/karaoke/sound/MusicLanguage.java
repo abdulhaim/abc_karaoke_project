@@ -127,7 +127,7 @@ public class MusicLanguage {
                 "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
                 "V:2\r\n" + 
                 "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
-        final AbcTune musicPiece = MusicLanguage.parse(piece1);
+        final AbcTune musicPiece = MusicLanguage.parse(invention);
 
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity

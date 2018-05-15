@@ -64,7 +64,7 @@ public class Voices implements Music{
                 concats.add(newMusicForSinger);
             }
             else {
-                concats.add(this.voiceToMusic.get(singer));
+                concats.add(this.voiceToMusic.get(s));
             }
         }
         System.out.println(concats);
