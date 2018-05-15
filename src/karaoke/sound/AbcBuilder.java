@@ -40,6 +40,7 @@ public class AbcBuilder {
     private double tupletDuration ;
 
     private List<String> lyrics;
+    private int lyricsCounter;
     
     /*
      * AF(totalMusic, barNotes, tupletNotes, chordNotes, =  Builds an Abc Body into a list of Music objects in totalMusic
@@ -62,9 +63,35 @@ public class AbcBuilder {
         this.firstRepeat = new ArrayList<Bar>();
         this.secondRepeat = new ArrayList<Bar>();
         this.repeatStatus = 0;
+        this.lyricsCounter = 0;
         status = "";
     }
-
+    
+    /** 
+     * @return lyric at lyricsCounter if there are lyrics and increment counter.
+     *         if no lyrics is present, returns "-1"
+     */
+    public String getLyricOnCount() {
+        try {
+            if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
+                lyricsCounter++;
+            }
+            if (lyrics.get(lyricsCounter).equals("_")) {
+                int dummyCount = lyricsCounter - 1;
+                lyricsCounter++;
+                while (true) {
+                    if (lyrics.get(dummyCount).equals("_")) {dummyCount = dummyCount -1;}
+                    else {return lyrics.get(dummyCount);}
+                }
+            }
+            return lyrics.get(lyricsCounter++);
+        }
+        catch(IndexOutOfBoundsException exp) {
+            return "-1";
+        }
+        
+    }
+    
     /**
      * Add Music object to Bar
      * @param music to add

@@ -89,69 +89,7 @@ public class MusicLanguage {
                 "T:First" + "\n" + 
                 "M:4/4\n" + 
                 "K:Cm\n" + "|: C D E F | G A B c :|";
-        final String differentVoices = "X:1868\r\n" + 
-                "T:Invention no. 1\r\n" + 
-                "C:Johann Sebastian Bach\r\n" + 
-                "V:1\r\n" + 
-                "V:2\r\n" + 
-                "M:C\r\n" + 
-                "L:1/8\r\n" + 
-                "Q:1/4=70\r\n" + 
-                "K:C\r\n" + 
-                "V:1\r\n" + 
-                "z/C/D/E/ F/D/E/C/ GcBc|d/G/A/B/ c/A/B/G/ dgfg|\r\n" + 
-                "V:2\r\n" + 
-                "z4 z/C,/D,/E,/ F,/D,/E,/C,/|G,G,, z2 z/G,/A,/B,/ C/A,/B,/G,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "e/a/g/f/ e/g/f/a/ g/f/e/d/ c/e/d/f/|e/d/c/B/ A/c/B/d/ c/B/A/G/ ^F/A/G/B/|\r\n" + 
-                "V:2\r\n" + 
-                "CB,CD EG,A,B,|CE,^F,G, A,B,C2|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "AD c3/d/ B/A/G/^F/ E/G/F/A/|G/B/A/c/ B/d/c/e/ d/B/4c/4d/g/ BA/G/|\r\n" + 
-                "V:2\r\n" + 
-                "C/D,/E,/^F,/ G,/E,/F,/D,/ G,B,,C,D,|E,^F,G,E, B,,C, D,D,,|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "Gz z2 z/G/A/B/ c/A/B/G/|^Fz3 z/A/B/c/ d/B/c/A/|\r\n" + 
-                "V:2\r\n" + 
-                "z/G,,/A,,/B,,/ C,/A,,/B,,/G,,/ D,G,^F,G,|A,/D,/E,/^F,/ G,/E,/F,/D,/ A,DCD|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "Bz z2 z/d/c/B/ A/c/B/d/|cz z2 z/e/d/c/ B/d/^c/e/|\r\n" + 
-                "V:2\r\n" + 
-                "G,/G/=F/E/ D/F/E/G/ FEFD|E/A/G/F/ E/G/F/A/ GFGE|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "d^cde fA=Bc|d^F^GA Bcd2|\r\n" + 
-                "V:2\r\n" + 
-                "F/_B/A/G/ F/A/G/B/ A/G/F/E/ D/F/E/G/|F/E/D/C/ B,/D/C/E/ D/C/B,/A,/ ^G,/B,/A,/C/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "d/E/^F/^G/ A/F/G/E/ e/d/c/e/ d/c/B/d/|c/a/^g/b/ a/e/f/d/ ^G/f/e/d/ cB/A/|\r\n" + 
-                "V:2\r\n" + 
-                "B,E, D3/E/ C/B,/A,/=G,/ ^F,/A,/^G,/B,/|A,/C/B,/D/ C/E/D/F/ EA,EE,|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "A/a/g/f/ e/g/f/a/ g4|g/e/f/g/ a/f/g/e/ f4|\r\n" + 
-                "V:2\r\n" + 
-                "A,A,, z2 z/E/D/C/ B,/D/^C/E/|D4 D/A,/B,/=C/ D/B,/C/A,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "f/g/f/e/ d/f/e/g/ f4|f/d/e/f/ g/e/f/d/ e4|\r\n" + 
-                "V:2\r\n" + 
-                "B,4 B,/D/C/B,/ A,/C/B,/D/|C4 C/G,/A,/_B,/ C/A,/^A,/G,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "e/c/d/e/ f/d/e/c/ d/e/f/g/ a/f/g/e/|f/g/a/b/ c'/a/b/g/ c'g ed/c/|\r\n" + 
-                "V:2\r\n" + 
-                "A,_B,A,G, F,DCB,|A,FED E/D,/E,/F,/ G,/E,/F,/D,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
-                "V:2\r\n" + 
-                "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
+       
         final String withLyrics = "X:2167\r\n" + 
                 "T:Waxie's Dargle\r\n" + 
                 "M:4/4\r\n" + 
@@ -167,18 +105,26 @@ public class MusicLanguage {
                 "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
                 "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
                 "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
+        final String piece3 = "X: 2\r\n" + 
+                "T:Piece No.3\r\n" + 
+                "M:3/4\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=200\r\n" + 
+                "K:C\r\n" + 
+                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
+                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.\r\n";
 
 
-        final List<Concat> musicPiece1 = MusicLanguage.parse(withLyrics);
-        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final List<Concat> musicPiece1 = MusicLanguage.parse(piece3);
+        final int beatsPerMinute = 180; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
 
-        System.out.println(musicPiece1);
+        //System.out.println(musicPiece1);
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
-            System.out.println(c);
-            System.out.println(c.getLyrics());
+            //System.out.println(c);
+            //System.out.println(c.getLyrics());
             c.play(player, 0.0);
         }
         player.play();
@@ -329,7 +275,7 @@ public class MusicLanguage {
             case KEYNOTE: //    keynote ::= basenote keyAccidental?;
             {
                 String accidental = children.get(0).text();
-                String baseNote = children.get(1).text();
+                //String baseNote = children.get(1).text();
 
                 TUNE.setAccidental(accidental);
                 return;
@@ -366,18 +312,26 @@ public class MusicLanguage {
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
-                    
+                    builder = new AbcBuilder();
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
                     TUNE.addMusicLine(music);
+                    //add lyrics too
                 }
                 return;
                 
             }
-            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
+            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ 
+                          //endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
+                
+                // if lyrics exist, parse it first. Might want to make code more readable.
+                if(children.size() > 2 && children.get(children.size()-2).name().equals(MusicGrammar.LYRIC)) {
+                    makeAbstractSyntaxTreeMusic(children.get(children.size()-2));
+                }
                 for(int i = 0; i< children.size(); i++) {
+                    //if (children.toString().contains(s))
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -410,8 +364,8 @@ public class MusicLanguage {
                         
                         
                     }
-                    //add coment
-
+                    //add comment
+                    
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
@@ -419,7 +373,7 @@ public class MusicLanguage {
                         builder.resetBar();
                     }
                     else if(children.get(i).name().equals(MusicGrammar.LYRIC)){
-                        makeAbstractSyntaxTreeMusic(children.get(i));
+                        // pass
 
                     }
                     else {
@@ -449,6 +403,7 @@ public class MusicLanguage {
                     pitchChar = pitchList.get(0).text().charAt(0); // assert length of text() == 1
                     
                     pitch = builder.applyAccidental(Character.toUpperCase(pitchChar)); // why uppercase
+                    
                 }
                 else if(pitchList.size()==2) {
                     //found accidental
@@ -557,7 +512,8 @@ public class MusicLanguage {
                 if(builder.getStatus().equals("Tuplet")) {
                     duration*=builder.getTupletDuration();
                 }
-                Note note = new Note(pitch,duration);
+                
+                Note note = new Note(pitch,duration,builder.getLyricOnCount()); //made change here
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
                     
@@ -653,45 +609,68 @@ public class MusicLanguage {
             }
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-               List<Concat> musicLines = TUNE.getMusicLine();
+               //List<Concat> musicLines = TUNE.getMusicLine();
                List<String> lyrics = new ArrayList<String>();
-               boolean atEnding = false;
+               //boolean atEnding = false;
+               boolean waitForNext = false;
                String word = "";
+               
                for(int i =0; i<children.size();i++) {
                    String text = children.get(i).text();
-                   if(text.equals(" ")|| text.equals("-")) {
-                     if(i==0) {
-                         continue;
-                     }
-                     else if(atEnding == false) {
-                         lyrics.add(" ");
-                     }
+                   
+                   if (text.startsWith(" ")) { // issue with multiple spaces
+                       if (i ==0) {continue;}
+                       else {lyrics.add(" ");}
                    }
-                   else if(text.equals("_")) {
+                   else if (text.equals("-")) {
+                       continue;
+                   }
+                   else if (text.equals("_")) {
                        lyrics.add("_");
                    }
                    else if(text.equals("*")) {
-                       lyrics.add(" ");
+                       lyrics.add("-1"); // -1 represents a blank syllable
                    }
                    else if(text.equals("~")) {
                        continue;
                    }
                    else if(text.equals("|")) {
-                       
+                       // pass
                    }
                    else {
                        if(i+1<children.size()-1 && children.get(i+1).text().equals("~")) {
-                           word += text;
+                           word += text + " ";
+                           waitForNext = true;
                        }
-                       else if(word.length()>0) {
+                       else if(waitForNext && (i+1>=children.size()-1 || !children.get(i+1).text().equals("~")) ) {
+                           word += text;
                            lyrics.add(word);
+                           word = "";
+                           waitForNext = false;
                        }
                        else {
                            lyrics.add(text);
                        }
                    }
                }
-               builder.setLyrics(lyrics);
+                   
+               
+               List<String> lyrics2 = new ArrayList<String>();
+               for (int i = 0; i< lyrics.size(); i++) {
+                   if (lyrics.get(i).equals(" ")) {
+                       if (i - 1 >=0 && lyrics.get(i-1).equals(" ")) {
+                           //skip
+                       }
+                       else {
+                           lyrics2.add(lyrics.get(i));
+                       }
+                   }
+                   else {
+                       lyrics2.add(lyrics.get(i));
+                   }
+               }
+               System.out.println("The Lyrics are here " + lyrics2);
+               builder.setLyrics(lyrics2);
                
             }
             case BACKSLASHHYPHEN:

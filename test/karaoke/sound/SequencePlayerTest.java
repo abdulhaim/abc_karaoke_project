@@ -34,7 +34,7 @@ public class SequencePlayerTest {
      * @throws InvalidMidiDataException
      */
     
-    @Test
+    
     public void testPlayPiece1() throws MidiUnavailableException, InvalidMidiDataException {
         Instrument piano = Instrument.PIANO;
 
@@ -209,7 +209,7 @@ public class SequencePlayerTest {
      * @throws MidiUnavailableException
      * @throws InvalidMidiDataException
      */
-    
+    @Test
     public void testPlayPiece3() throws MidiUnavailableException, InvalidMidiDataException {
         Instrument piano = Instrument.PIANO;
         List<String> words = Arrays.asList("A -", " ma - zing_ "," grace! How "," sweet the "," sound That" ," saved a "," wretch like ","me.");
