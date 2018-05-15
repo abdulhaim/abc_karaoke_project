@@ -13,7 +13,6 @@ import java.util.Map;
  * to return concatenated a Music. 
  */
 public class Concat implements Music{
-
     
     //fields
     private final List<Bar> music;

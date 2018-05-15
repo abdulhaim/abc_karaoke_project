@@ -22,6 +22,7 @@ import edu.mit.eecs.parserlib.UnableToParseException;
 public class MusicLanguage {
     private static final AbcTune TUNE = new AbcTune();
     private static AbcBuilder builder = new AbcBuilder();
+    private static List<String> voices = new ArrayList<String>();
 
     /**
      * Main method. Parses and then reprints an example 
@@ -63,17 +64,76 @@ public class MusicLanguage {
                 "d A B ^c d d e d/e/ | \r\n" + 
                 "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
 
-        final List<Concat> musicPiece = MusicLanguage.parse(mozart);
+        final String invention = "X:1868\r\n" + 
+                "T:Invention no. 1\r\n" + 
+                "C:Johann Sebastian Bach\r\n" + 
+                "V:1\r\n" + 
+                "V:2\r\n" + 
+                "M:C\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=70\r\n" + 
+                "K:C\r\n" + 
+                "V:1\r\n" + 
+                "z/C/D/E/ F/D/E/C/ GcBc|d/G/A/B/ c/A/B/G/ dgfg|\r\n" + 
+                "V:2\r\n" + 
+                "z4 z/C,/D,/E,/ F,/D,/E,/C,/|G,G,, z2 z/G,/A,/B,/ C/A,/B,/G,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "e/a/g/f/ e/g/f/a/ g/f/e/d/ c/e/d/f/|e/d/c/B/ A/c/B/d/ c/B/A/G/ ^F/A/G/B/|\r\n" + 
+                "V:2\r\n" + 
+                "CB,CD EG,A,B,|CE,^F,G, A,B,C2|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "AD c3/d/ B/A/G/^F/ E/G/F/A/|G/B/A/c/ B/d/c/e/ d/B/4c/4d/g/ BA/G/|\r\n" + 
+                "V:2\r\n" + 
+                "C/D,/E,/^F,/ G,/E,/F,/D,/ G,B,,C,D,|E,^F,G,E, B,,C, D,D,,|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "Gz z2 z/G/A/B/ c/A/B/G/|^Fz3 z/A/B/c/ d/B/c/A/|\r\n" + 
+                "V:2\r\n" + 
+                "z/G,,/A,,/B,,/ C,/A,,/B,,/G,,/ D,G,^F,G,|A,/D,/E,/^F,/ G,/E,/F,/D,/ A,DCD|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "Bz z2 z/d/c/B/ A/c/B/d/|cz z2 z/e/d/c/ B/d/^c/e/|\r\n" + 
+                "V:2\r\n" + 
+                "G,/G/=F/E/ D/F/E/G/ FEFD|E/A/G/F/ E/G/F/A/ GFGE|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "d^cde fA=Bc|d^F^GA Bcd2|\r\n" + 
+                "V:2\r\n" + 
+                "F/_B/A/G/ F/A/G/B/ A/G/F/E/ D/F/E/G/|F/E/D/C/ B,/D/C/E/ D/C/B,/A,/ ^G,/B,/A,/C/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "d/E/^F/^G/ A/F/G/E/ e/d/c/e/ d/c/B/d/|c/a/^g/b/ a/e/f/d/ ^G/f/e/d/ cB/A/|\r\n" + 
+                "V:2\r\n" + 
+                "B,E, D3/E/ C/B,/A,/=G,/ ^F,/A,/^G,/B,/|A,/C/B,/D/ C/E/D/F/ EA,EE,|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "A/a/g/f/ e/g/f/a/ g4|g/e/f/g/ a/f/g/e/ f4|\r\n" + 
+                "V:2\r\n" + 
+                "A,A,, z2 z/E/D/C/ B,/D/^C/E/|D4 D/A,/B,/=C/ D/B,/C/A,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "f/g/f/e/ d/f/e/g/ f4|f/d/e/f/ g/e/f/d/ e4|\r\n" + 
+                "V:2\r\n" + 
+                "B,4 B,/D/C/B,/ A,/C/B,/D/|C4 C/G,/A,/_B,/ C/A,/^A,/G,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "e/c/d/e/ f/d/e/c/ d/e/f/g/ a/f/g/e/|f/g/a/b/ c'/a/b/g/ c'g ed/c/|\r\n" + 
+                "V:2\r\n" + 
+                "A,_B,A,G, F,DCB,|A,FED E/D,/E,/F,/ G,/E,/F,/D,/|\r\n" + 
+                "%\r\n" + 
+                "V:1\r\n" + 
+                "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
+                "V:2\r\n" + 
+                "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
+        final AbcTune musicPiece = MusicLanguage.parse(invention);
 
-        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
-        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
-        System.out.println(musicPiece.size());
-        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
-        for(Concat c: musicPiece) {
-
-            c.play(player, 0.0);
-        }
-        player.play();
+//        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+//        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+//        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
+//        musicPiece.get(0).play(player, 0.0);
+//        player.play();
         
         
     }
@@ -110,10 +170,10 @@ public class MusicLanguage {
      * @return Music parsed from the string
      * @throws UnableToParseException if the string doesn't match the Music grammar
      */
-    public static List<Concat> parse(final String string) throws UnableToParseException {
+    public static AbcTune parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
         makeAbstractSyntaxTree(parseTree);
-        return TUNE.getMusicLine();
+        return TUNE;
 
     }
 
@@ -200,7 +260,10 @@ public class MusicLanguage {
             }
             case FIELDVOICE: // fieldVoice ::= "V:" text endOfLine;
             {
-                System.out.println("FILED VOICE");
+               String name = parseTree.text();
+               String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
+               voices.add(singer);
+               return;
             }
             case FIELDKEY: //   fieldKey ::= "K:" key endOfLine;
             {
@@ -244,13 +307,15 @@ public class MusicLanguage {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
+                Voices voice = new Voices(voices);
                 for(int i = 0;i<children.size();i++) {
-                    builder = new AbcBuilder();
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
-                    TUNE.addMusicLine(music);
+                    voice.addMusic(builder.getSinger(), music);
+                    builder = new AbcBuilder();
                     //add lyrics too
                 }
+                TUNE.setMusic(voice);
                 return;
                 
             }
@@ -445,7 +510,6 @@ public class MusicLanguage {
                     duration*=builder.getTupletDuration();
                 }
                 
-                System.out.println(builder.getLyricOnCount());
                 Note note = new Note(pitch,duration,builder.getLyricOnCount()); //made change here
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
@@ -612,8 +676,12 @@ public class MusicLanguage {
                 
             }
             case MIDDLEOFBODYFIELD: 
-            {
                 
+            {
+                String name = parseTree.text();
+                String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
+                builder.setSinger(singer);
+                return;
             }
         default:
             break;

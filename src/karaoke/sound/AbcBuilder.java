@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * AbcBuilder Class to build Abc Music Object as you parse through the AbcBody in MusicLanguageParser Class
+ * A mutable AbcBuilder Class to build Abc Music Object as you parse through the AbcBody in MusicLanguageParser Class
  * 
  * Specification Author: Marwa Abdulhai
  * Implementation Author: Marwa Abdulhai
@@ -41,6 +41,8 @@ public class AbcBuilder {
     private double tupletDuration ;
     private List<String> lyrics;
     private int lyricsCounter;
+
+    private String currentSinger;
     static
     {
         keyAccidentals = new HashMap<String, List<String>> ();
@@ -99,6 +101,7 @@ public class AbcBuilder {
         this.secondRepeat = new ArrayList<Bar>();
         this.repeatStatus = 0;
         this.lyricsCounter = 0;
+        this.lyrics = new ArrayList<String>();
         this.status = "";
     }
     
@@ -108,7 +111,9 @@ public class AbcBuilder {
      */
     public String getLyricOnCount() {
         try {
-            System.out.println(lyrics);
+            if(lyrics.isEmpty()) {
+                return "-1";
+            }
             if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
                 lyricsCounter++;
             }
@@ -375,6 +380,14 @@ public class AbcBuilder {
     public List<String> getLyrics() {
         return this.lyrics;
         
+    }
+
+    public String getSinger() {
+        return this.currentSinger;
+    }
+
+    public void setSinger(String singer) {
+        this.currentSinger = singer;
     }
 
 }

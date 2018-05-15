@@ -22,13 +22,13 @@ public class AbcTune {
     private String noteLength;
     private int indexNumber;
     private String accidental;
-    private List<Concat> musicLines;
+//    private List<Concat> musicLines;
+    private Voices music;
     private List<String> keySignature;
     private List<String> voices;
     
     
     public AbcTune() {
-        this.musicLines = new ArrayList<>();
         this.keySignature = new ArrayList<String>();
         
     }
@@ -101,9 +101,9 @@ public class AbcTune {
     }
 
     
-    public List<Concat> getMusicLine() {
-        return this.musicLines;
-    }
+//    public List<Concat> getMusicLine() {
+//        return this.musicLines;
+//    }
 
     
     public int getIndexNumber() {
@@ -135,8 +135,8 @@ public class AbcTune {
     public void setVoices(List<String> voices) {
         this.voices = voices;
     }
-    public void addMusicLine(Concat music) {
-        this.musicLines.add(music);
+    public void setMusic(Voices music) {
+        this.music = music;
         
     }
     

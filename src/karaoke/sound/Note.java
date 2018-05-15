@@ -92,7 +92,7 @@ public class Note implements Music {
     @Override
     public void play(SequencePlayer player, double atBeat) {
         player.addNote(instrument, pitch, atBeat, duration);
-        player.addEvent(atBeat, (Double beat) -> { System.out.print(lyrics+ " "); }); //fix this
+        player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { System.out.print(lyrics+ " "); } }); //fix this
     }
 
     @Override
