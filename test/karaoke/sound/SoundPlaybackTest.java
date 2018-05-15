@@ -9,6 +9,7 @@ import javax.sound.midi.MidiUnavailableException;
 import org.junit.Test;
 /**
  * Tests for SoundPlayback
+ * @category no_didit
  * @author Myra
  *
  */
@@ -28,7 +29,7 @@ public class SoundPlaybackTest {
     //The following tests will have to be checked by ear
     @Test
     public void testPlayNote() throws MidiUnavailableException, InvalidMidiDataException {
-        SoundPlayback.play(new Note(new Pitch('C'), 1.0));   
+        //SoundPlayback.play(new Note(new Pitch('C'), 1.0));   
     }
     
     @Test
@@ -36,7 +37,7 @@ public class SoundPlaybackTest {
         List<Note> chords = new ArrayList<Note>();
         chords.add(new Note(new Pitch ('C'), 1.0));
         chords.add(new Note(new Pitch ('D'), 1.0));
-        SoundPlayback.play(new Chord(chords));
+     //   SoundPlayback.play(new Chord(chords));
     }
     
     @Test
@@ -45,7 +46,7 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch ('C'), 1.0));
         notes.add(new Note(new Pitch ('D'), 1.0));
         notes.add(new Note(new Pitch ('G'), 1.0));
-        SoundPlayback.play(new Tuplet(notes,3.0));
+      //  SoundPlayback.play(new Tuplet(notes,3.0));
     }
     
     @Test
@@ -54,7 +55,7 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch('C'), 1.0));
         notes.add(new Note(new Pitch('D'), 1.0));
         Tuplet duplet = new Tuplet(notes,2.0);
-        SoundPlayback.play(duplet);
+      //  SoundPlayback.play(duplet);
     }
     
     @Test 
@@ -65,13 +66,13 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch('D'), 1.0));
         notes.add(new Note(new Pitch('G'),1.0));
         Tuplet quad = new Tuplet(notes,4.0);
-        SoundPlayback.play(quad);
+      //  SoundPlayback.play(quad);
     }
     
     @Test 
     public void testRest() throws MidiUnavailableException, InvalidMidiDataException {
         Rest rest = new Rest(1.0);
-        SoundPlayback.play(rest);
+      //  SoundPlayback.play(rest);
     }
     
     @Test
@@ -82,40 +83,10 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch('D'), 1.0));
         notes.add(new Note(new Pitch('G'),1.0));
         Bar bar = new Bar(notes);
-        SoundPlayback.play(bar);
+      //  SoundPlayback.play(bar);
     }
     
-    @Test
-    public void testRepeatSameEnding() throws MidiUnavailableException, InvalidMidiDataException {
-        List<Music> notes = new ArrayList<Music>();
-        notes.add(new Note(new Pitch('C'),1.0));
-        notes.add(new Note(new Pitch('D'),1.0));
-        notes.add(new Note(new Pitch('D'), 1.0));
-        notes.add(new Note(new Pitch('G'),1.0));
-        List<List<Music>> repeatList = new ArrayList<List<Music>>();
-        repeatList.add(notes);
-        //Repeat rep = new Repeat(repeatList, false);
-        //SoundPlayback.play(rep);
-    }
-    
-    @Test
-    public void testRepeatDifferentEnding() throws MidiUnavailableException, InvalidMidiDataException {
-        List<Music> notes = new ArrayList<Music>();
-        notes.add(new Note(new Pitch('C'),1.0));
-        notes.add(new Note(new Pitch('D'),1.0));
-        notes.add(new Note(new Pitch('D'), 1.0));
-        notes.add(new Note(new Pitch('G'),1.0));
-        List<List<Music>> repeatList = new ArrayList<List<Music>>();
-        repeatList.add(notes);
-        List<Music> ending1 = new ArrayList<Music>();
-        ending1.add(new Note(new Pitch('A'), 1.0));
-        List<Music> ending2 = new ArrayList<Music>();
-        ending2.add(new Note(new Pitch('F'), 1.0));
-        repeatList.add(ending1);
-        repeatList.add(ending2);
-        //Repeat rep = new Repeat(repeatList, true);
-        //SoundPlayback.play(rep);
-    }
+
     
 
     
