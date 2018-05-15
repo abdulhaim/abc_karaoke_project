@@ -34,6 +34,13 @@ public class AbcBuilder {
     private final int secondRepeatEndingStatus = 3;
     
     private static final Map<String, List<String>> keyAccidentals;
+    
+    // repeatMap provides information on when to repeat
+    private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
+
+    private double tupletDuration ;
+    private List<String> lyrics;
+    private int lyricsCounter;
     static
     {
         keyAccidentals = new HashMap<String, List<String>> ();
@@ -69,16 +76,7 @@ public class AbcBuilder {
         keyAccidentals.put("Cb", Arrays.asList("Cb","Db","Eb","Fb","Gb","Ab","Bb"));
         keyAccidentals.put("Abm", Arrays.asList("Cb","Db","Eb","Fb","Gb","Ab","Bb"));
 
-       
     }
-    
-    // repeatMap provides information on when to repeat
-    private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
-
-    private double tupletDuration ;
-
-    private List<String> lyrics;
-    private int lyricsCounter;
     
     /*
      * AF(totalMusic, barNotes, tupletNotes, chordNotes, =  Builds an Abc Body into a list of Music objects in totalMusic
@@ -96,13 +94,12 @@ public class AbcBuilder {
         this.tupletNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.accidentals = new HashMap<Character,String>();
-        
         this.beginRepeat = new ArrayList<Bar>();
         this.firstRepeat = new ArrayList<Bar>();
         this.secondRepeat = new ArrayList<Bar>();
         this.repeatStatus = 0;
         this.lyricsCounter = 0;
-        status = "";
+        this.status = "";
     }
     
     /** 
@@ -111,6 +108,7 @@ public class AbcBuilder {
      */
     public String getLyricOnCount() {
         try {
+            System.out.println(lyrics);
             if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
                 lyricsCounter++;
             }
@@ -324,6 +322,10 @@ public class AbcBuilder {
         return total;
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<Bar> getMusicLine() {
         return this.totalMusic;
     }

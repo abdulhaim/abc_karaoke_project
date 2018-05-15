@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * AbcTune Class representing the contents of a music file
+ * 
+ * Specification Author: Marwa Abdulhai
+ * Implementation Author: Marwa Abdulhai
+ *
+ */
+
+
 public class AbcTune {
     
     private String title;
@@ -13,7 +22,6 @@ public class AbcTune {
     private String noteLength;
     private int indexNumber;
     private String accidental;
-    private boolean minor;
     private List<Concat> musicLines;
     private List<String> keySignature;
     private List<String> voices;
@@ -35,6 +43,9 @@ public class AbcTune {
 
     
     public String getComposer() {
+        if(this.composer.length()==0) {
+            return "Unknown Composer";
+        }
         return composer;
     }
 
@@ -58,6 +69,10 @@ public class AbcTune {
 
     
     public String getTempo() {
+        
+        if(tempo.length()==0) {
+            return "100";
+        }
         return tempo;
     }
 
@@ -68,6 +83,15 @@ public class AbcTune {
 
     
     public String getNoteLength() {
+        if(noteLength.length()==0) {
+            double getMeter = convertToDouble(this.getMeter());
+            if(getMeter<0.75) {
+                return "1/16";
+            }
+            else {
+                return "1/8";
+            }        
+        }
         return noteLength;
     }
 
@@ -75,8 +99,6 @@ public class AbcTune {
     public void setNoteLength(String noteLength) {
         this.noteLength = noteLength;
     }
-
-    
 
     
     public List<Concat> getMusicLine() {
@@ -90,7 +112,6 @@ public class AbcTune {
     public void setIndexNumber(int indexNumber) {
         this.indexNumber = indexNumber;
     }
-
     public String getAccidental() {
         return accidental;
     }
@@ -99,13 +120,6 @@ public class AbcTune {
         this.accidental = accidental;
     }
 
-    public boolean isMinor() {
-        return minor;
-    }
-
-    public void setMinor(boolean minor) {
-        this.minor = minor;
-    }
     public List<String> getKeySignature() {
         return keySignature;
     }
@@ -125,6 +139,16 @@ public class AbcTune {
         this.musicLines.add(music);
         
     }
+    
+    private static double convertToDouble(String ratio) {
+        if (ratio.contains("/")) {
+            String[] rat = ratio.split("/");
+            return Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]);
+        } else {
+            return Double.parseDouble(ratio);
+        }
+    }
+
 
 
 
