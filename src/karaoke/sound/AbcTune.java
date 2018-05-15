@@ -30,6 +30,14 @@ public class AbcTune {
     
     public AbcTune() {
         this.keySignature = new ArrayList<String>();
+        this.title = "";
+        this.composer = "";
+        this.meter = "";
+        this.noteLength = "";
+        this.tempo = "";
+        this.indexNumber = 0;
+        this.accidental = "";
+        
         
     }
     public String getTitle() {
@@ -56,7 +64,7 @@ public class AbcTune {
 
     
     public String getMeter() {
-        if(meter.length()!=0) {
+        if(this.meter.length()==0) {
             return "4/4";
         }
         return meter;
@@ -100,12 +108,7 @@ public class AbcTune {
         this.noteLength = noteLength;
     }
 
-    
-//    public List<Concat> getMusicLine() {
-//        return this.musicLines;
-//    }
-
-    
+       
     public int getIndexNumber() {
         return indexNumber;
     }
@@ -139,6 +142,11 @@ public class AbcTune {
         this.music = music;
         
     }
+    public Voices getMusic() {
+        return this.music;
+    }
+
+
     
     private static double convertToDouble(String ratio) {
         if (ratio.contains("/")) {
