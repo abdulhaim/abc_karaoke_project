@@ -319,7 +319,6 @@ public class AbcBuilder {
             
     }
 
-
     public void flagSimpleRepeat(boolean b) {
         this.repeatType = b;
     }
@@ -337,10 +336,8 @@ public class AbcBuilder {
         
     }
     public double getTupletDuration() {
-        return this.tupletDuration;
-         
+        return this.tupletDuration;         
      }
-
 
     public void setLyrics(List<String> lyrics) {
         this.lyrics = lyrics;
