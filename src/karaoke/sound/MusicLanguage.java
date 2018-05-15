@@ -93,7 +93,6 @@ public class MusicLanguage {
     
     /**
      * Convert a parse tree into an abstract syntax tree.
-     * 
      * @param parseTree constructed according to the grammar in Abc.g
      * 
      */
@@ -181,10 +180,8 @@ public class MusicLanguage {
                 makeAbstractSyntaxTree(children.get(0));
                 return;
             }
-            case KEY: 
-                
+            case KEY:               
             {
-
               TUNE.setAccidental(parseTree.text().replaceAll("\\s",""));
               return;
             }

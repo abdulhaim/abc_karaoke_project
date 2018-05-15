@@ -45,6 +45,9 @@ public class AbcTune {
 
     
     public String getMeter() {
+        if(meter.length()!=0) {
+            return "4/4";
+        }
         return meter;
     }
 
