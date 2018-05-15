@@ -24,7 +24,7 @@ public class Voices implements Music{
         }
         
         this.voiceToMusic = Collections.synchronizedMap(
-                               Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
+                            Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
     }
     
     /**
@@ -45,13 +45,15 @@ public class Voices implements Music{
     
     
     /**
-     * Add a piece of music to already existing music from the voice of {@param singer}
+     * Add a piece of music to already existing music from the voice of {param singer}
      * @param singer a distinct voice
      * @param concMusic music to be added
      * @return new Voice object incorporating that change.
      */
     public Voices addMusic(String singer, Concat concMusic) {
-        List<Concat> modifiedList = Arrays.asList(concMusic);
+        List<Concat> modifiedList = new ArrayList<>(this.voiceToMusic.get(singer));//Arrays.asList(concMusic);
+        modifiedList.add(concMusic);
+        //modifiedList.addAll(this.voiceToMusic.get(singer));
         List<Concat> newMusicForSinger = Collections.synchronizedList(
                                          Collections.unmodifiableList(new ArrayList<Concat>(modifiedList)));
         List<String> listOfSingers = new ArrayList<>(voiceToMusic.keySet());
