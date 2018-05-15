@@ -785,6 +785,7 @@ public class MusicLanguage {
                
                for(int i =0; i<children.size();i++) {
                    String text = children.get(i).text();
+                   System.out.println("text  " + text);
                    
                    if (text.startsWith(" ")) { // issue with multiple spaces
                        if (i ==0) {continue;}
@@ -797,7 +798,7 @@ public class MusicLanguage {
                        lyrics.add("_");
                    }
                    else if(text.equals("*")) {
-                       lyrics.add("-1"); // -1 represents a blank syllable
+                       lyrics.add(""); // -1 represents a blank syllable
                    }
                    else if(text.equals("~")) {
                        continue;
