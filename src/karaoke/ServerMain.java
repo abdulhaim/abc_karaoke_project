@@ -20,7 +20,7 @@ public class ServerMain {
     /**
      * Web server uses plain text stream
      *     
-     * @param args not used
+     * @param args 
      * @throws IOException if network failure
      */
 
