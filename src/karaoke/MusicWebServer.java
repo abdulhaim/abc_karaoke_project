@@ -2,6 +2,8 @@ package karaoke;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -47,15 +49,16 @@ public class MusicWebServer {
     private final Set<String> voices = new HashSet<String>();
     private final HttpServer server;
     private boolean play = false;
-    
+    private final String filePath;
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
      * @param port server port number
      * @throws IOException if there is an error starting the musicwebserver
      */
-    public MusicWebServer(int port) throws IOException {
+    public MusicWebServer(int port, String filePath) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
+        this.filePath = filePath;
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", this::handleStream);
         server.createContext("/play", exchange -> {
@@ -156,11 +159,28 @@ public class MusicWebServer {
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
-        String  path = exchange.getRequestURI().getPath();
-        SoundPlayback.play(MusicLanguage.parse(path));
+        String file = readFile(filePath);
+        SoundPlayback.play(MusicLanguage.parse(file));
         exchange.close(); 
         
     }
-    
+    private static String readFile(String filePath)
+    {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+     
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("File either not readable or does not exist.");
+        }
+        return contentBuilder.toString();
+    }
     
 }
