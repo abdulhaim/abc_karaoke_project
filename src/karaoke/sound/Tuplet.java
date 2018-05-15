@@ -3,34 +3,31 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+/*
+ * AF(listOfSubMusic, tupletSize, duration): 
+ *  -  Tuplet where listOfSubMusic is the list of listOfSubMusic that forms the tuplet, tupletSize is the size of the tuplet and
+ *     indicates its type as a triplet, duplet, or quadruplet, and 
+ *     duration is the enlarged/shrunken duration for the entire tuplet
+ * 
+ * specific type of tuplet (triplet, duplet, quadruplet)
+ * Rep Invariant:
+ * - listOfSubMusic.size() == 2 or 3 or 4
+ * - duration == tupletType.getTotalDuration()
+ * 
+ * Safety from Rep: All fields are private and final. tupletType is enum and duration is primitive type, so
+ *                  they are immutable. listOfSubMusic is made immutable by wrapping it around the immutable wrapper
+ *                  Collections.unmodifiable(). 
+ *                  ThreadSafety:
+ *                  This ADT cannot be mutated, not even beneficent mutation.
+ *                             
+ */
 
 /**
  * enum to represent different types of tuplets.
  * 
  * @author Bibek Kumar Pandit
  */
-enum TupletType{
-    
-    DUPLET (2, 3.0),
-    TRIPLET (3, 2.0),
-    QUADRUPLET (4, 3.0);
-    
-    private final int numberOfSubMusic;
-    private final double totalDuration;
-    
-    /**
-     * Constructor of enum TupletType
-     * @param numberOflistOfSubMusic number of listOfSubMusic associated witht Tuplet
-     * @param totalDuration duration for which the tuplet plays.
-     */
-    TupletType(int numberOfSubMusic, double totalDuration){
-        this.numberOfSubMusic = numberOfSubMusic;
-        this.totalDuration = totalDuration;
-    }
-    
-    public int getNumOfSubMusic() {return numberOfSubMusic;}
-    public double totalDuration() {return totalDuration;}
-}
+
 
 
 /**
@@ -46,25 +43,10 @@ public class Tuplet implements Music {
     
     
     private final List<Music> listOfSubMusic;
-    //private final TupletType tupletType;
     private final double tupletSize;
     private final double durationPerMusic;
     
-    /*
-     * AF(listOfSubMusic, tupletType, duration): 
-     *  -  Tuplet where listOfSubMusic is the list of listOfSubMusic that forms the tuplet, tupletType tells the type of tuplet and 
-     *     duration is the enlarged/shrunken duration for the entire tuplet
-     * 
-     * specific type of tuplet (triplet, duplet, quadruplet)
-     * Rep Invariant:
-     * - listOfSubMusic.size() == 2 or 3 or 4
-     * - duration == tupletType.getTotalDuration()
-     * 
-     * Safety from Rep: All fields are private and final. tupletType is enum and duration is primitive type, so
-     *                  they are immutable. listOfSubMusic is made immutable by wrapping it around the immutable wrapper
-     *                  Collections.unmodifiable(). This ADT cannot be mutated, not even beneficient mutation.
-     *                             
-     */
+    
 
     /**
      * Creates a Tuplet consisting of listOfSubMusic fitted to the proper duration
