@@ -38,12 +38,14 @@ public class MusicLanguage {
                 "Q:1/4=140\n" + 
                 "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
 
+
         final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
+
             c.play(player, 0.0);
         }
         player.play();
@@ -218,18 +220,26 @@ public class MusicLanguage {
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
                 for(int i = 0;i<children.size();i++) {
-                    
+                    builder = new AbcBuilder();
                     makeAbstractSyntaxTreeMusic(children.get(i));
                     Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
                     TUNE.addMusicLine(music);
+                    //add lyrics too
                 }
                 return;
                 
             }
-            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
+            case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ 
+                          //endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
+                
+                // if lyrics exist, parse it first. Might want to make code more readable.
+                if(children.size() > 2 && children.get(children.size()-2).name().equals(MusicGrammar.LYRIC)) {
+                    makeAbstractSyntaxTreeMusic(children.get(children.size()-2));
+                }
                 for(int i = 0; i< children.size(); i++) {
+                    //if (children.toString().contains(s))
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -262,6 +272,7 @@ public class MusicLanguage {
                         
                         
                     }
+
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
@@ -269,7 +280,7 @@ public class MusicLanguage {
                         builder.resetBar();
                     }
                     else if(children.get(i).name().equals(MusicGrammar.LYRIC)){
-                        makeAbstractSyntaxTreeMusic(children.get(i));
+                        // pass
 
                     }
                     else {
@@ -297,7 +308,9 @@ public class MusicLanguage {
                 if(pitchList.size()==1) {
                     pitchChar = pitchList.get(0).text().charAt(0); // assert length of text() == 1
                     
+
                     pitch = builder.applyKeyAccidental(Character.toUpperCase(pitchChar),TUNE.getAccidental()); // why uppercase
+
                 }
                 else if(pitchList.size()==2) {
                     //found accidental
@@ -406,7 +419,8 @@ public class MusicLanguage {
                 if(builder.getStatus().equals("Tuplet")) {
                     duration*=builder.getTupletDuration();
                 }
-                Note note = new Note(pitch,duration);
+                
+                Note note = new Note(pitch,duration,builder.getLyricOnCount()); //made change here
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
                     
@@ -502,45 +516,68 @@ public class MusicLanguage {
             }
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-               List<Concat> musicLines = TUNE.getMusicLine();
+               //List<Concat> musicLines = TUNE.getMusicLine();
                List<String> lyrics = new ArrayList<String>();
-               boolean atEnding = false;
+               //boolean atEnding = false;
+               boolean waitForNext = false;
                String word = "";
+               
                for(int i =0; i<children.size();i++) {
                    String text = children.get(i).text();
-                   if(text.equals(" ")|| text.equals("-")) {
-                     if(i==0) {
-                         continue;
-                     }
-                     else if(atEnding == false) {
-                         lyrics.add(" ");
-                     }
+                   
+                   if (text.startsWith(" ")) { // issue with multiple spaces
+                       if (i ==0) {continue;}
+                       else {lyrics.add(" ");}
                    }
-                   else if(text.equals("_")) {
+                   else if (text.equals("-")) {
+                       continue;
+                   }
+                   else if (text.equals("_")) {
                        lyrics.add("_");
                    }
                    else if(text.equals("*")) {
-                       lyrics.add(" ");
+                       lyrics.add("-1"); // -1 represents a blank syllable
                    }
                    else if(text.equals("~")) {
                        continue;
                    }
                    else if(text.equals("|")) {
-                       
+                       // pass
                    }
                    else {
                        if(i+1<children.size()-1 && children.get(i+1).text().equals("~")) {
-                           word += text;
+                           word += text + " ";
+                           waitForNext = true;
                        }
-                       else if(word.length()>0) {
+                       else if(waitForNext && (i+1>=children.size()-1 || !children.get(i+1).text().equals("~")) ) {
+                           word += text;
                            lyrics.add(word);
+                           word = "";
+                           waitForNext = false;
                        }
                        else {
                            lyrics.add(text);
                        }
                    }
                }
-               builder.setLyrics(lyrics);
+                   
+               
+               List<String> lyrics2 = new ArrayList<String>();
+               for (int i = 0; i< lyrics.size(); i++) {
+                   if (lyrics.get(i).equals(" ")) {
+                       if (i - 1 >=0 && lyrics.get(i-1).equals(" ")) {
+                           //skip
+                       }
+                       else {
+                           lyrics2.add(lyrics.get(i));
+                       }
+                   }
+                   else {
+                       lyrics2.add(lyrics.get(i));
+                   }
+               }
+               System.out.println("The Lyrics are here " + lyrics2);
+               builder.setLyrics(lyrics2);
                
             }
             case BACKSLASHHYPHEN:

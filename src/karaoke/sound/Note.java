@@ -23,6 +23,8 @@ public class Note implements Music {
     private final double duration;
     private final Pitch pitch;
     private final Instrument instrument;
+    private final String lyrics;
+    
     private void checkRep() {
         assert pitch != null;
         assert instrument != null;
@@ -38,9 +40,34 @@ public class Note implements Music {
         this.duration = duration;
         this.pitch = pitch;
         this.instrument = Instrument.PIANO;
+        this.lyrics = "-1";
+        checkRep();
+    }
+    
+    /**
+     * Make a Note played by instrument for duration beats.
+     * @param duration duration in beats, must be >= 0
+     * @param pitch pitch to play
+     * @param lyrics the lyrics associated with the note.
+     */
+    public Note(Pitch pitch,double duration, String lyrics) {
+        this.duration = duration;
+        this.pitch = pitch;
+        this.instrument = Instrument.PIANO;
+        this.lyrics = lyrics;
         checkRep();
     }
 
+    /**
+     * Producer of Note.
+     * @param lyric lyric to be given to a note
+     * @return new Note with same fields as earlier but lyrics too.
+     */
+    public Note noteWithLyrics(String lyric) {
+        assert this.lyrics.equals("-1");
+        return new Note(this.pitch, this.duration, lyric);
+    }
+    
     /**
      * @return pitch of this note
      */
@@ -65,6 +92,7 @@ public class Note implements Music {
     @Override
     public void play(SequencePlayer player, double atBeat) {
         player.addNote(instrument, pitch, atBeat, duration);
+        player.addEvent(atBeat, (Double beat) -> { System.out.print(lyrics+ " "); }); //fix this
     }
 
     @Override
