@@ -2,6 +2,8 @@ package karaoke;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -10,7 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -19,8 +23,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import edu.mit.eecs.parserlib.UnableToParseException;
-import karaoke.sound.MusicLanguage;
-import karaoke.sound.SoundPlayback;
 
 
 
@@ -47,29 +49,35 @@ public class MusicWebServer {
     private final Set<String> voices = new HashSet<String>();
     private final HttpServer server;
     private boolean play = false;
-    
+    private final String filePath;
+    private int numStreamers =0;
+    private final BlockingQueue<Boolean> queue = new LinkedBlockingQueue<>();
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
      * @param port server port number
      * @throws IOException if there is an error starting the musicwebserver
      */
-    public MusicWebServer(int port) throws IOException {
+    public MusicWebServer(int port, String filePath) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
+        this.filePath = filePath;
         server.setExecutor(Executors.newCachedThreadPool());
-        server.createContext("/stream", this::handleStream);
+        server.createContext("/stream", exchange -> {
+            try {
+                handleStream(exchange);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
         server.createContext("/play", exchange -> {
             try {
                 handlePlay(exchange);
-            } catch (MidiUnavailableException e) {
+
+            } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            } catch (InvalidMidiDataException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (UnableToParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+ 
             }
         });
         checkRep();
@@ -110,15 +118,18 @@ public class MusicWebServer {
      * 
      * @param exchange
      * @throws IOException
+     * @throws InterruptedException 
      */
-    private void handleStream (HttpExchange exchange) throws IOException  {
+    private void handleStream (HttpExchange exchange) throws IOException, InterruptedException  {
         //String startPath = exchange.getHttpContext().getPath();
+        numStreamers +=1;
         String  path = exchange.getRequestURI().getPath();
         System.err.println("received request " + path); //TODO remove when done 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
+        queue.take();
         try {
             // IMPORTANT: some web browsers don't start displaying a page until at least 2K bytes
             // have been received.  So we'll send a line containing 2K spaces first.
@@ -127,14 +138,7 @@ public class MusicWebServer {
                 out.print(' ');
             }
             out.println();
-            if (!play) {
-                String response = "Streaming will begin once play has been triggered.";
-                out.print(response);
-                }
-            else {
-                String response = "Lyrics played line by line";
-                out.println(response);
-                }
+            out.println("Lyrics");
         }
         finally {
             exchange.close();
@@ -148,16 +152,18 @@ public class MusicWebServer {
      * @throws UnableToParseException 
      * @throws InvalidMidiDataException 
      * @throws MidiUnavailableException 
+     * @throws InterruptedException 
      */
-    private void handlePlay(HttpExchange exchange) throws IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
+    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException {
         play = true;
+        for (int i = 0; i <numStreamers; i++) {
+            queue.put(play);
+        }
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
-        String  path = exchange.getRequestURI().getPath();
-        SoundPlayback.play(MusicLanguage.parse(path));
         exchange.close(); 
         
     }
