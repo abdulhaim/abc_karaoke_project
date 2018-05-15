@@ -67,8 +67,13 @@ public class Concat implements Music{
     
     @Override
     public double getDuration() {
-        checkRep();
-        return durationEachBar*musicToPlay.size();
+//        checkRep();
+//        return durationEachBar*musicToPlay.size();
+        double duration = 0;
+        for (Bar bar : musicToPlay) {
+            duration += bar.getDuration();
+        }
+        return duration;
     }
     
     @Override
