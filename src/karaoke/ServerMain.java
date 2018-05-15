@@ -28,7 +28,7 @@ public class ServerMain {
         
         // make a web server
         final int serverPort = 4567;
-        final MusicWebServer server = new MusicWebServer(serverPort);
+        final MusicWebServer server = new MusicWebServer(serverPort, args[0]);
 
         String header = getHeaderFromFile(args[0]);
         // start the server
