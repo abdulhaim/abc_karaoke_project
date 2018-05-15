@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -33,7 +34,9 @@ public class ServerMain {
         // start the server
         server.start();
         System.out.println(header);
-        System.out.println("Instructions: \nTo begin play browse to: \n    http://localhost:4567/play \nTo view lyrics browse to \n    http://localhost:4567/stream" );
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        
+        System.out.println("Instructions: \nTo begin play browse to: \n    http://" + inetAddress.getHostAddress() + ":4567/play \nTo view lyrics browse to \n    http://" + inetAddress.getHostAddress() + ":4567/stream" );
     }
 
     /**

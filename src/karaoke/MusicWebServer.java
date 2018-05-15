@@ -37,7 +37,7 @@ public class MusicWebServer {
     
     //fields
 
-    private final Set<Double> players = new HashSet<Double>();
+    private final Set<String> voices = new HashSet<String>();
     private final HttpServer server;
     private boolean play = false;
     
@@ -94,7 +94,7 @@ public class MusicWebServer {
     private void handleStream (HttpExchange exchange) throws IOException  {
         //String startPath = exchange.getHttpContext().getPath();
         String  getPath = exchange.getRequestURI().getPath();
-        System.err.println("received request " + getPath);
+        System.err.println("received request " + getPath); //TODO remove when done 
         players.add(players.size() + 1.0);
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
@@ -130,7 +130,7 @@ public class MusicWebServer {
     private void handlePlay(HttpExchange exchange) throws IOException {
         play = true;
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-        String response = "Playing now \n To view stream browse to \nhttp://localhost:4567/stream"; 
+        String response = "Playing now, lyrics streaming has begun"; 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);

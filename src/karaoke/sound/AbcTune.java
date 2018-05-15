@@ -23,8 +23,7 @@ import java.util.Map;
  *      tempo has a default value of 100 beats/minute
  *      composer has a default value of Unknown Composer
  *      
- * 
- * 
+ *
  */
 
 public class AbcTune {
