@@ -193,6 +193,14 @@ public class MusicLanguage {
                 "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 | z4 | z4 |\r\n" + 
                 "%\r\n" + 
                 "%";
+        final String piece3 = "X: 2\r\n" + 
+                "T:Piece No.3\r\n" + 
+                "M:3/4\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=200\r\n" + 
+                "K:C\r\n" + 
+                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
+                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.";
         final String invention = "X:1868\r\n" + 
                 "T:Invention no. 1\r\n" + 
                 "C:Johann Sebastian Bach\r\n" + 
@@ -256,7 +264,7 @@ public class MusicLanguage {
                 "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
                 "V:2\r\n" + 
                 "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
-        final AbcTune musicPiece = MusicLanguage.parse(payphone);
+        final AbcTune musicPiece = MusicLanguage.parse(piece3);
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
