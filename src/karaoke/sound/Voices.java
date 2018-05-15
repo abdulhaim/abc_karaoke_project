@@ -7,11 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Voices {
+public class Voices implements Music{
     
     //fields
     private final Map<String, List<Concat>> voiceToMusic;
     
+    /**
+     * Constructor of Voices
+     * @param singers different voices that are present
+     */
     public Voices(List<String> singers) {
         Map<String, List<Concat>> map = new HashMap<String, List<Concat>>();
         for (String singer : singers) {
@@ -23,6 +27,11 @@ public class Voices {
                                Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
     }
     
+    /**
+     * Second Constructor for Voices
+     * @param singers different voices that are present
+     * @param listOfMusics music corresponding to each player
+     */
     public Voices(List<String> singers, List<List<Concat>> listOfMusics) {
         assert singers.size() == listOfMusics.size();
         Map<String, List<Concat>> dummyMap = new HashMap<>();
@@ -34,6 +43,13 @@ public class Voices {
                             Collections.unmodifiableMap(dummyMap));
     }
     
+    
+    /**
+     * Add a piece of music to already existing music from the voice of {@param singer}
+     * @param singer a distinct voice
+     * @param concMusic music to be added
+     * @return new Voice object incorporating that change.
+     */
     public Voices addMusic(String singer, Concat concMusic) {
         List<Concat> modifiedList = Arrays.asList(concMusic);
         modifiedList.addAll(voiceToMusic.get(singer));
@@ -51,8 +67,27 @@ public class Voices {
         }
         return new Voices(listOfSingers, concats);
     }
-    
-    
-    
-    
-}
+
+
+    @Override
+    public double getDuration() {
+        double duration = 0;
+        String key = (new ArrayList<String>(this.voiceToMusic.keySet())).get(0);
+        for (Concat concMusic : this.voiceToMusic.get(key)) {
+            duration += concMusic.getDuration();
+        }
+        return duration;
+    }
+
+    @Override
+    public void play(SequencePlayer player, double atBeat) {
+       for (String singer : this.voiceToMusic.keySet()) {
+           double offsetDuration = 0;
+           for (Concat concMusic : this.voiceToMusic.get(singer)) {
+               concMusic.play(player, atBeat+offsetDuration);
+               offsetDuration += concMusic.getDuration();
+           }
+       }
+    }
+        
+    }
