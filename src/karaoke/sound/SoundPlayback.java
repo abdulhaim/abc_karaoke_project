@@ -11,19 +11,19 @@ public class SoundPlayback {
 
     /**
      * Play music.
-     * @param music music to play
+     * @param AbcTune object with music to play and music piece's attributes
      * @throws MidiUnavailableException if MIDI device unavailable
      * @throws InvalidMidiDataException if MIDI play fails
      */
-    public static void play(Music music) throws MidiUnavailableException, InvalidMidiDataException {
-        final SequencePlayer player = new MidiSequencePlayer();
-        
-        // load the player with a sequence created from music (add a small delay at the beginning)
-        final double warmup = 0.125;
-        music.play(player, warmup);
-        
-        // start playing
+    public static void play(AbcTune musicPiece) throws MidiUnavailableException, InvalidMidiDataException {
+        final double offset = 0.125;
+        final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
+        final int ticksPerBeat = 12;
+        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
+        Voices voice = musicPiece.getMusic();
+        voice.play(player, offset);
         player.play();
+
     }
     
 }
