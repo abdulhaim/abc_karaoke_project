@@ -57,7 +57,7 @@ lyricText ::= [A-Za-z.!?',-]*;
 backslashHyphen ::= "\\" "-";
 
 comment ::= spaceOrTab* "%" commentText newline;
-commentText ::= [A-Za-z0-9.\t ]*;
+commentText ::= [A-Za-z0-9.,\t ]*;
 endOfLine ::= newline | comment;
 
 digit ::= [0-9];
