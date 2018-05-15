@@ -32,7 +32,45 @@ public class AbcBuilder {
     private final int beginRepeatStatus = 1;
     private final int firstRepeatEndingStatus = 2;
     private final int secondRepeatEndingStatus = 3;
+    
+    private static final Map<String, List<String>> keyAccidentals;
+    static
+    {
+        keyAccidentals = new HashMap<String, List<String>> ();
+        keyAccidentals.put("C", Arrays.asList("C","D","E","F","G","A","B"));
+        keyAccidentals.put("Am", Arrays.asList("C","D","E","F","G","A","B"));
+        keyAccidentals.put("G", Arrays.asList("C","D","E","F#","G","A","B"));
+        keyAccidentals.put("Em", Arrays.asList("C","D","E","F#","G","A","B"));
+        keyAccidentals.put("D", Arrays.asList("C#","D","E","F#","G","A","B"));
+        keyAccidentals.put("Bm", Arrays.asList("C#","D","E","F#","G","A","B"));
+        keyAccidentals.put("A", Arrays.asList("C#","D","E","F#","G#","A","B"));
+        keyAccidentals.put("F#m", Arrays.asList("C#","D","E","F#","G#","A","B"));
+        keyAccidentals.put("E", Arrays.asList("C#","D#","E","F#","G#","A","B"));
+        keyAccidentals.put("C#m", Arrays.asList("C#","D#","E","F#","G#","A","B"));
+        keyAccidentals.put("B", Arrays.asList("C#","D#","E","F#","G#","A#","B"));
+        keyAccidentals.put("G#m", Arrays.asList("C#","D#","E","F#","G#","A#","B"));
+        keyAccidentals.put("F#", Arrays.asList("C#","D#","E#","F#","G#","A#","B"));
+        keyAccidentals.put("D#m", Arrays.asList("C#","D#","E#","F#","G#","A#","B"));
+        keyAccidentals.put("C#", Arrays.asList("C#","D#","E#","F#","G#","A#","B#"));
+        keyAccidentals.put("A#m", Arrays.asList("C#","D#","E#","F#","G#","A#","B#"));
 
+        keyAccidentals.put("F", Arrays.asList("C","D","E","F","G","A","Bb"));
+        keyAccidentals.put("Dm", Arrays.asList("C","D","E","F","G","A","Bb"));
+        keyAccidentals.put("Bb", Arrays.asList("C","D","Eb","F","G","A","Bb"));
+        keyAccidentals.put("Gm", Arrays.asList("C","D","Eb","F","G","A","Bb"));
+        keyAccidentals.put("Eb", Arrays.asList("C","D","Eb","F","G","Ab","Bb"));
+        keyAccidentals.put("Cm", Arrays.asList("C","D","Eb","F","G","Ab","Bb"));
+        keyAccidentals.put("Ab", Arrays.asList("C","Db","Eb","F","G","Ab","Bb"));
+        keyAccidentals.put("Fm", Arrays.asList("C","Db","Eb","F","G","Ab","Bb"));
+        keyAccidentals.put("Db", Arrays.asList("C","Db","Eb","F","Gb","Ab","Bb"));
+        keyAccidentals.put("Bbm", Arrays.asList("C","Db","Eb","F","Gb","Ab","Bb"));
+        keyAccidentals.put("Gb", Arrays.asList("Cb","Db","Eb","F","Gb","Ab","Bb"));
+        keyAccidentals.put("Ebm", Arrays.asList("Cb","Db","Eb","F","Gb","Ab","Bb"));
+        keyAccidentals.put("Cb", Arrays.asList("Cb","Db","Eb","Fb","Gb","Ab","Bb"));
+        keyAccidentals.put("Abm", Arrays.asList("Cb","Db","Eb","Fb","Gb","Ab","Bb"));
+
+       
+    }
     
     // repeatMap provides information on when to repeat
     private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
@@ -263,22 +301,22 @@ public class AbcBuilder {
         return this.totalMusic;
     }
 
-    public Pitch applyAccidental(Character pitchChar) {
+    public Pitch applyKeyAccidental(Character pitchChar, String keyAccidental) {
         Pitch pitch = new Pitch(pitchChar);
-        if(this.accidentals.containsKey(pitchChar)) { //how is accidental being handled
-            String type = this.accidentals.get(pitchChar);
-            if(type.indexOf("^")!=-1) {
-                for(int i = 0; i<type.length();i++) {
-                    pitch.transpose(1);
+        List<String> accidentalList = this.keyAccidentals.get(keyAccidental);
+        for(String accidental: accidentalList) {
+            if(accidental.indexOf(pitchChar)!=-1) {
+                if(accidental.contains("#")) {
+                    pitch = pitch.transpose(1);
+                    
                 }
-            }
-            else if(type.indexOf("_")!=-1) {
-                for(int i = 0; i<type.length();i++) {
-                    pitch.transpose(-1);
+                else if(accidental.contains("b")) {
+                    pitch = pitch.transpose(-1);
                 }
             }
         }
         return pitch;
+            
     }
 
 
