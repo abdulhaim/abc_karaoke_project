@@ -258,7 +258,7 @@ public class MusicLanguage {
                 "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
         final AbcTune musicPiece = MusicLanguage.parse(payphone);
 
-        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
@@ -466,7 +466,7 @@ public class MusicLanguage {
                 if(children.size() > 2 && children.get(children.size()-2).name().equals(MusicGrammar.LYRIC)) {
                     makeAbstractSyntaxTreeMusic(children.get(children.size()-2));
                 }
-                if(children.size()==1 && (children.get(0).name().equals(MusicGrammar.MIDDLEOFBODYFIELD) || children.get(0).name().equals(MusicGrammar.COMMENT))) {
+                else if(children.size()==1 && (children.get(0).name().equals(MusicGrammar.MIDDLEOFBODYFIELD) || children.get(0).name().equals(MusicGrammar.COMMENT))) {
                     makeAbstractSyntaxTreeMusic(children.get(0));
                     return;
 
@@ -515,8 +515,7 @@ public class MusicLanguage {
                         builder.resetBar();
                     }
                     else if(children.get(i).name().equals(MusicGrammar.LYRIC)){
-                        // pass
-
+                        return;
                     }
                     else {
                         makeAbstractSyntaxTreeMusic(children.get(i));
@@ -785,7 +784,6 @@ public class MusicLanguage {
                
                for(int i =0; i<children.size();i++) {
                    String text = children.get(i).text();
-                   System.out.println("text  " + text);
                    
                    if (text.startsWith(" ")) { // issue with multiple spaces
                        if (i ==0) {continue;}
@@ -838,14 +836,16 @@ public class MusicLanguage {
                        lyrics2.add(lyrics.get(i));
                    }
                }
-               System.out.println("The Lyrics are here " + lyrics2);
+//               System.out.println("The Lyrics are here " + lyrics2);
                builder.setLyrics(lyrics2);
+               return;
                
             }
 
             case MIDDLEOFBODYFIELD: 
                 
             {
+
                 String name = parseTree.text();
                 String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
                 builder.setSinger(singer);
