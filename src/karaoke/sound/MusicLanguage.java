@@ -31,22 +31,45 @@ public class MusicLanguage {
      * @throws MidiUnavailableException 
      */
     public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
-        final String piece1 = "X: 2\r\n" + 
-                "T:Piece No.3\r\n" + 
-                "M:3/4\r\n" + 
+
+        final String piece1 = "X:1 %Comment Testing \n" +
+                "T:First Music!" + "\n" + 
+                "M:4/4  %Comment Testing\n" + 
+                "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
+                "Q:1/4=140\n" + 
+                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
+        final String mozart = "X:1\r\n" + 
+                "T:Little Night Music Mvt. 1\r\n" + 
+                "C:Wolfgang Amadeus Mozart\r\n" + 
+                "Q:1/4=140\r\n" + 
+                "M:4/4\r\n" + 
                 "L:1/8\r\n" + 
-                "Q:1/4=200\r\n" + 
-                "K:C\r\n" + 
-                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
-                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.\r\n";
+                "K:G\r\n" + 
+                "[D2B2g2]z d g2z d | g d g b d'2 z2 | c'2z a c'2z a | c' a f a d2 z2 |\r\n" + 
+                "[DBg]z g3 b a g | g f f3 a c' f | a g g3 b a g | g f f3 a c' f |\r\n" + 
+                "g g f e1/2f/2 g g a g/a/ | b b c' b/c'/ d'2 z2 | d4 e4 | c2 c2 B2 B2 |\r\n" + 
+                "A2 A2 G F E F | G z A z B z z2  | d4 e4 | dccc cBBB | BAAA GFEF | \r\n" + 
+                "[G4G,4] [GG,] G1/3F1/3G1/3 AF | B4 B B/3A/3B/3 c A | d4 e2 f2 |\r\n" + 
+                "g2 a2 b2 ^c'2 | d'3 a ^c'3/2 a/ c'3/2 a/ | d'3 a ^c'3/2 a/ c'3/2 a/ | \r\n" + 
+                "d' [d'2f2] [d'2f2] [d'2f2] [d'f] | d' [d'2e2] [d'2e2] [d'2e2] [d'e] | \r\n" + 
+                "[^c'e] a d' a c' a d' a | ^c' A A A A2 z2 | \r\n" + 
+                "a3 g/3f/3e/3 d z b z | g z e z a z z2 | f3 e/3d/3^c/3 B z g z | f4 e2 z2 |\r\n" + 
+                "z aaa aaaa | aaaa aab^c' | ^c'd' z b b a z ^c | d2 z a d'^c'ba | \r\n" + 
+                "b a z a a a a a | b a z a d' ^c' b a |\r\n" + 
+                "b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 | g2 z2 [a3A3] g/3f/3e/3 |\r\n" + 
+                "f2 z2 b ^c'/d'/ c' b | b a f a a g f e | d2 z a d' ^c' b a | b a z a a a a a |\r\n" + 
+                "b a z a d' ^c' b a | b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 |\r\n" + 
+                "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
+                "d A B ^c d d e d/e/ | \r\n" + 
+                "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
 
+        final List<Concat> musicPiece = MusicLanguage.parse(mozart);
 
-        final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
         final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
-
+        System.out.println(musicPiece.size());
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
-        for(Concat c: musicPiece1) {
+        for(Concat c: musicPiece) {
 
             c.play(player, 0.0);
         }
@@ -97,7 +120,6 @@ public class MusicLanguage {
     
     /**
      * Convert a parse tree into an abstract syntax tree.
-     * 
      * @param parseTree constructed according to the grammar in Abc.g
      * 
      */
@@ -185,10 +207,8 @@ public class MusicLanguage {
                 makeAbstractSyntaxTree(children.get(0));
                 return;
             }
-            case KEY: 
-                
+            case KEY:               
             {
-
               TUNE.setAccidental(parseTree.text().replaceAll("\\s",""));
               return;
             }
@@ -425,6 +445,7 @@ public class MusicLanguage {
                     duration*=builder.getTupletDuration();
                 }
                 
+                System.out.println(builder.getLyricOnCount());
                 Note note = new Note(pitch,duration,builder.getLyricOnCount()); //made change here
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
