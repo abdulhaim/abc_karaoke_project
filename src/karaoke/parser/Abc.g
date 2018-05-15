@@ -61,7 +61,7 @@ commentText ::= [^\n]*;
 endOfLine ::= newline | comment;
 
 digit ::= [0-9];
-newline ::= "\n" | "\r\n"?;
+newline ::= "\n" | "\r\n"*;
 spaceOrTab ::= " " | "\t";
 text ::= [^\n]*;
 
