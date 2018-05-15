@@ -306,6 +306,7 @@ public class MusicLanguage {
      * @throws UnableToParseException if the string doesn't match the Music grammar
      */
     public static AbcTune parse(final String string) throws UnableToParseException {
+        System.out.println(string);
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
         makeAbstractSyntaxTree(parseTree);
         return TUNE;

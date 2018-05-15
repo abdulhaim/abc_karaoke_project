@@ -12,8 +12,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+
+import edu.mit.eecs.parserlib.UnableToParseException;
+import karaoke.sound.MusicLanguage;
+import karaoke.sound.SoundPlayback;
 
 
 
@@ -51,7 +58,20 @@ public class MusicWebServer {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", this::handleStream);
-        server.createContext("/play", this::handlePlay);
+        server.createContext("/play", exchange -> {
+            try {
+                handlePlay(exchange);
+            } catch (MidiUnavailableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InvalidMidiDataException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (UnableToParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
         checkRep();
     }
     /**
@@ -93,8 +113,8 @@ public class MusicWebServer {
      */
     private void handleStream (HttpExchange exchange) throws IOException  {
         //String startPath = exchange.getHttpContext().getPath();
-        String  getPath = exchange.getRequestURI().getPath();
-        System.err.println("received request " + getPath); //TODO remove when done 
+        String  path = exchange.getRequestURI().getPath();
+        System.err.println("received request " + path); //TODO remove when done 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
         OutputStream body = exchange.getResponseBody();
@@ -125,15 +145,21 @@ public class MusicWebServer {
      * 
      * @param exchange
      * @throws IOException
+     * @throws UnableToParseException 
+     * @throws InvalidMidiDataException 
+     * @throws MidiUnavailableException 
      */
-    private void handlePlay(HttpExchange exchange) throws IOException {
+    private void handlePlay(HttpExchange exchange) throws IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
+        String  path = exchange.getRequestURI().getPath();
+        SoundPlayback.play(MusicLanguage.parse(path));
         exchange.close(); 
+        
     }
     
     
