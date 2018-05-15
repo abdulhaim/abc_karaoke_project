@@ -31,12 +31,14 @@ public class MusicLanguage {
      * @throws MidiUnavailableException 
      */
     public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
-        final String piece1 = "X:1 %Comment Testing \n" +
-                "T:First Music!" + "\n" + 
-                "M:4/4  %Comment Testing\n" + 
-                "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
-                "Q:1/4=140\n" + 
-                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
+        final String piece1 = "X: 2\r\n" + 
+                "T:Piece No.3\r\n" + 
+                "M:3/4\r\n" + 
+                "L:1/8\r\n" + 
+                "Q:1/4=200\r\n" + 
+                "K:C\r\n" + 
+                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
+                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.\r\n";
 
 
         final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
