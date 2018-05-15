@@ -94,8 +94,8 @@ public class SoundPlaybackTest {
         notes.add(new Note(new Pitch('G'),1.0));
         List<List<Music>> repeatList = new ArrayList<List<Music>>();
         repeatList.add(notes);
-        Repeat rep = new Repeat(repeatList, false);
-        SoundPlayback.play(rep);
+        //Repeat rep = new Repeat(repeatList, false);
+        //SoundPlayback.play(rep);
     }
     
     @Test
@@ -113,8 +113,8 @@ public class SoundPlaybackTest {
         ending2.add(new Note(new Pitch('F'), 1.0));
         repeatList.add(ending1);
         repeatList.add(ending2);
-        Repeat rep = new Repeat(repeatList, true);
-        SoundPlayback.play(rep);
+        //Repeat rep = new Repeat(repeatList, true);
+        //SoundPlayback.play(rep);
     }
     
 

@@ -36,95 +36,16 @@ public class MusicLanguage {
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
-                "K:Cm\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
-
-        final String paddy = "X:1\r\n" + 
-                "T:Paddy O'Rafferty\r\n" + 
-                "C:Trad.\r\n" + 
-                "M:6/8\r\n" + 
-                "Q:1/8=200\r\n" + 
-                "K:D\r\n" + 
-                "dff cee|def gfe|dff cee|dfe dBA|\r\n" + 
-                "dff cee|def gfe|faf gfe|[1 dfe dBA:|[2 dfe dcB|]\r\n" + 
-                "A3 B3|gfe fdB|AFA B2c|dfe dcB|\r\n" + 
-                "A3 B3|efe efg|faf gfe|[1 dfe dcB:|[2 dfe dBA|]\r\n" + 
-                "fAA eAA| def gfe|fAA eAA|dfe dBA|\r\n" + 
-                "fAA eAA| def gfe|faf gfe|dfe dBA:|\r\n";
-        
-        final String mario = "X: 2\r\n" + 
-                "T:Piece No.2\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/4\r\n" + 
-                "Q:1/4=200\r\n" + 
-                "K:C\r\n" + 
-                "[e/2^F/2] [e/2F/2] z/2 [e/2^F/2] z/2 [c/2F/2] [eF] |[gBG] z G z | c3/2 G/2 z E | E/2 A B  _B/2 A | (3GeG a f/2 g/2 |z/2 e c/2 d/2 B3/4\r\n";
-        final String piece2 = "X:1\r\n" + 
-                "T:Little Night Music Mvt. 1\r\n" + 
-                "C:Wolfgang Amadeus Mozart\r\n" + 
-                "Q:1/4=140\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/8\r\n" + 
-                "K:G\r\n" + 
-                "[D2B2g2]z d g2z d | g d g b d'2 z2 | c'2z a c'2z a | c' a f a d2 z2 |\r\n";
-        
-//        + 
-//                "[DBg]z g3 b a g | g f f3 a c' f | a g g3 b a g | g f f3 a c' f |\r\n" + 
-//                "g g f e1/2f/2 g g a g/a/ | b b c' b/c'/ d'2 z2 | d4 e4 | c2 c2 B2 B2 |\r\n" + 
-//                "A2 A2 G F E F | G z A z B z z2  | d4 e4 | dccc cBBB | BAAA GFEF | \r\n" + 
-//                "[G4G,4] [GG,] G1/3F1/3G1/3 AF | B4 B B/3A/3B/3 c A | d4 e2 f2 |\r\n" + 
-//                "g2 a2 b2 ^c'2 | d'3 a ^c'3/2 a/ c'3/2 a/ | d'3 a ^c'3/2 a/ c'3/2 a/ | \r\n" + 
-//                "d' [d'2f2] [d'2f2] [d'2f2] [d'f] | d' [d'2e2] [d'2e2] [d'2e2] [d'e] | \r\n" + 
-//                "[^c'e] a d' a c' a d' a | ^c' A A A A2 z2 | \r\n" + 
-//                "a3 g/3f/3e/3 d z b z | g z e z a z z2 | f3 e/3d/3^c/3 B z g z | f4 e2 z2 |\r\n" + 
-//                "z aaa aaaa | aaaa aab^c' | ^c'd' z b b a z ^c | d2 z a d'^c'ba | \r\n" + 
-//                "b a z a a a a a | b a z a d' ^c' b a |\r\n" + 
-//                "b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 | g2 z2 [a3A3] g/3f/3e/3 |\r\n" + 
-//                "f2 z2 b ^c'/d'/ c' b | b a f a a g f e | d2 z a d' ^c' b a | b a z a a a a a |\r\n" + 
-//                "b a z a d' ^c' b a | b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 |\r\n" + 
-//                "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
-//                "d A B ^c d d e d/e/ | \r\n" + 
-//                "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-//        
-        final String easyRepeat = "X:1 %Comment Testing \n" +
-                "T:First" + "\n" + 
-                "M:4/4\n" + 
-                "K:Cm\n" + "|: C D E F | G A B c :|";
-       
-        final String withLyrics = "X:2167\r\n" + 
-                "T:Waxie's Dargle\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/8\r\n" + 
-                "Q:1/4=180\r\n" + 
-
-                "K:Gb\r\n" + 
-                "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf|\r\n" + 
-                "w: Sa-ys my au-l' wan to your aul' wan Will~ye come to the Wa-x-ies dar-gle? Sa-ys\r\n" + 
-                "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
-                "w: your aul'_ wan to my aul' wan, Sure I ha-ven't got a far-thing.\r\n" + 
-                "B2d2 e2f2|g2d2 BAG2|Bcd2 e2f2|g4 f2gf|\r\n" + 
-                "w: I'll go down to Mon-to to-w-n To see un-cle Mc-Ar-dle A-nd\r\n" + 
-                "e2dc B2A2|B2G2 E2G2|F2A2 D2EF|G2z2 G4|\r\n" + 
-                "w: ask him for a half a crown For~to go to the Wa-x-ies dar-gle\r\n";
-        final String piece3 = "X: 2\r\n" + 
-                "T:Piece No.3\r\n" + 
-                "M:3/4\r\n" + 
-                "L:1/8\r\n" + 
-                "Q:1/4=200\r\n" + 
-                "K:C\r\n" + 
-                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
-                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.\r\n";
+                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
 
 
-        final List<Concat> musicPiece1 = MusicLanguage.parse(piece3);
-        final int beatsPerMinute = 180; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final List<Concat> musicPiece1 = MusicLanguage.parse(piece1);
+        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
-
-        //System.out.println(musicPiece1);
 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         for(Concat c: musicPiece1) {
-            //System.out.println(c);
-            //System.out.println(c.getLyrics());
+
             c.play(player, 0.0);
         }
         player.play();
@@ -166,8 +87,6 @@ public class MusicLanguage {
      */
     public static List<Concat> parse(final String string) throws UnableToParseException {
         final ParseTree<MusicGrammar> parseTree = parser.parse(string);
-//        System.out.println(parseTree);
-        // make an AST from the parse tree
         makeAbstractSyntaxTree(parseTree);
         return TUNE.getMusicLine();
 
@@ -264,22 +183,14 @@ public class MusicLanguage {
                 makeAbstractSyntaxTree(children.get(0));
                 return;
             }
-            case KEY: //    key ::= keynote modeMinor?;
+            case KEY: 
+                
             {
-                makeAbstractSyntaxTree(children.get(0)); //keynote
-                if(children.size()>1) {
-                   TUNE.setMinor(true);
-                }
-                return;
-            }
-            case KEYNOTE: //    keynote ::= basenote keyAccidental?;
-            {
-                String accidental = children.get(0).text();
-                //String baseNote = children.get(1).text();
 
-                TUNE.setAccidental(accidental);
-                return;
+              TUNE.setAccidental(parseTree.text().replaceAll("\\s",""));
+              return;
             }
+
             case METER:
             {
                 if(children.toString().indexOf("METERFRACTION")!=-1) {
@@ -364,8 +275,7 @@ public class MusicLanguage {
                         
                         
                     }
-                    //add comment
-                    
+
                     else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
                     }
@@ -395,15 +305,15 @@ public class MusicLanguage {
                 //calculating pitch
                 //pitch ::= accidental? basenote octave?;
                 List<ParseTree<MusicGrammar>> pitchList = children.get(0).children();
-//                System.out.println("pitchList" + pitchList);
                 Character pitchChar = null; // do we really need null here.
                 Pitch pitch = null;
 
                 if(pitchList.size()==1) {
                     pitchChar = pitchList.get(0).text().charAt(0); // assert length of text() == 1
                     
-                    pitch = builder.applyAccidental(Character.toUpperCase(pitchChar)); // why uppercase
-                    
+
+                    pitch = builder.applyKeyAccidental(Character.toUpperCase(pitchChar),TUNE.getAccidental()); // why uppercase
+
                 }
                 else if(pitchList.size()==2) {
                     //found accidental
@@ -431,7 +341,7 @@ public class MusicLanguage {
                         pitchChar = pitchList.get(0).text().charAt(0);
                         String octaveType = pitchList.get(1).text();
                         
-                        pitch = builder.applyAccidental(Character.toUpperCase(pitchChar));
+                        pitch = builder.applyKeyAccidental(Character.toUpperCase(pitchChar),TUNE.getAccidental());
                         // what if multiple ' or ,
                         if(octaveType.indexOf("'")!=-1) {
                             for(int i = 0; i<octaveType.length();i++) {
@@ -675,6 +585,7 @@ public class MusicLanguage {
             }
             case BACKSLASHHYPHEN:
             {
+                System.out.println("Voices");
                 
             }
             case MIDDLEOFBODYFIELD: 
