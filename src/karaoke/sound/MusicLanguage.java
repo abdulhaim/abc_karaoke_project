@@ -38,7 +38,7 @@ public class MusicLanguage {
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
-                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
+                "K:C\n" + "[DDD] [EEE] [FFF]";//"C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
         final String mozart = "X:1\r\n" + 
                 "T:Little Night Music Mvt. 1\r\n" + 
                 "C:Wolfgang Amadeus Mozart\r\n" + 
@@ -127,13 +127,14 @@ public class MusicLanguage {
                 "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
                 "V:2\r\n" + 
                 "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
-        final AbcTune musicPiece = MusicLanguage.parse(invention);
+        final AbcTune musicPiece = MusicLanguage.parse(piece1);
 
-//        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
-//        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
-//        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
-//        musicPiece.get(0).play(player, 0.0);
-//        player.play();
+        final int beatsPerMinute = 140; // a beat is a quarter note, so this is 120 quarter notes per minute
+        final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+        SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
+        Voices voice = musicPiece.getMusic();
+        voice.play(player, 0.0);
+        player.play();
         
         
     }
@@ -310,10 +311,14 @@ public class MusicLanguage {
                 Voices voice = new Voices(voices);
                 for(int i = 0;i<children.size();i++) {
                     makeAbstractSyntaxTreeMusic(children.get(i));
-                    Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
-                    voice.addMusic(builder.getSinger(), music);
-                    builder = new AbcBuilder();
-                    //add lyrics too
+                    if(builder.inMusic()) {
+                        Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
+                        voice = voice.addMusic(builder.getSinger(), music);
+                        builder = new AbcBuilder();
+                        builder.setInMusic(false);
+
+                        
+                    }
                 }
                 TUNE.setMusic(voice);
                 return;
@@ -323,11 +328,17 @@ public class MusicLanguage {
                           //endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
                 builder.setStatus("Bar");
-                
                 // if lyrics exist, parse it first. Might want to make code more readable.
                 if(children.size() > 2 && children.get(children.size()-2).name().equals(MusicGrammar.LYRIC)) {
                     makeAbstractSyntaxTreeMusic(children.get(children.size()-2));
                 }
+                if(children.size()==1 && (children.get(0).name().equals(MusicGrammar.MIDDLEOFBODYFIELD) || children.get(0).name().equals(MusicGrammar.COMMENT))) {
+                    makeAbstractSyntaxTreeMusic(children.get(0));
+                    return;
+
+                }
+                builder.setInMusic(true);
+
                 for(int i = 0; i< children.size(); i++) {
                     //if (children.toString().contains(s))
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
@@ -489,8 +500,13 @@ public class MusicLanguage {
                 else if(noteLength.equals("/")) {
                     duration = 1.0/2;
                 }
-                else if(noteLength.length()==2){
-                    duration = convertToDouble("1" + noteLength);
+                else if(noteLength.length()==2) {
+                    if(noteLength.substring(1).equals("/")) {
+                        duration = convertToDouble(noteLength + "1");
+                    } 
+                    else {
+                        duration = convertToDouble("1" + noteLength);
+                    }
                 }
                 else {
                     duration = convertToDouble(noteLength);
@@ -498,7 +514,7 @@ public class MusicLanguage {
                 }
                 String meter = TUNE.getMeter();
                 
-                if(TUNE.getNoteLength() != null) {
+                if(!TUNE.getNoteLength().isEmpty()) {
                     duration = duration*convertToDouble(TUNE.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
 
                 }
@@ -533,13 +549,34 @@ public class MusicLanguage {
                 if(durationString.length()==0) {
                     duration = 1;
                 }
-                else if(durationString.length()==2){
-                    duration = convertToDouble("1" + durationString);
+                else if(durationString.equals("/")) {
+                    duration = 1.0/2;
+                }
+                else if(durationString.length()==2) {
+                    if(durationString.substring(1).equals("/")) {
+                        duration = convertToDouble(durationString + "1");
+                    } 
+                    else {
+                        duration = convertToDouble("1" + durationString);
+                    }
                 }
                 else {
                     duration = convertToDouble(durationString);
 
                 }
+                
+                String meter = TUNE.getMeter();
+                
+                if(!TUNE.getNoteLength().isEmpty()) {
+                    duration = duration*convertToDouble(TUNE.getNoteLength())*Double.parseDouble(meter.substring(meter.indexOf("/")+1));
+
+                }
+                else {
+                    duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1)); // multiply by 1/4 since that's implicit
+
+                }
+
+                
                 builder.addToBar(new Rest(duration));
                 return;
                 
@@ -670,11 +707,7 @@ public class MusicLanguage {
                builder.setLyrics(lyrics2);
                
             }
-            case BACKSLASHHYPHEN:
-            {
-                System.out.println("Voices");
-                
-            }
+
             case MIDDLEOFBODYFIELD: 
                 
             {
@@ -683,6 +716,8 @@ public class MusicLanguage {
                 builder.setSinger(singer);
                 return;
             }
+            case COMMENT:
+                return;
         default:
             break;
 

@@ -52,11 +52,11 @@ public class Voices implements Music{
      */
     public Voices addMusic(String singer, Concat concMusic) {
         List<Concat> modifiedList = Arrays.asList(concMusic);
-        modifiedList.addAll(voiceToMusic.get(singer));
         List<Concat> newMusicForSinger = Collections.synchronizedList(
                                          Collections.unmodifiableList(new ArrayList<Concat>(modifiedList)));
         List<String> listOfSingers = new ArrayList<>(voiceToMusic.keySet());
         List<List<Concat>> concats = new ArrayList<>();
+        System.out.println("SINGER" + singer);
         for (String s : listOfSingers) {
             if (s.equals(singer)) {
                 concats.add(newMusicForSinger);
@@ -65,6 +65,7 @@ public class Voices implements Music{
                 concats.add(this.voiceToMusic.get(singer));
             }
         }
+        System.out.println(concats);
         return new Voices(listOfSingers, concats);
     }
 
@@ -89,5 +90,13 @@ public class Voices implements Music{
            }
        }
     }
-        
+    @Override
+    public String toString() {
+        String voices = "";
+        for(String singer: this.voiceToMusic.keySet()) {
+            voices += singer + ": " + this.voiceToMusic.get(singer).toString() + "\n";
+        }
+        return voices;
     }
+        
+}
