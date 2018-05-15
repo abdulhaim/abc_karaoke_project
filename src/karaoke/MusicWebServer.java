@@ -95,7 +95,6 @@ public class MusicWebServer {
         //String startPath = exchange.getHttpContext().getPath();
         String  getPath = exchange.getRequestURI().getPath();
         System.err.println("received request " + getPath); //TODO remove when done 
-        players.add(players.size() + 1.0);
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
         OutputStream body = exchange.getResponseBody();
