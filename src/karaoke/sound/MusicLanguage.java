@@ -193,6 +193,60 @@ public class MusicLanguage {
                 "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 | z4 | z4 |\r\n" + 
                 "%\r\n" + 
                 "%";
+        
+        final String beautiful = "X:1\r\n" + 
+                "T:What Makes You Beautiful\r\n" + 
+                "C:One Direction\r\n" + 
+                "M:4/4\r\n" + 
+                "L:1/4\r\n" + 
+                "Q:1/4=125\r\n" + 
+                "K:E\r\n" + 
+                "% transcribed from https://musescore.com/user/33935/scores/4097261 and lyrics added by zlily\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "z5/2 G'/2 F'/2 E'/2 | E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | F' G'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
+                "w: Ba-by you light up my world like no-bo-dy else, The way that\r\n" + 
+                "\r\n" + 
+                "V: harmony\r\n" + 
+                "z5/2 B/2 B/2 A/2 | G3/4 G3/4 G/2 G3/4 G3/4 G/2 | A B/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
+                "w: Ba-by you light up my world like no-bo-dy else, The way that\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "z4 | [E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | F' G'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
+                "w: you flip your hair gets me o-ver-whelmed, But when you\r\n" + 
+                "\r\n" + 
+                "V: harmony\r\n" + 
+                "G3/4 G3/4 G/2 G3/4 G3/4 G/2 | A B/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
+                "w: you flip your hair gets me o-ver-whelmed, But when you\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | G' F'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
+                "w: smile at the ground it ain't hard to tell, You don't_\r\n" + 
+                "\r\n" + 
+                "V: harmony\r\n" + 
+                "G3/4 G3/4 G/2 G3/4 G3/4 G/2 | B A/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
+                "w: smile at the ground it ain't hard to tell, You don't_\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "E'3/2 F'/2 G'2 | G'/2 G'/2 G'/2 G'/2 G'3/4 F'3/4 E'/2 |\r\n" + 
+                "w: know oh oh, you don't know you're beau-ti-ful\r\n" + 
+                "\r\n" + 
+                "V: harmony\r\n" + 
+                "G3/2 A/2 B2 | B/2 B/2 B/2 B/2 B3/4 A3/4 G/2 |\r\n" + 
+                "w: know oh oh, you don't know you're beau-ti-ful\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
+                "\r\n";
         final String invention = "X:1868\r\n" + 
                 "T:Invention no. 1\r\n" + 
                 "C:Johann Sebastian Bach\r\n" + 
@@ -256,7 +310,7 @@ public class MusicLanguage {
                 "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
                 "V:2\r\n" + 
                 "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
-        final AbcTune musicPiece = MusicLanguage.parse(payphone);
+        final AbcTune musicPiece = MusicLanguage.parse(beautiful);
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity

@@ -49,7 +49,7 @@ public class AbcTune {
         this.tempo = "";
         this.indexNumber = 0;
         this.accidental = "";
-        
+        this.voices = new ArrayList<String>();
         
     }
     public String getTitle() {
@@ -144,6 +144,10 @@ public class AbcTune {
     }
     
     public List<String> getVoices() {
+        if(voices.size()==0) {
+            voices.add(Integer.toString(this.getIndexNumber()));
+            return voices;
+        }
         return voices;
     }
     
