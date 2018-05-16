@@ -19,7 +19,7 @@ import edu.mit.eecs.parserlib.UnableToParseException;
  *
  */
 
-public class MusicLanguage {
+public class MusicLanguageTest {
     private static final AbcTune TUNE = new AbcTune();
     private static AbcBuilder builder = new AbcBuilder();
     private static List<String> voices = new ArrayList<String>();
@@ -445,6 +445,7 @@ public class MusicLanguage {
 
     }
 
+
     
     /**
      * Convert a parse tree into an abstract syntax tree.
@@ -568,6 +569,21 @@ public class MusicLanguage {
             default:
                 throw new AssertionError("should never get here");
             }
+
+  /*
+        @Test
+    public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
+        String path = "sample-abc/piece2.abc";
+        String musicFile = readFile(path);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        Music p = parsedMusic.getCompleteMusic();
+        assertEquals(24.0, p.getDuration(), 0.001);
+        SequencePlayer player = new MidiSequencePlayer();
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
+        player.play();
+    }
+*/
     
     }
 
