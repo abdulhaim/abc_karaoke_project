@@ -18,13 +18,17 @@ public class SoundPlayback {
      * @throws MidiUnavailableException if MIDI device unavailable
      * @throws InvalidMidiDataException if MIDI play fails
      */
-    public static void play(AbcTune musicPiece, BlockingQueue queue) throws MidiUnavailableException, InvalidMidiDataException {
+    public static void play(Voices musicPiece, BlockingQueue<String> queue) throws MidiUnavailableException, InvalidMidiDataException {
+        System.out.println("beginning");
         final double offset = 0.125;
-        final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
         final int ticksPerBeat = 12;
+        final int beatsPerMinute = 120;
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
-        Voices voice = musicPiece.getMusic();
-        voice.play(player, offset,queue);
+        System.out.println("10");
+
+        System.out.println("inside sound");
+        musicPiece.play(player, offset,queue);
+        System.out.println("after voice play");
         player.play();
 
     }

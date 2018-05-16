@@ -95,7 +95,11 @@ public class Note implements Music {
     @Override
     public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
         player.addNote(instrument, pitch, atBeat, duration);
-        player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { System.out.println(lyrics); } }); //fix this
+        player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { try {
+            queue.put(lyrics);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } } }); //fix this
     }
 
     @Override

@@ -25,11 +25,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import edu.mit.eecs.parserlib.UnableToParseException;
+import karaoke.sound.AbcTune;
 import karaoke.sound.MusicLanguage;
 import karaoke.sound.SoundPlayback;
-
-
-
+import karaoke.sound.Voices;
 
 /**
  * @author Bibek Kumar Pandit
@@ -59,6 +58,8 @@ public class MusicWebServer {
     private boolean done = false;
     private boolean multipleVoices = false;
     private Object lock = new Object();
+    private Object lock2 = new Object();
+
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
@@ -134,18 +135,13 @@ public class MusicWebServer {
         String  path = exchange.getRequestURI().getPath();
         System.err.println("received request " + path); //TODO remove when done 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-        System.out.print("1");
         OutputStream body = exchange.getResponseBody();
-        System.out.print("2");
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
-        System.out.print("3");
-        System.out.print("4");
         final int enoughBytesToStartStreaming = 2048;
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
-        System.out.print("5");
-        out.println("hello");
+        //out.println("hello");
         outList.add(out);
 
         while (!play) {
@@ -153,15 +149,14 @@ public class MusicWebServer {
                 lock.wait();
                 }
         }
-        System.out.print("6");
         try {
-            //this.displayLyrics();
-            out.println("hello");
+            this.displayLyrics();
+            //out.println("hello");
         }
         finally {
-            //synchronized(queue) {
-            //    queue.wait();
-            //}
+            synchronized(lock2) {
+                lock2.wait();
+            }
             exchange.close();
         }
     }
@@ -177,10 +172,13 @@ public class MusicWebServer {
      */
     private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
+        System.out.print("1");
+
         synchronized (lock) {
             lock.notifyAll();
         }
-        
+        System.out.print("2");
+
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
 
@@ -188,12 +186,20 @@ public class MusicWebServer {
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         final int enoughBytesToStartStreaming = 2048;
+        System.out.print("3");
+
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
+        System.out.print("4");
+
         out.println(response);
-        //out.println(MusicLanguage.parse(filePath));
-        //SoundPlayback.play(MusicLanguage.parse(filePath), queue); 
+        //out.println(MusicLanguage.parse(readFile(filePath)));
+        System.out.print("5");
+
+        SoundPlayback.play(MusicLanguage.parse(readFile(filePath)).getMusic(), queue); 
+        System.out.print("6");
+
         exchange.close(); 
     }
     
@@ -206,7 +212,7 @@ public class MusicWebServer {
                 }
                 else {
                     done = true;
-                    synchronized (queue) {
+                    synchronized (lock2) {
                         queue.notifyAll();
                     }
                 }
@@ -234,4 +240,23 @@ public class MusicWebServer {
         return voices;
     }
     
+    private static String readFile(String filePath){
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+     
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {   
+                    contentBuilder.append(sCurrentLine).append("\n");
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("File either not readable or does not exist. \nPlease check the file path and try again");
+        }
+        return contentBuilder.toString().trim();
+    }
+    
 }
+    
