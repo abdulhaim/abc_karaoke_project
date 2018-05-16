@@ -3,6 +3,7 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * An immutable data type that represents a chord 

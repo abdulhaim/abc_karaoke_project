@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Rest represents a pause in a piece of music.

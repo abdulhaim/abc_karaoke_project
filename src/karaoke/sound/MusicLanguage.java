@@ -11,7 +11,7 @@ import javax.sound.midi.MidiUnavailableException;
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
-
+ 
 /**
  * Parses a file in ABC format 
  * Specification Author: Myra Ahmad & Marwa Abdulhai
@@ -339,7 +339,7 @@ public class MusicLanguage {
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        voice.play(player, 0.0);
+        voice.play(player, 0.0);   
         player.play();
         
         
