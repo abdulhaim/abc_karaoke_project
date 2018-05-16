@@ -63,9 +63,8 @@ public class Voices implements Music{
      * @return new Voice object incorporating that change.
      */
     public Voices addMusic(String singer, Concat concMusic) {
-        System.out.println("singer "+ singer);
-        System.out.println("map "+this.voiceToMusic);
-        List<Concat> modifiedList = new ArrayList<>(this.voiceToMusic.get(singer));
+
+        List<Concat> modifiedList = new ArrayList<>(this.voiceToMusic.get(singer));//Arrays.asList(concMusic);
         modifiedList.add(concMusic);
         //modifiedList.addAll(this.voiceToMusic.get(singer));
         List<Concat> newMusicForSinger = Collections.synchronizedList(
