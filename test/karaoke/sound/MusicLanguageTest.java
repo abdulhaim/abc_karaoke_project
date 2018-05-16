@@ -1,11 +1,10 @@
 package karaoke.sound;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -73,8 +72,8 @@ public class MusicLanguageTest {
         Music p = parsedMusic.getCompleteMusic();
         assertEquals(16.0, p.getDuration(), 1);
         SequencePlayer player = new MidiSequencePlayer();
-        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
-        p.play(player, 0, queue);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
     
@@ -85,8 +84,8 @@ public class MusicLanguageTest {
         Music p = parsedMusic.getCompleteMusic();
         assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
-        p.play(player, 0, queue);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
     
@@ -98,8 +97,8 @@ public class MusicLanguageTest {
 
         assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
-        p.play(player, 0, queue);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
     
