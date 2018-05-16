@@ -49,7 +49,7 @@ public class AbcTune {
         this.tempo = "";
         this.indexNumber = 0;
         this.accidental = "";
-        
+        this.voices = new ArrayList<String>();
         
     }
     public String getTitle() {
@@ -168,10 +168,5 @@ public class AbcTune {
             return Double.parseDouble(ratio);
         }
     }
-
-
-
-
-
 
 }

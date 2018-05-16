@@ -108,11 +108,53 @@ public class AbcBuilder {
         this.currentSinger = "";
     }
     
+    
+    private String getLyrics(int count) {
+        String s = "";
+        for(int i =0; i < this.lyrics.size(); i++) {
+            if (count == i) {
+                s += "*" + this.lyrics.get(count) + "*";
+            }
+            else if(this.lyrics.get(i).equals("_")){
+                continue; //skip
+            }
+            else {
+                s += this.lyrics.get(i);
+            }
+        }
+        return s;
+    }
+    
     /** 
      * @return lyric at lyricsCounter if there are lyrics and increment counter.
      *         if no lyrics is present, returns "-1"
      */
     public String getLyricOnCount() {
+        try {
+            if(lyrics.isEmpty()) {
+                return "No Lyrics";
+            }
+            if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
+                lyricsCounter++;
+            }
+            if (lyrics.get(lyricsCounter).equals("_")) {
+                int dummyCount = lyricsCounter - 1;
+                lyricsCounter++;
+                while (true) {
+                    if (lyrics.get(dummyCount).equals("_")) {dummyCount = dummyCount -1;}
+                    else {return getLyrics(dummyCount);}
+                }
+            }
+            
+            return getLyrics(lyricsCounter++);
+            //return lyrics.get(lyricsCounter++);
+        }
+        catch(IndexOutOfBoundsException exp) {
+            return "-1";
+        }
+        
+    }
+/*    public String getLyricOnCount() {
         try {
             if(lyrics.isEmpty()) {
                 return "-1";
@@ -134,7 +176,7 @@ public class AbcBuilder {
             return "-1";
         }
         
-    }
+    }*/
     
     /**
      * Add Music object to Bar
@@ -377,14 +419,13 @@ public class AbcBuilder {
      }
 
     public void setLyrics(List<String> lyrics) {
-        this.lyrics = lyrics;
+        this.lyrics = new ArrayList<String>(lyrics);
         
     }
     public List<String> getLyrics() {
         return this.lyrics;
         
     }
-
     public String getSinger() {
         return this.currentSinger;
     }
