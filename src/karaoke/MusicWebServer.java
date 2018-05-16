@@ -154,7 +154,6 @@ public class MusicWebServer {
         }
         try {
             out.println();
-            out.println("HELLO ONE");
             displayLyrics(voice, exchange);
         } finally
          {
