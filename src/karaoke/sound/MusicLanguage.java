@@ -661,7 +661,6 @@ public class MusicLanguage {
                        lyrics2.add(lyrics.get(i));
                    }
                }
-//               System.out.println("The Lyrics are here " + lyrics2);
                builder.setLyrics(lyrics2);
                return;
                
