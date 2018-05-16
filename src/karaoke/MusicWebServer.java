@@ -187,8 +187,8 @@ public class MusicWebServer {
             out.print(' ');
         }
         out.println(response);
-        //out.println(MusicLanguage.parse(readFile(filePath)));
-        AbcTune tune = MusicLanguage.parse(readFile(filePath));
+        MusicLanguage language = new MusicLanguage();
+        AbcTune tune = language.parse(readFile(filePath));
         SoundPlayback.play(tune.getMusic(), this.voiceMap ,Integer.parseInt(tune.getTempo())); 
 
         exchange.close(); 
