@@ -25,6 +25,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import edu.mit.eecs.parserlib.UnableToParseException;
+import karaoke.sound.MusicLanguage;
+import karaoke.sound.SoundPlayback;
 
 
 
@@ -64,6 +66,8 @@ public class MusicWebServer {
      * 
      */
     public MusicWebServer(int port, String filePath) throws IOException {
+        System.out.println("hereeee");
+
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         this.filePath = filePath;
        
@@ -75,13 +79,17 @@ public class MusicWebServer {
                 e1.printStackTrace();
             }
         });
+        System.out.println("hereeee");
         server.createContext("/play", exchange -> {
             try {
+                System.out.println("inside");
                 handlePlay(exchange);
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
- 
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            } catch (InvalidMidiDataException e) {
+                e.printStackTrace();
             }
         });
         checkRep();
@@ -142,7 +150,6 @@ public class MusicWebServer {
                 server.wait();
                 }
         }
-
         try {
             this.displayLyrics();
         }
@@ -163,18 +170,28 @@ public class MusicWebServer {
      * @throws MidiUnavailableException 
      * @throws InterruptedException 
      */
-    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException {
+    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException {
         play = true;
         synchronized (server) {
             server.notifyAll();
         }
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
+        System.out.println("here!");
+
+        try {
+            System.out.println("here!!");
+
+        SoundPlayback.play(MusicLanguage.parse(filePath), queue);
+        }
+        catch (UnableToParseException e) {
+             System.out.println("exception");
+        }
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
         exchange.close(); 
-        // call play
+        
     }
     
     private void displayLyrics() throws InterruptedException {
@@ -194,6 +211,7 @@ public class MusicWebServer {
         }
         
     }
+    
     
     
 }

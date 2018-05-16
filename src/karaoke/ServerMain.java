@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import edu.mit.eecs.parserlib.UnableToParseException;
 import examples.StreamingExample;
 
 public class ServerMain {
@@ -24,12 +25,12 @@ public class ServerMain {
      * @throws IOException if network failure
      */
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, UnableToParseException {
         
         // make a web server
         final int serverPort = 4567;
-        final MusicWebServer server = new MusicWebServer(serverPort, args[0]);
-
+        final MusicWebServer server;
+        server = new MusicWebServer(serverPort, args[0]);
         String header = getHeaderFromFile(args[0]);
         // start the server
         server.start();
