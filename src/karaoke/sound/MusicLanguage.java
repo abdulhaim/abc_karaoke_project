@@ -11,7 +11,7 @@ import javax.sound.midi.MidiUnavailableException;
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
- 
+
 /**
  * Parses a file in ABC format 
  * Specification Author: Myra Ahmad & Marwa Abdulhai
@@ -38,7 +38,7 @@ public class MusicLanguage {
                 "M:4/4  %Comment Testing\n" + 
                 "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
                 "Q:1/4=140\n" + 
-                "K:C\n" + "[DDD] [EEE] [FFF]";//"C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
+                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
         final String mozart = "X:1\r\n" + 
                 "T:Little Night Music Mvt. 1\r\n" + 
                 "C:Wolfgang Amadeus Mozart\r\n" + 
@@ -209,6 +209,9 @@ public class MusicLanguage {
                 "C:One Direction\r\n" + 
                 "M:4/4\r\n" + 
                 "L:1/4\r\n" + 
+                "V:melody\r\n" + 
+                "V:lefthand\r\n" + 
+                "V:harmony\r\n" + 
                 "Q:1/4=125\r\n" + 
                 "K:E\r\n" + 
                 "% transcribed from https://musescore.com/user/33935/scores/4097261 and lyrics added by zlily\r\n" + 
@@ -332,6 +335,59 @@ public class MusicLanguage {
                 "A3 B3|efe efg|faf gfe|[1 dfe dcB:|[2 dfe dBA|]\r\n" + 
                 "fAA eAA| def gfe|fAA eAA|dfe dBA|\r\n" + 
                 "fAA eAA| def gfe|faf gfe|dfe dBA:|\r\n";
+       
+        final String fridayRepeat = "X:1\r\n" + 
+                "T:Friday\r\n" + 
+                "C:Rebecca Black\r\n" + 
+                "M:4/4\r\n" + 
+                "L:1/8\r\n" + 
+                "V: melody\r\n" + 
+                "V:lefthand\r\n" + 
+                "Q:1/4=112\r\n" + 
+                "K:B\r\n" + 
+                "% transcribed from https://www.noteflight.com/scores/view/07d89aa01b03790016365893274a9bdbb7956606 and lyrics added by zlily\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "z6 F'2 | \r\n" + 
+                "w: It's\r\n" + 
+                "\r\n" + 
+                "V:lefthand\r\n" + 
+                "z8\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "|: D'2 C'2 D'2 C'2 | D' C' D' C' D'2 C' B |\r\n" + 
+                "w: Fri-day Fri-day get-ting down on Fri-day_\r\n" + 
+                "\r\n" + 
+                "V:lefthand\r\n" + 
+                "|: [B,,3B,3] B, F, D [B,F,] B,, | G,, D, G, B, D, G, G, B,, |\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "[1 z B/ B/ B B B/ B/ B B B/ B/ | F2 C'2 F2 C'2 :|\r\n" + 
+                "w: E-very-bo-dy's loo-king for-ward to the wee-kend wee-kend\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[1 E,, B,, E, G, B, E, E, E,, | F,, C, F, A, C F, F, F,, :|\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "[2 z B/ B/ B B B B B B | D'2 C'2 D'2 C'2 |\r\n" + 
+                "w: E-very-bo-dy's loo-king for-ward to the wee-kend\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[2 E,, B,, E, G, B, E, E, E,, | F,, C, F, A, C F, F, F,, |\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "|: B B B B B B B'2 :|\r\n" + 
+                "w: Par-ty-ing par-ty-ing yeah\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "|: [B,,F,B,] z2 [B,,2F,2B,2] B,, [F,B,] B,, :|\r\n" + 
+                "\r\n" + 
+                "V: melody\r\n" + 
+                "B2 B2 B2 B2 | D' C' C' C' B A G A | B8 |\r\n" + 
+                "w: Fun fun fun fun look-ing for-ward to the wee-_kend\r\n" + 
+                "\r\n" + 
+                "V: lefthand\r\n" + 
+                "[E,,2E,2] B, G, [E,B,,] E,, [E,B,,] E,, | F,, C, F, A, C F, F, F,, | B,8";
 
         final AbcTune musicPiece = MusicLanguage.parse(payphone);
 
@@ -339,7 +395,7 @@ public class MusicLanguage {
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        voice.play(player, 0.0);   
+        voice.play(player, 0.0);
         player.play();
         
         
@@ -537,7 +593,6 @@ public class MusicLanguage {
                             voice = voice.addMusic(builder.getSinger(), music);
 
                         }
-                        builder = new AbcBuilder();
                         builder.setInMusic(false);
                         builder = new AbcBuilder();
 

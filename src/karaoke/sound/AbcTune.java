@@ -157,10 +157,7 @@ public class AbcTune {
     public Voices getMusic() {
         return this.music;
     }
-    
-    public Music getCompleteMusic() {
-        return this.music;
-    }
+
 
     
     private static double convertToDouble(String ratio) {

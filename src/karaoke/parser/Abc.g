@@ -4,26 +4,26 @@ abcTune ::= abcHeader abcBody;
 
 @skip whitespace { 
 
-	abcHeader ::= fieldNumber comment* fieldTitle otherFields* fieldKey;
-	
-	fieldNumber ::= "X:" digit+ endOfLine;
-	fieldTitle ::= "T:" text endOfLine;
-	otherFields ::= fieldComposer | fieldDefaultLength | fieldMeter | fieldTempo | fieldVoice | comment;
-	fieldComposer ::= "C:" text endOfLine;
-	fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
-	fieldMeter ::= "M:" meter endOfLine;
-	fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
-	fieldVoice ::= "V:" text endOfLine;
-	fieldKey ::= "K:" key endOfLine;
-	
-	key ::= keynote modeMinor?;
-	keynote ::= basenote keyAccidental?;
-	keyAccidental ::= "#" | "b";
-	modeMinor ::= "m";
-	
-	meter ::= "C" | "C|" | meterFraction;
-	meterFraction ::= digit+ "/" digit+;
-	
+    abcHeader ::= fieldNumber comment* fieldTitle otherFields* fieldKey;
+    
+    fieldNumber ::= "X:" digit+ endOfLine;
+    fieldTitle ::= "T:" text endOfLine;
+    otherFields ::= fieldComposer | fieldDefaultLength | fieldMeter | fieldTempo | fieldVoice | comment;
+    fieldComposer ::= "C:" text endOfLine;
+    fieldDefaultLength ::= "L:" noteLengthStrict endOfLine;
+    fieldMeter ::= "M:" meter endOfLine;
+    fieldTempo ::= "Q:" meterFraction "=" digit+ endOfLine;
+    fieldVoice ::= "V:" text endOfLine;
+    fieldKey ::= "K:" key endOfLine;
+    
+    key ::= keynote modeMinor?;
+    keynote ::= basenote keyAccidental?;
+    keyAccidental ::= "#" | "b";
+    modeMinor ::= "m";
+    
+    meter ::= "C" | "C|" | meterFraction;
+    meterFraction ::= digit+ "/" digit+;
+    
 }
 
 abcBody ::= abcLine+;
@@ -53,7 +53,7 @@ middleOfBodyField ::= fieldVoice;
 
 lyric ::= "w:" lyricalElement*;
 lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
-lyricText ::= [^-_*~\-|]*;
+lyricText ::= [A-Za-z.!?',]*;
 backslashHyphen ::= "\\" "-";
 
 comment ::= spaceOrTab* "%" commentText newline;
