@@ -3,6 +3,7 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * 
@@ -59,10 +60,10 @@ public class Bar implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue) {
         double offsetDuration = 0;
         for (Music music : listOfSubMusic) {
-            music.play(player, atBeat + offsetDuration);
+            music.play(player, atBeat + offsetDuration, queue);
             offsetDuration += music.getDuration();
         }
     }

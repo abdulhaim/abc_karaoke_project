@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Rest represents a pause in a piece of music.
@@ -46,7 +47,7 @@ public class Rest implements Music {
      * Play this rest.
      */
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat,  BlockingQueue<String> queue) {
         return;
     }
 
