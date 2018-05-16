@@ -75,11 +75,11 @@ public class Tuplet implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat,  BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat) {
 
         double currentBeat = atBeat;
         for (Music music : this.listOfSubMusic) {
-            music.play(player, currentBeat, queue);
+            music.play(player, currentBeat);
             currentBeat += music.getDuration();
         } 
     }

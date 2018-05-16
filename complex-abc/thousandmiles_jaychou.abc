@@ -1,0 +1,315 @@
+X:1
+T:千里之外 (Far Away/A Thousand Miles Away)
+C:周杰倫 (Jay Chou)
+V:voice
+V:pinyin
+V:RH
+V:LH
+M:4/4
+L:1/16
+Q:1/8=118
+K:D
+
+% transcribed by lu16j
+
+
+% intro
+
+V:voice
+z16 | z16 |
+V:pinyin
+z16 | z16 |
+V:RH
+[ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] | [ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] |
+V:LH
+D,,A,,E,F,A,DED A,4 A,,4 | G,,D,E,G,A,DED G,4 G,,4 |
+
+V:voice
+z16 | z16 |
+V:pinyin
+z16 | z16 |
+V:RH
+[ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] | [ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] |
+V:LH
+B,,F,A,B,DB,ED B,4 A,,4 | G,,D,E,G,A,DED G,4 D,G,,3 |
+
+
+% verse 1
+
+V:voice
+efef2 a3 efef2 a3 | e2d d2 B2 d9 |
+w: 屋-簷-如-悬-崖 风-铃-如-沧-海 我-等-燕-归-来
+V:pinyin
+efef2 a3 efef2 a3 | e2d d2 B2 d9 |
+w: wu ru xu an ya, feng ling ru cang hai, wo deng yan gui lai
+V:RH
+[E8D8A,8] [E6C6A,6] A2 | [D8B,8A,8G,8] [D4A,4] EFDA, |
+V:LH
+D,8 C,8 | B,,8 A,,4 F,4 |
+
+V:voice
+efef2 a3 efed2 e3 | f2d d2 f2 e9 |
+w: 时-间-被-安-排 演-一-场-意-外 妳-悄-然-走-开
+V:pinyin
+efef2 a3 efed2 e3 | f2d d2 f2 e9 |
+w: shi jian bei an pai, yan yi chang yi wai, ni qiao ran zou kai
+V:RH
+[B,8G8] [D4A,4] F4 | [D3G,3] E,G,D3 [D4A,4] C4 |
+V:LH
+G,,4 D,4 [D,8F,,8] | E,,2 B,,D,5 A,,8 |
+
+V:voice
+efef2 a3 efef2 a3 | e2d d2 f2 ed8 |
+w: 故-事-在-城-外 浓-雾-散-不-开 看-不-清-对-白_
+V:pinyin
+efef2 a3 efef2 a3 | e2d d2 f2 ed8 |
+w: gu shi zai cheng wai, nong wu san bu kai, kan bu qing dui bai_
+V:RH
+EF4 E3 [E8A8] | [D4A,4] F,2 A,2 [C4A,4F,4] D4 |
+V:LH
+D,,A,,D,F,5 C,,4C,4 | B,,8 A,,8 |
+
+V:voice
+efef2 a3 efef2 b3 | a2b d'3 b e'9 |
+w: 妳-听-不-出-来 风-声-不-存-在 是-我-在-感-慨
+V:pinyin
+efef2 a3 efef2 b3 | a2b d'3 b e'9 |
+w: ni ting bu chu lai, feng sheng bu cun zai, shi wo zai gan kai
+V:RH
+F7 D E4 D4 | [D4G,4] B,2 G,2 [D4A,4] [E4A,4] |
+V:LH
+G,,2 D,G,A,B,A,2 [D,8F,,8] | E,,8 A,,8 |
+
+
+% pre-chorus
+
+V:voice
+|: a2a a3g g2 b2 a2 g3 | g2g g2 d2 g9 |
+w: 梦-醒-来 是-谁-在-窗-台 把-结-局-打-开
+V:pinyin
+|: a2a a3g g2 b2 a2 g3 | g2g g2 d2 g9 |
+w: meng xing lai, shi shui zai chuang tai, ba jie ju da kai
+V:RH
+|: [E4=C4G,4] [E4C4G,4] [E4C4G,4] [E4C4G,4] | [D4A,4G,4] [D6A,6G,6] G, D/d/A/G/G,A,D |
+V:LH
+|: =C,,7 C,,C,,6 =C,2 | B,,,7 B,,,B,,,4 B,,4 |
+
+V:voice
+g2g g2 d'2 d'2 e'2 e'2 d'3 | e'2e' e'2 f'2 f'e'e'6
+w: 那-薄-如-蝉-翼-的-未-来 禁-不-起-谁-来-_拆
+V:pinyin
+g2g g2 d'2 d'2 e'2 e'2 d'3 | e'2e' e'2 f'2 f'e'e'6
+w: na bao ru chan yi de wei lai, jing bu qi shui lai_ chai
+V:RH
+[D4_B,4G,4] [D4_B,4G,4] [D4_B,4G,4] [D4_B,4G,4] | [E4D4A,4] [E4D4A,4] [E3C3A,3] A/B/AFE2 |
+V:LH
+_B,,,7 B,,,B,,,6 _B,,2 | A,,,7 A,,,A,,,4 A,,4 |
+
+
+% chorus
+
+V:voice
+[aA] | [e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [e'2e2] [f'9f9] |
+w: 我-送-你-离-开 千-里-之-外 你-无-声-黑-白
+V:pinyin
+[aA] | [e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [e'2e2] [f'9f9] |
+w: wo song ni li kai, qian li zhi wai, ni wu sheng hei bai
+V:RH
+A,DEFAFED A,DEFAFED | A,DEFAFED A,DEFAFED |
+V:LH
+[D,4D,,4] D,3 D,,[C,4C,,4] C,2 C,,2 | [B,,4B,,,4] B,,3 B,,,[A,,4A,,,4] A,,2 A,,,2 |
+
+V:voice
+[e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [f'2f2] [f'2f2] [e'6e6]
+w: 沉-默-年-代 或-许-不-该 太-遥-远-的-相-爱
+V:pinyin
+[e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [f'2f2] [f'2f2] [e'6e6]
+w: chen mo nian dai, huo xu bu gai, tai yao yuan de xiang ai
+V:RH
+A,DEFAFED A,DEFAFED | A,DEFAFED EA,B,DEDEF |
+V:LH
+[D,4G,,4] D,3 G,,[D,4F,,4] D,2 F,,2 | [D,4E,,4] D,2 E,,2 [A,,4A,,,4] A,,2 A,,,2 |
+
+V:voice
+[aA] | [e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [e'2e2] [f'9f9] |
+w: 我-送-妳-离-开 天-涯-之-外 妳-是-否-还-在
+V:pinyin
+[aA] | [e'2e2][e'e] [e'2e2] [f'3f3] [e'2e2][d'd] [a2A2] [b3B3] | [d'2d2][d'd] [d'2d2] [e'2e2] [f'9f9] |
+w: wo song ni li kai, tian ya zhi wai, ni shi fou hai zai
+V:RH
+A,DEFAFED A,DEFAFED | A,DEFAFED =CDEFAFED |
+V:LH
+[D,4D,,4] D,3 D,,[C,4C,,4] C,2 C,,2 | [B,,4B,,,4] B,,3 B,,,[G,,4A,,,4] F,,2 A,,,2 |
+
+V:voice
+|[1 [e'2e2][e'e] [e'2e2] [d'3d3] [e'2e2][e'e] [e'2e2] [d'3d3] | [b2B2][d'd] [d'9d9] [b2B2][d'd] [d'2d2]
+w: 琴-声-何-来 生-死-难-猜 用-一-生 去-等-待
+V:pinyin
+|[1 [e'2e2][e'e] [e'2e2] [d'3d3] [e'2e2][e'e] [e'2e2] [d'3d3] | [b2B2][d'd] [d'9d9] [b2B2][d'd] [d'2d2]
+w: qin sheng he lai, sheng si nan cai, yong yi sheng, qu deng dai
+V:RH
+|[1 A,DEFAFED A,DEFAFED | G,A,B,DEDB,G, A,2 ABAFE2 |
+V:LH
+|[1 [D,4G,,4] D,2 G,,2 [D,4F,,4] D,4 | [D,4E,,4] D,2 E,,2 [A,,4A,,,4] A,,2 A,,,2 |
+
+
+% bridge
+
+V:voice
+d d d d A A d d A A d d f d2 |
+w: 闻泪-声-入-林 寻-梨-花-白 只-得-一-行-青-苔
+z d d d d A A d d A A d e2 d2 |
+w: 天在-山-之-外 雨-落-花-台 我-两-鬓-斑-白
+V:pinyin
+d d d d A A d d A A d d f d2 |
+w: wen~lei sheng ru lin, xun li hua bai, zhi de yi xing qing tai
+z d d d d A A d d A A d e2 d2 |
+w: tian~zai shan zhi wai, yu luo hua tai, wo liang bin ban bai
+V:RH
+[ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] | [ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] |
+V:LH
+D,,A,,E,F,A,DED A,4 A,,4 | G,,D,E,G,A,DED G,4 G,,4 |
+
+V:voice
+z d d d d A A d d A A d d f d2 |
+w: 闻泪-声-入-林 寻-梨-花-白 只-得-一-行-青-苔
+z d d d d A A d d A A d d2 z2 |
+w: 天在-山-之-外 雨-落-花-台 我-等-妳-来
+V:pinyin
+z d d d d A A d d A A d d f d2 |
+w: wen~lei sheng ru lin, xun li hua bai, zhi de yi xing qing tai
+z d d d d A A d d A A d d2 z2 |
+w: tian~zai shan zhi wai, yu luo hua tai, wo deng ni lai
+V:RH
+[ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] | [ae][bf][d'a][bf][a2e2][ae][bf] [a8e8] |
+V:LH
+B,,F,A,B,DB,ED B,4 A,,4 | G,,D,E,G,A,DED G,4 G,,4 |
+
+
+% verse 2
+
+V:voice
+efef2 a3 efef2 a3 | e2d d3B d9 |
+w: 一-身-琉-璃-白 透-明-著-尘-埃 妳-无-瑕-的-爱
+V:pinyin
+efef2 a3 efef2 a3 | e2d d3B d9 |
+w: yi shen liu li bai, tou ming zhuo chen ai, ni wu xia de ai
+V:RH
+[E8D8A,8] [E6C6A,6] A2 | [D8B,8A,8G,8] [D4A,4] EFDA, |
+V:LH
+D,8 C,8 | B,,8 A,,4 F,4 |
+
+V:voice
+efef2 a3 efed2 e3 | f2d d2 f2 ee8 |
+w: 妳-从-雨-中-来 诗-化-了-悲-哀 我-淋-湿-现-_在
+V:pinyin
+efef2 a3 efed2 e3 | f2d d2 f2 ee8 |
+w: ni cong yu zhong lai, shi hua liao bei ai, wo lin shi xian_ zai
+V:RH
+[B,8G8] [D4A,4] F4 | [D3G,3] E,G,D3 [D4A,4] C4 |
+V:LH
+G,,4 D,4 [D,8F,,8] | E,,2 B,,D,5 A,,8 |
+
+V:voice
+efef2 a3 efef2 a3 | e2d d2 f2 ed8 |
+w: 芙-蓉-水-面-采 船-行-影-犹-在 妳-却-不-回-来_
+V:pinyin
+efef2 a3 efef2 a3 | e2d d2 f2 ed8 |
+w: fu rong shui mian cai, chuan xing ying you zai, ni que bu hui lai_
+V:RH
+EF3 E4 [E8A8] | [D4A,4] F,2 A,2 [C4A,4F,4] D4 |
+V:LH
+D,,2D,F, A,2D,,2 C,,4 C,2C,,2 | B,,4 B,3B,, A,,4 A,2A,,2 |
+
+V:voice
+efef2 a3 efef2 b3 | a2b d'2 f'2e' e'8 :|
+w: 被-岁-月-覆-蓋 妳-说-的-花-开 过-去-成-空-_白
+V:pinyin
+efef2 a3 efef2 b3 | a2b d'2 f'2e' e'8 :|
+w: bei sui yue fu gai, ni shuo de hua kai, guo qu cheng kong_ bai
+V:RH
+F7 D E4 D4 | [D4G,4] B,2 G,2 [D4A,4] [E4A,4] :|
+V:LH
+G,,2 D,G,A,B,A,G,, [D,4F,,4] D,2F,,2 | E,,4 B,,3E,, [A,,4A,,,4] A,,4 :|
+
+
+% (repeat pre-chorus and chorus)
+
+
+% transition to chorus reprise
+
+V:voice
+|[2 [e'2e2][e'e] [e'2e2] [d'3d3] [e'2e2][e'e] [e'2e2] [d'3d3] | [b2B2][d'd] [d'5d5] z7
+w: 琴-声-何-来 生-死-难-猜 用-一-生
+V:pinyin
+|[2 [e'2e2][e'e] [e'2e2] [d'3d3] [e'2e2][e'e] [e'2e2] [d'3d3] | [b2B2][d'd] [d'5d5] z7
+w: qin sheng he lai, sheng si nan cai, yong yi sheng
+V:RH
+|[2 A,DEFAFED A,DEFAFED | G,A,B,DEDB,G, z2 [_b_B][=c'=c][_e'_e][c'c][e'e][g'g] |
+V:LH
+|[2 [D,4G,,4] D,2 G,,2 [D,4F,,4] D,4 | [D,4E,,4] D,2 E,,2 [A,,A,,,] z3 [_B,,4_B,,,4] |
+
+
+% chorus reprise
+
+V:voice
+[_b_B] | [=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [=f'2=f2] [g'9g9] |
+w: 我-送-你-离-开 千-里-之-外 你-无-声-黑-白
+V:pinyin
+[_b_B] | [=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [=f'2=f2] [g'9g9] |
+w: wo song ni li kai, qian li zhi wai, ni wu sheng hei bai
+V:RH
+_B,_E=FG_BGFE B,EFGBGFE | _B,_E=FG_BGFE B,EFGBGFE |
+V:LH
+[_E,4_E,,4] E,3 E,,[D,4D,,4] D,2 D,,2 | [=C,4=C,,4] C,3 C,,[_B,,4_B,,,4] B,,2 B,,,2 |
+
+V:voice
+[=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [g'2g2] [g'2g2] [=f'6=f6]
+w: 沉-默-年-代 或-许-不-该 太-遥-远-的-相-爱
+V:pinyin
+[=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [g'2g2] [g'2g2] [=f'6=f6]
+w: chen mo nian dai, huo xu bu gai, tai yao yuan de xiang ai
+V:RH
+_B,_E=FG_BGFE B,EFGBGFE | _B,_E=FG_BGFE FB,=CEFEFG |
+V:LH
+[_E,4_A,,4] E,3 A,,[E,4G,,4] E,2 G,,2 | [_E,4=F,,4] E,2 F,,2 [_B,,4_B,,,4] B,,2 B,,,2 |
+
+V:voice
+[_b_B] | [=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [=f'2=f2] [g'9g9] |
+w: 我-送-妳-离-开 天-涯-之-外 妳-是-否-还-在
+V:pinyin
+[_b_B] | [=f'2=f2][f'f] [f'2f2] [g'3g3] [f'2f2][_e'_e] [_b2_B2] [=c'3=c3] | [_e'2_e2][e'e] [e'2e2] [=f'2=f2] [g'9g9] |
+w: wo song ni li kai, tian ya zhi wai, ni shi fou hai zai
+V:RH
+_B,_E=FG_BGFE B,EFGBGFE | _B,_E=FG_BGFE _DEFGBGFE |
+V:LH
+[_E,4_E,,4] E,3 E,,[D,4D,,4] D,2 D,,2 | [=C,4=C,,4] C,3 C,,[_A,,4_B,,,4] G,,2 B,,,2 |
+
+V:voice
+[=f'2=f2][f'f] [f'2f2] [_e'3_e3] [f'2f2][f'f] [f'2f2] [e'3e3] | [=c'2=c2][_e'_e] [e'9e9] [c'2c2][e'e] [e'13e13]
+w: 琴-声-何-来 生-死-难-猜 用-一-生 去-等-待
+V:pinyin
+[=f'2=f2][f'f] [f'2f2] [_e'3_e3] [f'2f2][f'f] [f'2f2] [e'3e3] | [=c'2=c2][_e'_e] [e'9e9] [c'2c2][e'e] [e'13e13]
+w: qin sheng he lai, sheng si nan cai, yong yi sheng, qu deng dai
+V:RH
+_B,_E=FG_BGFE B,EFGBGFE | _A,_B,=C_E=FECA, B,2 _B=cBGF2 |
+V:LH
+[_E,4_A,,4] E,2 A,,2 [E,4G,,4] E,4 | [_E,4=F,,4] E,2 F,,2 [_B,,4_B,,,4] B,,2 B,,,2 |
+
+
+% outro
+
+V:voice
+z4 | z16 | z16 | z16 |]
+V:pinyin
+z4 | z16 | z16 | z16 |]
+
+V:RH
+[_b=f][=c'g][_e'b][c'g][b2f2][bf][c'g] [b8f8] | [_b=f][=c'g][_e'b][c'g][b2f2][bf][c'g] [b8f8] |]
+V:LH
+_E,,4 _E,3E,, E,,4 E,G,,3 | _A,,4 _A,3A,, A,,4 A,A,,3 |
+
+V:RH
+[_b=f][=c'g][_e'b][c'g][b2f2][bf][c'g] [b8f8] | [_b=f][=c'g][_e'b][c'g][b2f2][bf][c'g] [b8f8] |]
+V:LH
+=C,,4 =C,3C,, C,,4 _B,,_B,,,3 | _A,,,4 _A,,3A,,, A,,,8 |

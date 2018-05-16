@@ -2,8 +2,6 @@ package karaoke;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -179,14 +177,14 @@ public class MusicWebServer {
         String response = "Playing now, lyrics streaming has begun"; 
         System.out.println("here!");
 
-        try {
+        /*try {
             System.out.println("here!!");
 
         SoundPlayback.play(MusicLanguage.parse(filePath), queue);
         }
         catch (UnableToParseException e) {
              System.out.println("exception");
-        }
+        }*/
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);

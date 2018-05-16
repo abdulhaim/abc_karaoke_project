@@ -47,9 +47,9 @@ public class Chord implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat) {
         for (Note note : notes) {
-            note.play(player, atBeat, queue); //important that you play all at the same beat
+            note.play(player, atBeat); //important that you play all at the same beat
         }
        
     }

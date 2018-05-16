@@ -1,0 +1,72 @@
+X:1
+T:Some Nights
+C:fun. - arranged by MIT/Wellesley Toons
+V:Solo
+V:Soprano
+V:Mezzo
+V:Alto
+V:Tenor
+V:Bass
+M:4/4
+L:1/4
+Q:1/4=104
+K:C
+% abc lyrics transcription from benolds,ehzhang,fsaad
+V:Solo
+c c/2 c/2 e g | a/2 a/2 a/2 g/2 e c | z/2 a/2 a/2 g/2 e d/2 d d | z/2 z2|
+w: Some nights I stay up cash-ing in my bad luck Some nights I call it a draw
+V:Soprano
+c c/2 c/2 c/2 e/2 e | f/2 f/2 f/2 e/2 c c | z/2 f/2 f/2 e/2 c G/2 B B | z/2 z2 |
+V:Mezzo
+G G/2 G/2 G c | c/2 c/2 c/2 G/2 G E | z/2 c/2 c/2 G/2 G G/2 G G | z/2 z2 |
+V:Alto
+E E/2 E/2 E G | A/2 A/2 A/2 G/2 E C | z/2 c/2 c/2 c/2 c G/2 G G | z/2 z2 |
+V:Tenor
+G, G,/2 G,/2 C C | C/2 C/2 C/2 C/2 C G, | z/2 C/2 C/2 C/2 C G,/2 G, G, | z/2 z2 |
+V:Bass
+C,, C,,/2 C,,/2 C,, C,, | F,,/2 F,,/2 F,,/2 C,,/2 C,, C,, | z/2 F,,/2 F,,/2 E,,/2 C,, C,,/2 C,, F,,, | z/2 z2|
+% Measure 5
+V:Solo
+c c/2 c/2 e g/2 a/2 | a/2 a/2 a/2 g/2 e c | z/2 a/2 a/2 g/2 e/2 e/2 c/2 d d z/2 z e/4 g3/4 |
+w: Some nights I wish that my lips could build a cas-tle Some nights I wish they'd just fall off But I
+V:Soprano
+c c/2 c/2 c e/2 f/2 | f/2 f/2 f/2 e/2 c c | z/2 f/2 f/2 e/2 c/2 c/2 G/2 b b z/2 z c/4 e3/4 |
+V:Mezzo
+G G/2 G/2 G G/2 c/2 | c/2 c/2 c/2 G/2 G E | z/2 c/2 c/2 G/2 G/2 G/2 E/2 G G z/2 z E/4 G3/4 |
+V:Alto
+E E/2 E/2 E G/2 A/2 | A/2 A/2 A/2 G/2 E C | z/2 A/2 A/2 G/2 G/2 G/2 E/2 D D z/2 z C/4 E3/4 |
+V:Tenor
+G, G,/2 G,/2 C C/2 C/2 | C/2 C/2 C/2 C/2 C G, | z/2 C/2 C/2 C/2 C/2 C/2 G,/2 G, G, z/2 z G,/4 C3/4 |
+V:Bass
+C,, C,,/2 C,,/2 C,, C,,/2 C,,/2 | F,,/2 F,,/2 F,,/2 E,,/2 C,, C,, | z/2 F,,/2 F,,/2 E,,/2 C,,/2 C,,/2 C,,/2 C,, G,,, z/2 z C,,/4 C,,3/4 |
+% Measure 9
+V:Solo
+a3/4 a3/4 g/4 f/4 e e/2 g/2 | a3/4 a3/4 g/2 z/2 c/2 e/2 g/2 a3/4 a3/4 g/4 f/4 e e/4 f3/4 | e3/4 e/2 z/4 f3/2 e/2 d/2 |
+w: still wake up__ I still see your ghost Oh lord I still don't know__ what I stand for, oh___
+V:Soprano
+f3/4 f3/4 e3/2 c/2 e/2 | f3/4 f3/4 e/2 z/2 G/2 c/2 e/2 | f3/4 f3/4 e3/2 c/4 d3/4 | c3/4 B/2 z/4 d5/2 |
+V:Mezzo
+c3/4 c3/4 c3/2 G/2 c/2 | c3/4 c3/4 c/2 c/2 E/2 G/2 c/2 | c3/4 c3/4 c3/2 G/4 G3/4 | G3/4 G/2 z/4 G3/2 G/2 c/2 |
+V:Alto
+F3/2 E5/2 | F3/2 E5/2 | F3/2 E5/2 | D3/2 D3/2 E/2 G/2 |
+V:Tenor
+C3/2 G,5/2 | C3/2 G,5/2 | C3/2 [G,11/2G11/2] C/2 E/2 |
+V:Bass
+F,,3/2 C,,5/2 | F,,3/2 C,,5/2 | F,,3/2 C,,3/2 C,,/4 C,,3/4 | G,,3/4 G,,/2 G,,11/4 |
+% Measure 13
+V:Solo
+z/2 a/2 a/2 g/2 e c | z/2 a/2 a/2 g/2 e c | A3/4 A3/4 z f e/4 d/4 | e/4 d/4 B3/2 z c/4 d3/4 | c4 |
+w: What do I stand for What do I stand for Most nights I don't_ know__ an-y more
+V:Soprano
+z/2 f/2 f/2 e/2 c c | z/2 f/2 f/2 e/2 c c | z4 | z4 | G4 |
+V:Mezzo
+z/2 c/2 c/2 G/2 G E | z/2 c/2 c/2 G/2 G E | c4 | B4 | C4 |
+V:Alto
+A3/2 G/2 z E/2 G/2 | A3/2 G/2 z2 | A4 | G4 | C4 |
+V:Tenor
+F3/2 E/2 z C/2 E/2 | F3/2 E/2 z2 | E4 | D4 | C,4 | 
+V:Bass
+z/2 F,,/2 F,,/2 G,,/2 C,, C,, | z/2 F,,/2 F,,/2 G,,/2 C,, C,, | A,,4 | G,,4 | F,,4 |
+%
+
+
