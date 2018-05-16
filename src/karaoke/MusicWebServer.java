@@ -139,12 +139,13 @@ public class MusicWebServer {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         final int enoughBytesToStartStreaming = 2048;
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
-            out.print(' ');
+            out.print("hello");
         }
+        out.println();
         System.out.print("1");
         out.println("hello");
         outList.add(out);
-
+        System.out.print(outList);
         while (!play) {
             synchronized (lock) {
                 lock.wait();
@@ -155,13 +156,15 @@ public class MusicWebServer {
             System.out.print("3");
             this.displayLyrics();
             out.println("hello");
-        }
-        finally {
-            synchronized(lock2) {
-                lock2.wait();
-            }
-            exchange.close();
-        }
+            System.out.print("4");
+        } finally
+         {
+            synchronized(this) {
+                this.wait();
+                System.out.print("waiting for lyrics to end");
+            } 
+            exchange.close(); }
+        
     }
     
     /**
@@ -208,8 +211,8 @@ public class MusicWebServer {
                 }
                 else {
                     done = true;
-                    synchronized (lock2) {
-                        queue.notifyAll();
+                    synchronized (this) {
+                        this.notifyAll();
                     }
                 }
             }
