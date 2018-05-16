@@ -73,7 +73,7 @@ public class MusicLanguageTest {
         parsedMusic.play(player, 0);
         player.play();
     }
-    
+     
     @Test
     public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece2.abc";

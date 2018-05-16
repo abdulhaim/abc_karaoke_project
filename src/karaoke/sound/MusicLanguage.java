@@ -11,7 +11,7 @@ import javax.sound.midi.MidiUnavailableException;
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
 import edu.mit.eecs.parserlib.UnableToParseException;
-
+ 
 /**
  * Parses a file in ABC format 
  * Specification Author: Myra Ahmad & Marwa Abdulhai
@@ -389,13 +389,13 @@ public class MusicLanguage {
                 "V: lefthand\r\n" + 
                 "[E,,2E,2] B, G, [E,B,,] E,, [E,B,,] E,, | F,, C, F, A, C F, F, F,, | B,8";
 
-        final AbcTune musicPiece = MusicLanguage.parse(fridayRepeat);
+        final AbcTune musicPiece = MusicLanguage.parse(mozart);
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        voice.play(player, 0.0);
+        voice.play(player, 0.0);   
         player.play();
         
         
@@ -593,6 +593,7 @@ public class MusicLanguage {
                             voice = voice.addMusic(builder.getSinger(), music);
 
                         }
+                        builder = new AbcBuilder();
                         builder.setInMusic(false);
 
                         
