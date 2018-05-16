@@ -1,6 +1,9 @@
 package karaoke.sound;
+<<<<<<< Updated upstream
 
 import static org.junit.Assert.assertEquals;
+=======
+>>>>>>> Stashed changes
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -539,6 +539,7 @@ public class MusicLanguage {
                         }
                         builder = new AbcBuilder();
                         builder.setInMusic(false);
+                        builder = new AbcBuilder();
 
                         
                     }
