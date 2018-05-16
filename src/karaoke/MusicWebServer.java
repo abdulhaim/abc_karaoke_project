@@ -141,7 +141,8 @@ public class MusicWebServer {
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
-        //out.println("hello");
+        System.out.print("1");
+        out.println("hello");
         outList.add(out);
 
         while (!play) {
@@ -149,9 +150,11 @@ public class MusicWebServer {
                 lock.wait();
                 }
         }
+        System.out.print("2");
         try {
+            System.out.print("3");
             this.displayLyrics();
-            //out.println("hello");
+            out.println("hello");
         }
         finally {
             synchronized(lock2) {
@@ -172,12 +175,10 @@ public class MusicWebServer {
      */
     private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
-        System.out.print("1");
 
         synchronized (lock) {
             lock.notifyAll();
         }
-        System.out.print("2");
 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
@@ -186,19 +187,13 @@ public class MusicWebServer {
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         final int enoughBytesToStartStreaming = 2048;
-        System.out.print("3");
 
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
-        System.out.print("4");
-
         out.println(response);
         //out.println(MusicLanguage.parse(readFile(filePath)));
-        System.out.print("5");
-
         SoundPlayback.play(MusicLanguage.parse(readFile(filePath)).getMusic(), queue); 
-        System.out.print("6");
 
         exchange.close(); 
     }
@@ -208,7 +203,8 @@ public class MusicWebServer {
             String line = queue.take();
             for (PrintWriter out: outList) {
                 if (!line.equals("$") ) {
-                    out.print(line);
+                    System.out.println(line);
+                    out.println(line);
                 }
                 else {
                     done = true;
