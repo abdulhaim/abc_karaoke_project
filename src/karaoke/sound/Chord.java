@@ -3,6 +3,7 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * An immutable data type that represents a chord 
@@ -46,9 +47,9 @@ public class Chord implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue) {
         for (Note note : notes) {
-            note.play(player, atBeat); //important that you play all at the same beat
+            note.play(player, atBeat, queue); //important that you play all at the same beat
         }
        
     }

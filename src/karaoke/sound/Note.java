@@ -1,5 +1,7 @@
 package karaoke.sound;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  * Immutable data type Note represents a note played by an instrument.
  * @author Marwa Abdulhai
@@ -91,9 +93,14 @@ public class Note implements Music {
      * @param atBeat beat position of when the notwe will be played.
      */
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue) {
         player.addNote(instrument, pitch, atBeat, duration);
-        player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { System.out.println(lyrics); } }); //fix this
+        player.addEvent(atBeat, (Double beat) -> {try {
+            queue.put(lyrics);
+        } catch (InterruptedException e) {
+            throw new AssertionError("Something went wrong!");
+        } });
+        //player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { System.out.println(lyrics); } }); //fix this
     }
 
     @Override
