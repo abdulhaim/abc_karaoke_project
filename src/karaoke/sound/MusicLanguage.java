@@ -333,7 +333,7 @@ public class MusicLanguage {
                 "fAA eAA| def gfe|fAA eAA|dfe dBA|\r\n" + 
                 "fAA eAA| def gfe|faf gfe|dfe dBA:|\r\n";
 
-        final AbcTune musicPiece = MusicLanguage.parse(beautiful);
+        final AbcTune musicPiece = MusicLanguage.parse(payphone);
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
