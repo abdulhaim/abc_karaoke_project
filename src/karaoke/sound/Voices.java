@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 public class Voices implements Music{
     
@@ -18,9 +19,12 @@ public class Voices implements Music{
     public Voices() {
         String singer = "V";
         Map<String, List<Concat>> map = new HashMap<String, List<Concat>>();
-        map.put(singer, Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Concat>())));
-        this.voiceToMusic = Collections.synchronizedMap(Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
+        map.put(singer, Collections.synchronizedList(
+                        Collections.unmodifiableList(new ArrayList<Concat>())));
+        this.voiceToMusic = Collections.synchronizedMap(
+                            Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
     }
+    
     /**
      * Constructor of Voices
      * @param singers different voices that are present
@@ -60,6 +64,7 @@ public class Voices implements Music{
      * @return new Voice object incorporating that change.
      */
     public Voices addMusic(String singer, Concat concMusic) {
+
         List<Concat> modifiedList = new ArrayList<>(this.voiceToMusic.get(singer));//Arrays.asList(concMusic);
         modifiedList.add(concMusic);
         //modifiedList.addAll(this.voiceToMusic.get(singer));
@@ -88,8 +93,9 @@ public class Voices implements Music{
         return addMusic(singer, concMusic);
     }
 
+    
     @Override
-    public double getDuration() {
+    public double getDuration() { //duration of first singer
         double duration = 0;
         String key = (new ArrayList<String>(this.voiceToMusic.keySet())).get(0);
         for (Concat concMusic : this.voiceToMusic.get(key)) {

@@ -1,6 +1,7 @@
-orrpackage karaoke.sound;
+package karaoke.sound;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -63,36 +64,46 @@ public class MusicLanguageTest {
 
     
    @Test
-    public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
+    public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
         String path = "sample-abc/piece1.abc";
         String musicFile = readFile(path);
-        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
-        
-        assertEquals(16.0, parsedMusic.getMusic().getDuration(), 0.001);
+        System.out.println(musicFile);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);        
+        Music p = parsedMusic.getCompleteMusic();
+        assertEquals(16.0, p.getDuration(), 1);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
+<<<<<<< HEAD
      
     @Test
+=======
+    
+>>>>>>> 180c91f1d3f6c20b2ed135e8661cbc48b28c0389
     public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece2.abc";
         String musicFile = readFile(path);
-        Music parsedMusic = MusicLanguage.parse(musicFile);
-        assertEquals(24.0, parsedMusic.getDuration(), 0.001);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        Music p = parsedMusic.getCompleteMusic();
+        assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
     
-    @Test
     public void testPiece3() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece3.abc";
         String musicFile = readFile(path);
-        Music parsedMusic = MusicLanguage.parse(musicFile);
-        assertEquals(24.0, parsedMusic.getDuration(), 0.001);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        Music p = parsedMusic.getCompleteMusic();
+
+        assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0);
         player.play();
     }
     
@@ -102,12 +113,13 @@ public class MusicLanguageTest {
         readFile(path);
     }
     
-    @Test(expected = UnableToParseException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testParseException() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
-        String path = "sample-abc/piece3.abc";
+        String path = "sample-abc/piecec.abc";
         String musicFile = readFile(path);
         MusicLanguage.parse(musicFile);
    
-   
+    }
    
 }
+

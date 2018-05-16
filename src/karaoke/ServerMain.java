@@ -3,18 +3,9 @@ package karaoke;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.concurrent.Executors;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpServer;
 
-import examples.StreamingExample;
 
 public class ServerMain {
     /**
@@ -45,6 +36,7 @@ public class ServerMain {
      * @return A string representing the title and composer
      */
     private static String getHeaderFromFile(String filePath){
+        System.out.println(filePath);
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
         {
