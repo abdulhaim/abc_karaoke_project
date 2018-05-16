@@ -523,7 +523,7 @@ public class MusicLanguage {
             {
                 String tempo = "";
                 for(int i = 1;i<children.size()-1;i++) {
-                    tempo+=children.get(i);
+                    tempo+=children.get(i).text();
                 }
                 TUNE.setTempo(tempo);
                 return;

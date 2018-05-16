@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +59,6 @@ public class MusicWebServer {
     private boolean done = false;
     private boolean multipleVoices = false;
     private Object lock = new Object();
-    private Object lock2 = new Object();
 
     /**
      * Make a new web server for Music that listens for connections on port.
@@ -139,24 +139,19 @@ public class MusicWebServer {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         final int enoughBytesToStartStreaming = 2048;
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
-            out.print("hello");
+            out.print(' ');
         }
         out.println();
-        System.out.print("1");
-        out.println("hello");
+        
         outList.add(out);
-        System.out.print(outList);
         while (!play) {
             synchronized (lock) {
                 lock.wait();
                 }
         }
-        System.out.print("2");
         try {
-            System.out.print("3");
+            out.println();
             this.displayLyrics();
-            out.println("hello");
-            System.out.print("4");
         } finally
          {
             synchronized(this) {
@@ -186,7 +181,6 @@ public class MusicWebServer {
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
 
-        
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         final int enoughBytesToStartStreaming = 2048;
@@ -196,9 +190,14 @@ public class MusicWebServer {
         }
         out.println(response);
         //out.println(MusicLanguage.parse(readFile(filePath)));
-        SoundPlayback.play(MusicLanguage.parse(readFile(filePath)).getMusic(), queue); 
+        AbcTune tune = MusicLanguage.parse(readFile(filePath));
+        System.out.println(tune.getTempo());
+        SoundPlayback.play(tune.getMusic(), queue,Integer.parseInt(tune.getTempo())); 
 
         exchange.close(); 
+        
+        
+
     }
     
     private void displayLyrics() throws InterruptedException {
@@ -206,7 +205,6 @@ public class MusicWebServer {
             String line = queue.take();
             for (PrintWriter out: outList) {
                 if (!line.equals("$") ) {
-                    System.out.println(line);
                     out.println(line);
                 }
                 else {
