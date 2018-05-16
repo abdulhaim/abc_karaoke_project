@@ -44,7 +44,7 @@ public class ServerMain {
      * @param filePath the path to the abc file
      * @return A string representing the title and composer
      */
-    private static String getHeaderFromFile(String filePath){
+    private static String getHeaderFromFile(String filePath) {
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
         {
