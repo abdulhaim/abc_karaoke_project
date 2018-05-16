@@ -3,6 +3,7 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -47,7 +48,7 @@ public class Chord implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         for (Note note : notes) {
             note.play(player, atBeat,queue); //important that you play all at the same beat
         }

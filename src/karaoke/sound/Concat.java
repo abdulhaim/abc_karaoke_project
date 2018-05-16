@@ -90,7 +90,7 @@ public class Concat implements Music{
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         double offsetDuration = 0;
         for (Bar bar : musicToPlay) {
             bar.play(player, atBeat+offsetDuration,queue);

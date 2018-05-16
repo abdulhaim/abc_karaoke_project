@@ -100,7 +100,7 @@ public class Voices implements Music{
     }
 
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String, BlockingQueue<String>> queue) {
        for (String singer : this.voiceToMusic.keySet()) {
            double offsetDuration = 0;
            for (Concat concMusic : this.voiceToMusic.get(singer)) {

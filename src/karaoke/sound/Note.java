@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -27,6 +28,7 @@ public class Note implements Music {
     private final Pitch pitch;
     private final Instrument instrument;
     private final String lyrics;
+    private final String voice;
     
     private void checkRep() {
         assert pitch != null;
@@ -39,11 +41,12 @@ public class Note implements Music {
      * @param duration duration in beats, must be >= 0
      * @param pitch pitch to play
      */
-    public Note(Pitch pitch,double duration) {
+    public Note(Pitch pitch,double duration,String voice) {
         this.duration = duration;
         this.pitch = pitch;
         this.instrument = Instrument.PIANO;
         this.lyrics = "-1";
+        this.voice = voice;
         checkRep();
     }
     
@@ -53,11 +56,12 @@ public class Note implements Music {
      * @param pitch pitch to play
      * @param lyrics the lyrics associated with the note.
      */
-    public Note(Pitch pitch,double duration, String lyrics) {
+    public Note(Pitch pitch,double duration, String lyrics, String voice) {
         this.duration = duration;
         this.pitch = pitch;
         this.instrument = Instrument.PIANO;
         this.lyrics = lyrics;
+        this.voice = voice;
         checkRep();
     }
 
@@ -93,16 +97,16 @@ public class Note implements Music {
      * @param atBeat beat position of when the notwe will be played.
      */
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         player.addNote(instrument, pitch, atBeat, duration);
         
         player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { try {
-            queue.put(lyrics);
+            queue.get(this.voice).put(lyrics);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } } else {
             try {
-                queue.put("$");
+                queue.get(this.voice).put("$");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } }

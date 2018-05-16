@@ -3,6 +3,7 @@ package karaoke.sound;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 /*
  * AF(listOfSubMusic, tupletSize, duration): 
  *  -  Tuplet where listOfSubMusic is the list of listOfSubMusic that forms the tuplet, tupletSize is the size of the tuplet and
@@ -75,7 +76,7 @@ public class Tuplet implements Music {
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
 
         double currentBeat = atBeat;
         for (Music music : this.listOfSubMusic) {

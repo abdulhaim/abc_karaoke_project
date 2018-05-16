@@ -10,14 +10,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -29,7 +29,6 @@ import edu.mit.eecs.parserlib.UnableToParseException;
 import karaoke.sound.AbcTune;
 import karaoke.sound.MusicLanguage;
 import karaoke.sound.SoundPlayback;
-import karaoke.sound.Voices;
 
 /**
  * @author Bibek Kumar Pandit
@@ -55,7 +54,6 @@ public class MusicWebServer {
     private boolean play = false;
     private final String filePath;
     private final List<PrintWriter> outList = new ArrayList<PrintWriter>();
-    private BlockingQueue<String> queue = new LinkedBlockingQueue<>();
     private boolean done = false;
     private boolean multipleVoices = false;
     private Object lock = new Object();
@@ -152,7 +150,7 @@ public class MusicWebServer {
         }
         try {
             out.println();
-            this.displayLyrics();
+            this.displayLyrics(voice);
         } finally
          {
             synchronized(this) {
@@ -200,9 +198,9 @@ public class MusicWebServer {
 
     }
     
-    private void displayLyrics() throws InterruptedException {
+    private void displayLyrics(String voice) throws InterruptedException {
         while (!done) {
-            String line = queue.take();
+            String line = queue.get(voice).take();
             for (PrintWriter out: outList) {
                 if (!line.equals("$") ) {
                     out.println(line);

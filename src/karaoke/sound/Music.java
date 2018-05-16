@@ -1,6 +1,7 @@
 
 package karaoke.sound;
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -33,7 +34,7 @@ public interface Music {
      * @param atBeat when to play
      * @param queue blocking queue to put lyrics on
      */
-    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue);
+    public void play(SequencePlayer player, double atBeat, Map<String,BlockingQueue<String>> queue);
 
     
 }

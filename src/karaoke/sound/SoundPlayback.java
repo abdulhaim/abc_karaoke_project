@@ -1,6 +1,7 @@
 package karaoke.sound;
 
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -19,7 +20,7 @@ public class SoundPlayback {
      * @throws MidiUnavailableException if MIDI device unavailable
      * @throws InvalidMidiDataException if MIDI play fails
      */
-    public static void play(Voices musicPiece, BlockingQueue<String> queue, int beatsPerMinute) throws MidiUnavailableException, InvalidMidiDataException {
+    public static void play(Voices musicPiece, Map<String,BlockingQueue<String>> queue, int beatsPerMinute) throws MidiUnavailableException, InvalidMidiDataException {
         final double offset = 0.125;
         final int ticksPerBeat = 12;
 //        final int beatsPerMinute = 120;

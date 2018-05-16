@@ -1,5 +1,6 @@
 package karaoke.sound;
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -47,7 +48,7 @@ public class Rest implements Music {
      * Play this rest.
      */
     @Override
-    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
+    public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         return;
     }
 

@@ -3,7 +3,9 @@ package karaoke.sound;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -394,7 +396,7 @@ public class MusicLanguage {
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
-        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        Map<String,BlockingQueue<String>> queue = new HashMap<String,BlockingQueue<String>>();
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
         voice.play(player, 0.0,queue);
@@ -806,7 +808,7 @@ public class MusicLanguage {
                     duration*=builder.getTupletDuration();
                 }
                 
-                Note note = new Note(pitch,duration,builder.getLyricOnCount()); //made change here
+                Note note = new Note(pitch,duration,builder.getLyricOnCount(),builder.getSinger());//made change here
                 if(builder.getStatus().equals("Bar")) {
                     builder.addToBar(note);
                     
