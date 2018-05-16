@@ -99,7 +99,7 @@ public class Note implements Music {
             queue.put(lyrics);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } } }); //fix this
+        }; } }); 
     }
 
     @Override
