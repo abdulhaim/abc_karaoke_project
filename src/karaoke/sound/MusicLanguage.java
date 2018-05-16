@@ -1,6 +1,8 @@
 package karaoke.sound;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,365 +37,9 @@ public class MusicLanguage {
      */
     public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
 
-        final String piece1 = "X:1 %Comment Testing \n" +
-                "T:First Music!" + "\n" + 
-                "M:4/4  %Comment Testing\n" + 
-                "L:1/4  %Comment Testing\n" + "C: W. Mozart\n" + 
-                "Q:1/4=140\n" + 
-                "K:C\n" + "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/2c/2c/2 (3G/2G/2G/2 (3E/2E/2E/2 (3C/2C/2C/2 | G3/4 F/4 E3/4 D/4 C2";
-        final String mozart = "X:1\r\n" + 
-                "T:Little Night Music Mvt. 1\r\n" + 
-                "C:Wolfgang Amadeus Mozart\r\n" + 
-                "Q:1/4=140\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/8\r\n" + 
-                "K:G\r\n" + 
-                "[D2B2g2]z d g2z d | g d g b d'2 z2 | c'2z a c'2z a | c' a f a d2 z2 |\r\n" + 
-                "[DBg]z g3 b a g | g f f3 a c' f | a g g3 b a g | g f f3 a c' f |\r\n" + 
-                "g g f e1/2f/2 g g a g/a/ | b b c' b/c'/ d'2 z2 | d4 e4 | c2 c2 B2 B2 |\r\n" + 
-                "A2 A2 G F E F | G z A z B z z2  | d4 e4 | dccc cBBB | BAAA GFEF | \r\n" + 
-                "[G4G,4] [GG,] G1/3F1/3G1/3 AF | B4 B B/3A/3B/3 c A | d4 e2 f2 |\r\n" + 
-                "g2 a2 b2 ^c'2 | d'3 a ^c'3/2 a/ c'3/2 a/ | d'3 a ^c'3/2 a/ c'3/2 a/ | \r\n" + 
-                "d' [d'2f2] [d'2f2] [d'2f2] [d'f] | d' [d'2e2] [d'2e2] [d'2e2] [d'e] | \r\n" + 
-                "[^c'e] a d' a c' a d' a | ^c' A A A A2 z2 | \r\n" + 
-                "a3 g/3f/3e/3 d z b z | g z e z a z z2 | f3 e/3d/3^c/3 B z g z | f4 e2 z2 |\r\n" + 
-                "z aaa aaaa | aaaa aab^c' | ^c'd' z b b a z ^c | d2 z a d'^c'ba | \r\n" + 
-                "b a z a a a a a | b a z a d' ^c' b a |\r\n" + 
-                "b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 | g2 z2 [a3A3] g/3f/3e/3 |\r\n" + 
-                "f2 z2 b ^c'/d'/ c' b | b a f a a g f e | d2 z a d' ^c' b a | b a z a a a a a |\r\n" + 
-                "b a z a d' ^c' b a | b a z a a a a a | b a z2 [b3B3] a/3g/3f/3 |\r\n" + 
-                "g2 z2 [a3A3] g/3f/3e/3 | f2 z2 b ^c'/d'/ c' b | b a f a a g f e |\r\n" + 
-                "d A B ^c d d e d/e/ | \r\n" + 
-                "f ^c d e f f g f/g/ | a a ^a ^g/a/ b2 z2 | B3 e d ^c B A | d z f z d z z2 |\r\n";
-
-        final String payphone = "X: 1\r\n" + 
-                "T:Payphone\r\n" + 
-                "C:Maroon 5\r\n" + 
-                "V:Sing\r\n" + 
-                "V:Melody\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/4\r\n" + 
-                "Q:1/4=120\r\n" + 
-                "K:G\r\n" + 
-                "% abc lyrics transcription from eruleman,nickmm,vhorta\r\n" + 
-                "V:Sing\r\n" + 
-                "z2 B/2 c/2 d/2 a/2 | a g g/2 f/2 d/2 c/2 | c c c/2 B/2 G/2 c/2 | c B/2 A G/2 B/2 A/2 | A2 B/2 c/2 d/2 a/2 |\r\n" + 
-                "w: I'm at a pay*phone try-ing to call_ home All of my change_ I spent_ on you._ Where have the times\r\n" + 
-                "V:Melody\r\n" + 
-                "z4 | C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "a g g/2 f/2 d/2 c/2 | c c c/2 B/2 G/2 c/2 | c B/2 A G/2 B/2 A/2 | A2 z G | G3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 |\r\n" + 
-                "w: *gone? Ba-by, it's all_ wrong Where are the plans_ we made_ for two?_ Yeah, I, I know it's hard to re-mem-ber\r\n" + 
-                "V:Melody\r\n" + 
-                "C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z | C, [G,C] C, [G,C] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "A3/4 G/4 B/4 d/2 d/2 B/2 A/4 B | B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | A3/4 G/4 B/4 d/2 d/2 e/2 B/4 B | B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | A3/4 G/4 B/4 d/2 d/2 B/2 A/4 B |\r\n" + 
-                "w: *the peo-ple we used to be..._ It's e-ven hard_ to pic-ture_ that you're not here next to me._ You say it's to late to make it,_ But is it too late to try?_\r\n" + 
-                "V:Melody\r\n" + 
-                "G,, [D,G,] G,, [D,G,] | E,, [B,,E,] E,, [B,,E,] | D,, [F,,D,] D,, [F,,D,] | C, [G,C] C, [G,C] | G,, [D,G,] G,, [D,G,] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | c3/4 B3/4 G/2 c3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 |\r\n" + 
-                "w:* And in our time that you was-ted All of our brid-ges burned down I've was-ted my nights, You turned out the lights Now I'm pa-ra\\-\r\n" + 
-                "V:Melody\r\n" + 
-                "E,, [B,,E,] E,, [B,,E,] | D,, [F,,D,] D,, [F,,D,] | C,/2 G,/2 C [C2E2G2] | G,,/2 D,/2 G, [G,2B,2D2] | E,,/2 B,,/2 E, [E,2G,2B,2] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "A G G3/4 A3/4 d/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | A2 [B/2b/2] [c/2c'/2] [d/2d'/2] [a/2a'/2] |\r\n" + 
-                "w:lized. Still stuck in that time When we called it love But e-ven the sun sets in pa-ra-dise. I'm at a pay\r\n" + 
-                "V:Melody\r\n" + 
-                "D,,/2 A,,/2 D, [D,2F,2A,2] | C,/2 G,/2 C [C2E2G2] | G,,/2 D,/2 G, [G,2B,2D2] | E,,/2 B,,/2 E, [E,2G,2B,2] | D,,/2 A,,/2 D, z2 | \r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[aa'] [gg'] [g/2g'/2] [f/2f'/2] [d/2d'/2] [c/2c'/2] | [cc'] [cc'] [c/2c'/2] [B/2B'/2] [G/2g/2] [c/2c'/2] | [cc'] [B/2b/2] [Aa] [G/2g/2] [B/2b/2] [A/2a/2] | [A2a2] [B/2b/2] [c/2c'/2] [d/2d'/2] [a/2a'/2] |\r\n" + 
-                "w:*phone try-ing to call_ home All of my change_ I spent_ on you._ Where have the times\r\n" + 
-                "V:Melody\r\n" + 
-                "C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[aa'] [gg'] [g/2g'/2] [f/2f'/2] [d/2d'/2] [c/2c'/2] | [cc'] [cc'] [c/2c'/2] [B/2B'/2] [G/2g/2] [c/2c'/2] | [cc'] [B/2b/2] [Aa] [G/2g/2] [B/2b/2] [A/2a/2] | [A3/2a3/2] [G/2g/2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] |\r\n" + 
-                "w:*gone? Ba-by, it's all_ wrong Where are the plans_ we made_ for two?_ If Hap-py Ev-er\r\n" + 
-                "V:Melody\r\n" + 
-                "C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[A3/4a3/4] [G3/4g3/4] [Gg] [A/2a/2] [Bb] | [B2b2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A3/4a3/4] [G3/4g3/4] [Gg] [d/2d'/2] [Aa] |  [A2a2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] |\r\n" + 
-                "w:Af-ter did ex-ist,_ I would still be hol-ding you like this_ All these fai-ry\r\n" + 
-                "V:Melody\r\n" + 
-                "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[A3/4a3/4] [G3/4g3/4] [Gg] [A/2a/2] [Bb] | [B2b2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A3/4a3/4] [G3/4g3/4] [Gg] [d/2d'/2] [Aa] |  [A2a2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A2a2] [Gg] G |\r\n" + 
-                "w: tales are full of it._ One more stu-pid love song, I'll be sick._ I'm at a pay*phone\r\n" + 
-                "V:Melody\r\n" + 
-                "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 | C,/2 G,/2 C/2 G,/2 C/2 G,/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "| G3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 |\r\n" + 
-                "w: Oh, You turned your back on to-mor-row\r\n" + 
-                "V: Melody\r\n" + 
-                "C, [G,C] C, [G,C] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "A3/4 G/4 B/4 d/2 d/2 B/2 A/4 B | B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | A3/4 G/4 B/4 d/2 d/2 e/2 B/4 B | B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | A3/4 G/4 B/4 d/2 d/2 B/2 A/4 B |\r\n" + 
-                "w: *'Cause you for-got yes-ter-day._ I gave you my love to bor-row,_ But you just gave it a-way._ You can't ex-pect me to be fine,_ I don't ex-pect you to care\r\n" + 
-                "V:Melody\r\n" + 
-                "G,, [D,G,] G,, [D,G,] | E,, [B,,E,] E,, [B,,E,] | D,, [F,,D,] D,, [F,,D,] | C, [G,C] C, [G,C] | G,, [D,G,] G,, [D,G,] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "B3/4 G/4 B/4 d/2 d/2 B/2 A/4 B/2 A/2 | c3/4 B3/4 G/2 c3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 |\r\n" + 
-                "w:*I know I've said it be-fore but All of our brid-ges burned down I've was-ted my nights, You turned out the lights Now I'm pa-ra\\-\r\n" + 
-                "V:Melody\r\n" + 
-                "E,, [B,,E,] E,, [B,,E,] | D,, [F,,D,] D,, [F,,D,] | C,/2 G,/2 C [C2E2G2] | G,,/2 D,/2 G, [G,2B,2D2] | E,,/2 B,,/2 E, [E,2G,2B,2] |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "A G G3/4 A3/4 d/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | B B B3/4 B3/4 A/2 | A2 [B/2b/2] [c/2c'/2] [d/2d'/2] [a/2a'/2] |\r\n" + 
-                "w:lized. Still stuck in that time When we called it love But e-ven the sun sets in pa-ra-dise. I'm at a pay\r\n" + 
-                "V:Melody\r\n" + 
-                "D,,/2 A,,/2 D, [D,2F,2A,2] | C,/2 G,/2 C [C2E2G2] | G,,/2 D,/2 G, [G,2B,2D2] | E,,/2 B,,/2 E, [E,2G,2B,2] | D,,/2 A,,/2 D, z2 | \r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[aa'] [gg'] [g/2g'/2] [f/2f'/2] [d/2d'/2] [c/2c'/2] | [cc'] [cc'] [c/2c'/2] [B/2B'/2] [G/2g/2] [c/2c'/2] | [cc'] [B/2b/2] [Aa] [G/2g/2] [B/2b/2] [A/2a/2] | [A2a2] [B/2b/2] [c/2c'/2] [d/2d'/2] [a/2a'/2] |\r\n" + 
-                "w:*phone try-ing to call_ home All of my change_ I spent_ on you._ Where have the times\r\n" + 
-                "V:Melody\r\n" + 
-                "C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[aa'] [gg'] [g/2g'/2] [f/2f'/2] [d/2d'/2] [c/2c'/2] | [cc'] [cc'] [c/2c'/2] [B/2B'/2] [G/2g/2] [c/2c'/2] | [cc'] [B/2b/2] [Aa] [G/2g/2] [B/2b/2] [A/2a/2] | [A3/2a3/2] [G/2g/2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] |\r\n" + 
-                "w:*gone? Ba-by, it's all_ wrong Where are the plans_ we made_ for two?_ If Hap-py Ev-er\r\n" + 
-                "V:Melody\r\n" + 
-                "C,,/2 G,/2 C/2 E/2 G/2 c/2 z | G,,/2 D,/2 G,/2 B,/2 D/2 G/2 z | E,,/2 B,,/2 E,/2 G,/2 B,/2 D/2 z | D,,/2 A,,/2 D,/2 F,/2 A,/2 D/2 z |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[A3/4a3/4] [G3/4g3/4] [Gg] [A/2a/2] [Bb] | [B2b2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A3/4a3/4] [G3/4g3/4] [Gg] [d/2d'/2] [Aa] |  [A2a2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] |\r\n" + 
-                "w:Af-ter did ex-ist,_ I would still be hol-ding you like this_ All these fai-ry\r\n" + 
-                "V:Melody\r\n" + 
-                "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 |\r\n" + 
-                "%\r\n" + 
-                "%\r\n" + 
-                "V:Sing\r\n" + 
-                "[A3/4a3/4] [G3/4g3/4] [Gg] [A/2a/2] [Bb] | [B2b2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A3/4a3/4] [G3/4g3/4] [Gg] [d/2d'/2] [Aa] |  [A2a2] [B/2b/2] [c/2c'/2] [B/2b/2] [A/2a/2] | [A2a2] [G6g6] |\r\n" + 
-                "w: tales are full of it._ One more stu-pid love song, I'll be sick._ I'm at a pay*phone\r\n" + 
-                "V:Melody\r\n" + 
-                "C,/2 G,/2 C/2 G,/2 C/2 G,/2 C/2 G,/2 | G,,/2 D,/2 G,/2 D,/2 G,/2 D,/2 G,/2 D,/2 | E,,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 E,/2 B,,/2 | D,,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 D,/2 A,,/2 | z4 | z4 |\r\n" + 
-                "%\r\n" + 
-                "%";
-
-        final String piece3 = "X: 2\r\n" + 
-                "T:Piece No.3\r\n" + 
-                "M:3/4\r\n" + 
-                "L:1/8\r\n" + 
-                "Q:1/4=200\r\n" + 
-                "K:C\r\n" + 
-                "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
-                "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.";
-
         
-        final String beautiful = "X:1\r\n" + 
-                "T:What Makes You Beautiful\r\n" + 
-                "C:One Direction\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/4\r\n" + 
-                "V:melody\r\n" + 
-                "V:lefthand\r\n" + 
-                "V:harmony\r\n" + 
-                "Q:1/4=125\r\n" + 
-                "K:E\r\n" + 
-                "% transcribed from https://musescore.com/user/33935/scores/4097261 and lyrics added by zlily\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "z5/2 G'/2 F'/2 E'/2 | E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | F' G'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
-                "w: Ba-by you light up my world like no-bo-dy else, The way that\r\n" + 
-                "\r\n" + 
-                "V: harmony\r\n" + 
-                "z5/2 B/2 B/2 A/2 | G3/4 G3/4 G/2 G3/4 G3/4 G/2 | A B/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
-                "w: Ba-by you light up my world like no-bo-dy else, The way that\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "z4 | [E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | F' G'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
-                "w: you flip your hair gets me o-ver-whelmed, But when you\r\n" + 
-                "\r\n" + 
-                "V: harmony\r\n" + 
-                "G3/4 G3/4 G/2 G3/4 G3/4 G/2 | A B/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
-                "w: you flip your hair gets me o-ver-whelmed, But when you\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "E'3/4 E'3/4 E'/2 E'3/4 E'3/4 E'/2 | G' F'/2 F'/2 z/2 G'/2 F'/2 E'/2 |\r\n" + 
-                "w: smile at the ground it ain't hard to tell, You don't_\r\n" + 
-                "\r\n" + 
-                "V: harmony\r\n" + 
-                "G3/4 G3/4 G/2 G3/4 G3/4 G/2 | B A/2 A/2 z/2 B/2 B/2 A/2 |\r\n" + 
-                "w: smile at the ground it ain't hard to tell, You don't_\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "E'3/2 F'/2 G'2 | G'/2 G'/2 G'/2 G'/2 G'3/4 F'3/4 E'/2 |\r\n" + 
-                "w: know oh oh, you don't know you're beau-ti-ful\r\n" + 
-                "\r\n" + 
-                "V: harmony\r\n" + 
-                "G3/2 A/2 B2 | B/2 B/2 B/2 B/2 B3/4 A3/4 G/2 |\r\n" + 
-                "w: know oh oh, you don't know you're beau-ti-ful\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[E,,2B,2E,2] [A,,2E,2A,2] | [B,,4D,4B,4] |\r\n" + 
-                "\r\n";
-        final String invention = "X:1868\r\n" + 
-                "T:Invention no. 1\r\n" + 
-                "C:Johann Sebastian Bach\r\n" + 
-                "V:1\r\n" + 
-                "V:2\r\n" + 
-                "M:C\r\n" + 
-                "L:1/8\r\n" + 
-                "Q:1/4=70\r\n" + 
-                "K:C\r\n" + 
-                "V:1\r\n" + 
-                "z/C/D/E/ F/D/E/C/ GcBc|d/G/A/B/ c/A/B/G/ dgfg|\r\n" + 
-                "V:2\r\n" + 
-                "z4 z/C,/D,/E,/ F,/D,/E,/C,/|G,G,, z2 z/G,/A,/B,/ C/A,/B,/G,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "e/a/g/f/ e/g/f/a/ g/f/e/d/ c/e/d/f/|e/d/c/B/ A/c/B/d/ c/B/A/G/ ^F/A/G/B/|\r\n" + 
-                "V:2\r\n" + 
-                "CB,CD EG,A,B,|CE,^F,G, A,B,C2|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "AD c3/d/ B/A/G/^F/ E/G/F/A/|G/B/A/c/ B/d/c/e/ d/B/4c/4d/g/ BA/G/|\r\n" + 
-                "V:2\r\n" + 
-                "C/D,/E,/^F,/ G,/E,/F,/D,/ G,B,,C,D,|E,^F,G,E, B,,C, D,D,,|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "Gz z2 z/G/A/B/ c/A/B/G/|^Fz3 z/A/B/c/ d/B/c/A/|\r\n" + 
-                "V:2\r\n" + 
-                "z/G,,/A,,/B,,/ C,/A,,/B,,/G,,/ D,G,^F,G,|A,/D,/E,/^F,/ G,/E,/F,/D,/ A,DCD|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "Bz z2 z/d/c/B/ A/c/B/d/|cz z2 z/e/d/c/ B/d/^c/e/|\r\n" + 
-                "V:2\r\n" + 
-                "G,/G/=F/E/ D/F/E/G/ FEFD|E/A/G/F/ E/G/F/A/ GFGE|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "d^cde fA=Bc|d^F^GA Bcd2|\r\n" + 
-                "V:2\r\n" + 
-                "F/_B/A/G/ F/A/G/B/ A/G/F/E/ D/F/E/G/|F/E/D/C/ B,/D/C/E/ D/C/B,/A,/ ^G,/B,/A,/C/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "d/E/^F/^G/ A/F/G/E/ e/d/c/e/ d/c/B/d/|c/a/^g/b/ a/e/f/d/ ^G/f/e/d/ cB/A/|\r\n" + 
-                "V:2\r\n" + 
-                "B,E, D3/E/ C/B,/A,/=G,/ ^F,/A,/^G,/B,/|A,/C/B,/D/ C/E/D/F/ EA,EE,|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "A/a/g/f/ e/g/f/a/ g4|g/e/f/g/ a/f/g/e/ f4|\r\n" + 
-                "V:2\r\n" + 
-                "A,A,, z2 z/E/D/C/ B,/D/^C/E/|D4 D/A,/B,/=C/ D/B,/C/A,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "f/g/f/e/ d/f/e/g/ f4|f/d/e/f/ g/e/f/d/ e4|\r\n" + 
-                "V:2\r\n" + 
-                "B,4 B,/D/C/B,/ A,/C/B,/D/|C4 C/G,/A,/_B,/ C/A,/^A,/G,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "e/c/d/e/ f/d/e/c/ d/e/f/g/ a/f/g/e/|f/g/a/b/ c'/a/b/g/ c'g ed/c/|\r\n" + 
-                "V:2\r\n" + 
-                "A,_B,A,G, F,DCB,|A,FED E/D,/E,/F,/ G,/E,/F,/D,/|\r\n" + 
-                "%\r\n" + 
-                "V:1\r\n" + 
-                "c/_B/A/G/ F/A/G/_B/ A/=B/c/E/ D/c/F/B/|[c8G8E8]|]\r\n" + 
-                "V:2\r\n" + 
-                "E,C,D,E, F,/D,/E,/F,/ G,G,,|[C,8C,,8]|]\r\n";
 
-
-        final String paddy = "X:1\r\n" + 
-                "T:Paddy O'Rafferty\r\n" + 
-                "C:Trad.\r\n" + 
-                "M:6/8\r\n" + 
-                "Q:1/8=200\r\n" + 
-                "K:D\r\n" + 
-                "dff cee|def gfe|dff cee|dfe dBA|\r\n" + 
-                "dff cee|def gfe|faf gfe|[1 dfe dBA:|[2 dfe dcB|]\r\n" + 
-                "A3 B3|gfe fdB|AFA B2c|dfe dcB|\r\n" + 
-                "A3 B3|efe efg|faf gfe|[1 dfe dcB:|[2 dfe dBA|]\r\n" + 
-                "fAA eAA| def gfe|fAA eAA|dfe dBA|\r\n" + 
-                "fAA eAA| def gfe|faf gfe|dfe dBA:|\r\n";
-       
-        final String fridayRepeat = "X:1\r\n" + 
-                "T:Friday\r\n" + 
-                "C:Rebecca Black\r\n" + 
-                "M:4/4\r\n" + 
-                "L:1/8\r\n" + 
-                "V: melody\r\n" + 
-                "V:lefthand\r\n" + 
-                "Q:1/4=112\r\n" + 
-                "K:B\r\n" + 
-                "% transcribed from https://www.noteflight.com/scores/view/07d89aa01b03790016365893274a9bdbb7956606 and lyrics added by zlily\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "z6 F'2 | \r\n" + 
-                "w: It's\r\n" + 
-                "\r\n" + 
-                "V:lefthand\r\n" + 
-                "z8\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "|: D'2 C'2 D'2 C'2 | D' C' D' C' D'2 C' B |\r\n" + 
-                "w: Fri-day Fri-day get-ting down on Fri-day_\r\n" + 
-                "\r\n" + 
-                "V:lefthand\r\n" + 
-                "|: [B,,3B,3] B, F, D [B,F,] B,, | G,, D, G, B, D, G, G, B,, |\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "[1 z B/ B/ B B B/ B/ B B B/ B/ | F2 C'2 F2 C'2 :|\r\n" + 
-                "w: E-very-bo-dy's loo-king for-ward to the wee-kend wee-kend\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[1 E,, B,, E, G, B, E, E, E,, | F,, C, F, A, C F, F, F,, :|\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "[2 z B/ B/ B B B B B B | D'2 C'2 D'2 C'2 |\r\n" + 
-                "w: E-very-bo-dy's loo-king for-ward to the wee-kend\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[2 E,, B,, E, G, B, E, E, E,, | F,, C, F, A, C F, F, F,, |\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "|: B B B B B B B'2 :|\r\n" + 
-                "w: Par-ty-ing par-ty-ing yeah\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "|: [B,,F,B,] z2 [B,,2F,2B,2] B,, [F,B,] B,, :|\r\n" + 
-                "\r\n" + 
-                "V: melody\r\n" + 
-                "B2 B2 B2 B2 | D' C' C' C' B A G A | B8 |\r\n" + 
-                "w: Fun fun fun fun look-ing for-ward to the wee-_kend\r\n" + 
-                "\r\n" + 
-                "V: lefthand\r\n" + 
-                "[E,,2E,2] B, G, [E,B,,] E,, [E,B,,] E,, | F,, C, F, A, C F, F, F,, | B,8";
-
-        final AbcTune musicPiece = MusicLanguage.parse(fridayRepeat);
+        final AbcTune musicPiece = MusicLanguage.parse("sample-abc/piece1.abc");
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
@@ -434,17 +80,36 @@ public class MusicLanguage {
         BACKSLASHHYPHEN,COMMENT, ENDOFLINE, DIGIT,NEWLINE,SPACEORTAB
     }
     
+    private static String readFile(String filePath)
+    {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+     
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("File either not readable or does not exist.");
+        }
+        return contentBuilder.toString();
+    }
     
     private static Parser<MusicGrammar> parser = makeParser();
 
     /**
      * Parse a string into Music.
-     * @param string string to parse
+     * @param path file to parse
      * @return Music parsed from the string
      * @throws UnableToParseException if the string doesn't match the Music grammar
      */
-    public static AbcTune parse(final String string) throws UnableToParseException {
-        final ParseTree<MusicGrammar> parseTree = parser.parse(string);
+    public static AbcTune parse(final String path) throws UnableToParseException {
+        final String musicFile = readFile(path);
+        final ParseTree<MusicGrammar> parseTree = parser.parse(musicFile);
         makeAbstractSyntaxTree(parseTree);
         return TUNE;
 
@@ -792,8 +457,10 @@ public class MusicLanguage {
                 }
                 else {
                     duration = convertToDouble(noteLength);
+                    //System.out.println(children.get(0).text() + " " + duration);
 
                 }
+               
                 String meter = TUNE.getMeter();
                 
                 if(!TUNE.getNoteLength().isEmpty()) {
@@ -804,6 +471,7 @@ public class MusicLanguage {
                     duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1)); // multiply by 1/4 since that's implicit
 
                 }
+                System.out.println("Durations "+ children.get(0).text() + " " + duration);
                 if(builder.getStatus().equals("Tuplet")) {
                     duration*=builder.getTupletDuration();
                 }

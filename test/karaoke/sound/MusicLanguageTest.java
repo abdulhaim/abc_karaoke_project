@@ -78,7 +78,7 @@ public class MusicLanguageTest {
         player.play();
     }
     
-    @Test
+    
     public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece2.abc";
         String musicFile = readFile(path);
@@ -111,9 +111,9 @@ public class MusicLanguageTest {
         readFile(path);
     }
     
-    @Test(expected = UnableToParseException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testParseException() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
-        String path = "sample-abc/piece3.abc";
+        String path = "sample-abc/piecec.abc";
         String musicFile = readFile(path);
         MusicLanguage.parse(musicFile);
    
