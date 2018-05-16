@@ -10,7 +10,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -50,21 +52,26 @@ public class MusicWebServer {
     private final HttpServer server;
     private boolean play = false;
     private final String filePath;
+    private final List<PrintWriter> outList = new ArrayList<PrintWriter>();
+    private BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+    private boolean done = false;
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
      * @param port server port number
+     * @param filePath the path to the abc file
      * @throws IOException if there is an error starting the musicwebserver
+     * 
      */
     public MusicWebServer(int port, String filePath) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         this.filePath = filePath;
+       
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", exchange -> {
             try {
                 handleStream(exchange);
             } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -73,7 +80,6 @@ public class MusicWebServer {
                 handlePlay(exchange);
 
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
  
             }
@@ -126,20 +132,24 @@ public class MusicWebServer {
 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
+        outList.add(out);
         final int enoughBytesToStartStreaming = 2048;
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
         while (!play) {
-            synchronized (this) {
-                this.wait();
+            synchronized (server) {
+                server.wait();
                 }
         }
 
         try {
-            out.println("Lyrics");
+            this.displayLyrics();
         }
         finally {
+            synchronized(queue) {
+                queue.wait();
+            }
             exchange.close();
         }
     }
@@ -155,8 +165,8 @@ public class MusicWebServer {
      */
     private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException {
         play = true;
-        synchronized (this) {
-        this.notifyAll();
+        synchronized (server) {
+            server.notifyAll();
         }
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
@@ -165,6 +175,24 @@ public class MusicWebServer {
         out.println(response);
         exchange.close(); 
         // call play
+    }
+    
+    private void displayLyrics() throws InterruptedException {
+        while (!queue.isEmpty()) {
+            String line = queue.take();
+            for (PrintWriter out: outList) {
+                if (line != "$" ) {
+                    out.print(line);
+                }
+                else {
+                    done = true;
+                    synchronized (queue) {
+                        queue.notifyAll();
+                    }
+                }
+            }
+        }
+        
     }
     
     
