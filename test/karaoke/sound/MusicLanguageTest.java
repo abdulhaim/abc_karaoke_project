@@ -68,6 +68,7 @@ public class MusicLanguageTest {
     public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece1.abc";
         String musicFile = readFile(path);
+        System.out.println(musicFile);
         AbcTune parsedMusic = MusicLanguage.parse(musicFile);
         Music p = parsedMusic.getCompleteMusic();
         assertEquals(16.0, p.getDuration(), 1);

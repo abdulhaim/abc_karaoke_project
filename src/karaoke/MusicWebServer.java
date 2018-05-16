@@ -25,6 +25,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import edu.mit.eecs.parserlib.UnableToParseException;
+import karaoke.sound.MusicLanguage;
+import karaoke.sound.SoundPlayback;
 
 
 
@@ -78,10 +80,14 @@ public class MusicWebServer {
         server.createContext("/play", exchange -> {
             try {
                 handlePlay(exchange);
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
- 
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            } catch (InvalidMidiDataException e) {
+                e.printStackTrace();
+            } catch (UnableToParseException e) {
+                e.printStackTrace();
             }
         });
         checkRep();
@@ -142,7 +148,6 @@ public class MusicWebServer {
                 server.wait();
                 }
         }
-
         try {
             this.displayLyrics();
         }
@@ -163,7 +168,7 @@ public class MusicWebServer {
      * @throws MidiUnavailableException 
      * @throws InterruptedException 
      */
-    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException {
+    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
         synchronized (server) {
             server.notifyAll();
@@ -174,7 +179,14 @@ public class MusicWebServer {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
         exchange.close(); 
-        // call play
+        String file = "T:Piece No.1\n" + 
+                "M:4/4\n" + 
+                "L:1/4\n" + 
+                "Q:1/4=140\n" + 
+                "K:C\n" + 
+                "C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | (3c/c/c/ (3G/G/G/ (3E/E/E/ (3C/C/C/ | G3/4 F/4 E3/4 D/4 C2 \n";
+                //readFile(filePath);
+        //SoundPlayback.play(MusicLanguage.parse(file), queue);
     }
     
     private void displayLyrics() throws InterruptedException {
@@ -193,6 +205,25 @@ public class MusicWebServer {
             }
         }
         
+    }
+    
+    private static String readFile(String filePath)
+    {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+     
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("File either not readable or does not exist.");
+        }
+        return contentBuilder.toString();
     }
     
     
