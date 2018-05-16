@@ -57,8 +57,7 @@ public class MusicLanguageTest {
     public void testPiece1() {
         //TODO
     }
-    
-    
+
    /* @Test
     public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece1.abc";
@@ -67,6 +66,7 @@ public class MusicLanguageTest {
         System.out.println("HEHHHHHHHHHHHHHHH "+parsedMusic.getDuration());
         System.out.println(parsedMusic);
         assertEquals(16.0, parsedMusic.getDuration(), 0.001);
+<<<<<<< HEAD
 =======
    @Test
     public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
@@ -77,6 +77,8 @@ public class MusicLanguageTest {
         Music p = parsedMusic.getCompleteMusic();
         assertEquals(16.0, p.getDuration(), 1);
 >>>>>>> 957f4a3e39aa418980d5dd84ed9e02e9a9f452ad
+=======
+>>>>>>> parent of 69e09e9... adding repeat with multiple lines
         SequencePlayer player = new MidiSequencePlayer();
         //BlockingQueue<String> queue = new LinkedBlockingQueue<>();
         p.play(player, 0);
