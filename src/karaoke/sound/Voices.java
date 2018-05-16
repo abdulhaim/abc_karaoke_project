@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 public class Voices implements Music{
     
@@ -104,11 +105,11 @@ public class Voices implements Music{
     }
 
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue) {
        for (String singer : this.voiceToMusic.keySet()) {
            double offsetDuration = 0;
            for (Concat concMusic : this.voiceToMusic.get(singer)) {
-               concMusic.play(player, atBeat+offsetDuration);
+               concMusic.play(player, atBeat+offsetDuration, queue);
                offsetDuration += concMusic.getDuration();
            }
        }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -396,8 +398,9 @@ public class MusicLanguage {
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
         Voices voice = musicPiece.getMusic();
-        voice.play(player, 0.0);
+        voice.play(player, 0.0, queue);
         player.play();
         
         

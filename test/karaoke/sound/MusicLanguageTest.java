@@ -1,9 +1,11 @@
-orrpackage karaoke.sound;
+package karaoke.sound;
 
 import static org.junit.Assert.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -67,10 +69,11 @@ public class MusicLanguageTest {
         String path = "sample-abc/piece1.abc";
         String musicFile = readFile(path);
         AbcTune parsedMusic = MusicLanguage.parse(musicFile);
-        
-        assertEquals(16.0, parsedMusic.getMusic().getDuration(), 0.001);
+        Music p = parsedMusic.getCompleteMusic();
+        assertEquals(16.0, p.getDuration(), 1);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0, queue);
         player.play();
     }
     
@@ -78,10 +81,12 @@ public class MusicLanguageTest {
     public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece2.abc";
         String musicFile = readFile(path);
-        Music parsedMusic = MusicLanguage.parse(musicFile);
-        assertEquals(24.0, parsedMusic.getDuration(), 0.001);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        Music p = parsedMusic.getCompleteMusic();
+        assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0, queue);
         player.play();
     }
     
@@ -89,10 +94,13 @@ public class MusicLanguageTest {
     public void testPiece3() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece3.abc";
         String musicFile = readFile(path);
-        Music parsedMusic = MusicLanguage.parse(musicFile);
-        assertEquals(24.0, parsedMusic.getDuration(), 0.001);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        Music p = parsedMusic.getCompleteMusic();
+
+        assertEquals(24.0, p.getDuration(), 0.001);
         SequencePlayer player = new MidiSequencePlayer();
-        parsedMusic.play(player, 0);
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        p.play(player, 0, queue);
         player.play();
     }
     
@@ -108,6 +116,6 @@ public class MusicLanguageTest {
         String musicFile = readFile(path);
         MusicLanguage.parse(musicFile);
    
-   
+    }
    
 }
