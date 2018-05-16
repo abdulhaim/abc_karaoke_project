@@ -76,6 +76,7 @@ public class MusicWebServer {
         if (this.voices.size() >0) {
             multipleVoices = true;
         }
+        System.out.println(this.voices);
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", exchange -> {
             try {
@@ -191,7 +192,6 @@ public class MusicWebServer {
         out.println(response);
         //out.println(MusicLanguage.parse(readFile(filePath)));
         AbcTune tune = MusicLanguage.parse(readFile(filePath));
-        System.out.println(tune.getTempo());
         SoundPlayback.play(tune.getMusic(), queue,Integer.parseInt(tune.getTempo())); 
 
         exchange.close(); 
