@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -49,14 +50,14 @@ public class MusicWebServer {
     
     //fields
 
-    private final Set<String> voices;
+    private final List<String> voices;
     private final HttpServer server;
     private boolean play = false;
     private final String filePath;
-    private final List<PrintWriter> outList = new ArrayList<PrintWriter>();
+    private final Map<String, List<PrintWriter>> outMap = new HashMap<String, List<PrintWriter>>();
     private boolean done = false;
-    private boolean multipleVoices = false;
     private Object lock = new Object();
+    private Map<String, BlockingQueue<String>> voiceMap = new HashMap<String, BlockingQueue<String>>();
 
     /**
      * Make a new web server for Music that listens for connections on port.
@@ -66,15 +67,15 @@ public class MusicWebServer {
      * @throws IOException if there is an error starting the musicwebserver
      * 
      */
-    public MusicWebServer(int port, String filePath) throws IOException {
+    public MusicWebServer(int port, String filePath, List<String> voices) throws IOException {
 
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         this.filePath = filePath;
-        this.voices = getVoicesFromFile(filePath);
-        if (this.voices.size() >0) {
-            multipleVoices = true;
+        this.voices = voices;
+        for (String voice:voices) {
+            voiceMap.put(voice, new LinkedBlockingQueue<String>());
+            outMap.put(voice, new ArrayList<PrintWriter>());
         }
-        System.out.println(this.voices);
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", exchange -> {
             try {
@@ -131,8 +132,11 @@ public class MusicWebServer {
      * @throws InterruptedException 
      */
     private void handleStream (HttpExchange exchange) throws IOException, InterruptedException  {
-        String  path = exchange.getRequestURI().getPath();
-        System.err.println("received request " + path); //TODO remove when done 
+        String startPath = exchange.getHttpContext().getPath();
+        String  getPath = exchange.getRequestURI().getPath();
+        String path = getPath.substring(startPath.length());
+        String[] arguments = path.split("/");
+        String voice = arguments[0].trim();
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
@@ -140,9 +144,9 @@ public class MusicWebServer {
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
-        out.println();
         
-        outList.add(out);
+        outMap.get(voice).add(out);
+        
         while (!play) {
             synchronized (lock) {
                 lock.wait();
@@ -158,7 +162,6 @@ public class MusicWebServer {
                 System.out.print("waiting for lyrics to end");
             } 
             exchange.close(); }
-        
     }
     
     /**
@@ -190,7 +193,7 @@ public class MusicWebServer {
         out.println(response);
         //out.println(MusicLanguage.parse(readFile(filePath)));
         AbcTune tune = MusicLanguage.parse(readFile(filePath));
-        SoundPlayback.play(tune.getMusic(), queue,Integer.parseInt(tune.getTempo())); 
+        SoundPlayback.play(tune.getMusic(), voiceMap ,Integer.parseInt(tune.getTempo())); 
 
         exchange.close(); 
         
@@ -200,8 +203,8 @@ public class MusicWebServer {
     
     private void displayLyrics(String voice) throws InterruptedException {
         while (!done) {
-            String line = queue.get(voice).take();
-            for (PrintWriter out: outList) {
+            String line =  voiceMap.get(voice).take();
+            for (PrintWriter out: outMap.get(voice)) {
                 if (!line.equals("$") ) {
                     out.println(line);
                 }
@@ -216,24 +219,7 @@ public class MusicWebServer {
         
     }
     
-    private static Set<String> getVoicesFromFile(String filePath){
-        Set<String> voices = new HashSet<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
-        {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null)
-            {
-                if (sCurrentLine.startsWith("V:")) {
-                    voices.add(sCurrentLine.substring(2).trim());
-                } 
-            }
-        }
-        catch (IOException e)
-        {
-            throw new IllegalArgumentException("File either not readable or does not exist. \nPlease check the file path and try again");
-        }
-        return voices;
-    }
+    
     
     private static String readFile(String filePath){
         StringBuilder contentBuilder = new StringBuilder();
