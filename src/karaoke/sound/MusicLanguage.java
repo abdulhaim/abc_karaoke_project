@@ -473,7 +473,6 @@ public class MusicLanguage {
                     duration = duration*Double.parseDouble(meter.substring(meter.indexOf("/")+1)); // multiply by 1/4 since that's implicit
 
                 }
-                System.out.println("Durations "+ children.get(0).text() + " " + duration);
                 if(builder.getStatus().equals("Tuplet")) {
                     duration*=builder.getTupletDuration();
                 }
