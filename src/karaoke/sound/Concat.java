@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * @author Bibek Kumar Pandit
@@ -89,10 +90,10 @@ public class Concat implements Music{
     }
     
     @Override
-    public void play(SequencePlayer player, double atBeat) {
+    public void play(SequencePlayer player, double atBeat,BlockingQueue<String> queue) {
         double offsetDuration = 0;
         for (Bar bar : musicToPlay) {
-            bar.play(player, atBeat+offsetDuration);
+            bar.play(player, atBeat+offsetDuration,queue);
             offsetDuration += bar.getDuration();
         }
     }

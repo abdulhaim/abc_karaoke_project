@@ -33,7 +33,7 @@ public interface Music {
      * @param atBeat when to play
      * @param queue blocking queue to put lyrics on
      */
-    public void play(SequencePlayer player, double atBeat);
+    public void play(SequencePlayer player, double atBeat, BlockingQueue<String> queue);
 
     
 }
