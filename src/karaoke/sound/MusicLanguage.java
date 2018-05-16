@@ -37,8 +37,6 @@ public class MusicLanguage {
      */
     public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
 
-        
-
         final AbcTune musicPiece = MusicLanguage.parse("sample-abc/piece1.abc");
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
