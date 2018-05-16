@@ -35,6 +35,7 @@ public class MusicLanguage {
      */
     public static void main(final String[] args) throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
 
+
         final String piece1 = "X:1 %Comment Testing \n" +
                 "T:First Music!" + "\n" + 
                 "M:4/4  %Comment Testing\n" + 
@@ -394,6 +395,7 @@ public class MusicLanguage {
                 "[E,,2E,2] B, G, [E,B,,] E,, [E,B,,] E,, | F,, C, F, A, C F, F, F,, | B,8";
 
         final AbcTune musicPiece = MusicLanguage.parse(payphone);
+
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity

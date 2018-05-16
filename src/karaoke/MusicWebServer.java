@@ -88,6 +88,9 @@ public class MusicWebServer {
                 e.printStackTrace();
             } catch (InvalidMidiDataException e) {
                 e.printStackTrace();
+            } catch (UnableToParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         });
         checkRep();
@@ -168,7 +171,7 @@ public class MusicWebServer {
      * @throws MidiUnavailableException 
      * @throws InterruptedException 
      */
-    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException {
+    private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
         synchronized (server) {
             server.notifyAll();
@@ -176,20 +179,14 @@ public class MusicWebServer {
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
         System.out.println("here!");
+        System.out.println(MusicLanguage.parse(filePath));
 
-        /*try {
-            System.out.println("here!!");
 
-        SoundPlayback.play(MusicLanguage.parse(filePath), queue);
-        }
-        catch (UnableToParseException e) {
-             System.out.println("exception");
-        }*/
+
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
         exchange.close(); 
-        
     }
     
     private void displayLyrics() throws InterruptedException {

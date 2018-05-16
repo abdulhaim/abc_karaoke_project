@@ -65,11 +65,11 @@ public class MusicLanguageTest {
 
     
    @Test
-    public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
+    public void testPiece1() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException {
         String path = "sample-abc/piece1.abc";
         String musicFile = readFile(path);
         System.out.println(musicFile);
-        AbcTune parsedMusic = MusicLanguage.parse(musicFile);
+        AbcTune parsedMusic = MusicLanguage.parse(musicFile);        
         Music p = parsedMusic.getCompleteMusic();
         assertEquals(16.0, p.getDuration(), 1);
         SequencePlayer player = new MidiSequencePlayer();
@@ -77,7 +77,6 @@ public class MusicLanguageTest {
         p.play(player, 0, queue);
         player.play();
     }
-    
     
     public void testPiece2() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece2.abc";
@@ -91,7 +90,6 @@ public class MusicLanguageTest {
         player.play();
     }
     
-    @Test
     public void testPiece3() throws UnableToParseException, MidiUnavailableException, InvalidMidiDataException{
         String path = "sample-abc/piece3.abc";
         String musicFile = readFile(path);
@@ -120,3 +118,4 @@ public class MusicLanguageTest {
     }
    
 }
+

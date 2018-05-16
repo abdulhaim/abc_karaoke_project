@@ -25,7 +25,7 @@ public class SoundPlayback {
         
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        voice.play(player, offset, queue);
+        voice.play(player, offset);
         player.play();
 
     }
