@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -202,7 +204,6 @@ public class MusicLanguage {
                 "K:C\r\n" + 
                 "z4 D2 | G4 B G | B4 A2 | G4 E2 | D4 D2 | G4 B G | B4 A2 | d6\r\n" + 
                 "w: A - | ma - zing_ | grace! How | sweet the | sound That | saved a_ | wretch like | me.";
-
         
         final String beautiful = "X:1\r\n" + 
                 "T:What Makes You Beautiful\r\n" + 
@@ -393,9 +394,10 @@ public class MusicLanguage {
 
         final int beatsPerMinute = 120; // a beat is a quarter note, so this is 120 quarter notes per minute
         final int ticksPerBeat = 12; // allows up to 1/64-beat notes to be played with fidelity
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        voice.play(player, 0.0);
+        voice.play(player, 0.0,queue);
         player.play();
         
         
@@ -593,8 +595,8 @@ public class MusicLanguage {
                             voice = voice.addMusic(builder.getSinger(), music);
 
                         }
-                        builder.setInMusic(false);
                         builder = new AbcBuilder();
+                        builder.setInMusic(false);
 
                         
                     }

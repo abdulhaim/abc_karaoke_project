@@ -58,6 +58,7 @@ public class MusicWebServer {
     private BlockingQueue<String> queue = new LinkedBlockingQueue<>();
     private boolean done = false;
     private boolean multipleVoices = false;
+    private Object lock = new Object();
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
@@ -133,29 +134,34 @@ public class MusicWebServer {
         String  path = exchange.getRequestURI().getPath();
         System.err.println("received request " + path); //TODO remove when done 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-
+        System.out.print("1");
         OutputStream body = exchange.getResponseBody();
+        System.out.print("2");
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
-        outList.add(out);
+        System.out.print("3");
+        System.out.print("4");
         final int enoughBytesToStartStreaming = 2048;
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
+        System.out.print("5");
         out.println("hello");
+        outList.add(out);
 
         while (!play) {
-            synchronized (this) {
-                this.wait();
+            synchronized (lock) {
+                lock.wait();
                 }
         }
+        System.out.print("6");
         try {
-            this.displayLyrics();
+            //this.displayLyrics();
             out.println("hello");
         }
         finally {
-            synchronized(queue) {
-                queue.wait();
-            }
+            //synchronized(queue) {
+            //    queue.wait();
+            //}
             exchange.close();
         }
     }
@@ -171,8 +177,8 @@ public class MusicWebServer {
      */
     private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException, MidiUnavailableException, InvalidMidiDataException, UnableToParseException {
         play = true;
-        synchronized (this) {
-            this.notifyAll();
+        synchronized (lock) {
+            lock.notifyAll();
         }
         
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
@@ -186,16 +192,16 @@ public class MusicWebServer {
             out.print(' ');
         }
         out.println(response);
-        out.println(MusicLanguage.parse(filePath));
+        //out.println(MusicLanguage.parse(filePath));
         //SoundPlayback.play(MusicLanguage.parse(filePath), queue); 
         exchange.close(); 
     }
     
     private void displayLyrics() throws InterruptedException {
-        while (!queue.isEmpty()) {
+        while (!done) {
             String line = queue.take();
             for (PrintWriter out: outList) {
-                if (line != "$" ) {
+                if (!line.equals("$") ) {
                     out.print(line);
                 }
                 else {
