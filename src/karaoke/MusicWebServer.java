@@ -50,8 +50,6 @@ public class MusicWebServer {
     private final HttpServer server;
     private boolean play = false;
     private final String filePath;
-    private int numStreamers =0;
-    private final BlockingQueue<Boolean> queue = new LinkedBlockingQueue<>();
     /**
      * Make a new web server for Music that listens for connections on port.
      * 
@@ -122,22 +120,23 @@ public class MusicWebServer {
      */
     private void handleStream (HttpExchange exchange) throws IOException, InterruptedException  {
         //String startPath = exchange.getHttpContext().getPath();
-        numStreamers +=1;
         String  path = exchange.getRequestURI().getPath();
         System.err.println("received request " + path); //TODO remove when done 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
-        queue.take();
+        final int enoughBytesToStartStreaming = 2048;
+        for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
+            out.print(' ');
+        }
+        while (!play) {
+            synchronized (this) {
+                this.wait();
+                }
+        }
+
         try {
-            // IMPORTANT: some web browsers don't start displaying a page until at least 2K bytes
-            // have been received.  So we'll send a line containing 2K spaces first.
-            final int enoughBytesToStartStreaming = 2048;
-            for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
-                out.print(' ');
-            }
-            out.println();
             out.println("Lyrics");
         }
         finally {
@@ -156,8 +155,8 @@ public class MusicWebServer {
      */
     private void handlePlay(HttpExchange exchange) throws InterruptedException, IOException {
         play = true;
-        for (int i = 0; i <numStreamers; i++) {
-            queue.put(play);
+        synchronized (this) {
+        this.notifyAll();
         }
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         String response = "Playing now, lyrics streaming has begun"; 
@@ -165,7 +164,7 @@ public class MusicWebServer {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
         out.println(response);
         exchange.close(); 
-        
+        // call play
     }
     
     
