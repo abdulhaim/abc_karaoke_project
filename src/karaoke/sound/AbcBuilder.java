@@ -427,6 +427,9 @@ public class AbcBuilder {
         
     }
     public String getSinger() {
+        if(this.currentSinger.length()==0) {
+            return "OneVoice";
+        }
         return this.currentSinger;
     }
 

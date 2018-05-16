@@ -41,7 +41,7 @@ public class ServerMain {
         System.out.println(header);
         InetAddress inetAddress = InetAddress.getLocalHost(); 
         if (voiceList.size() == 1) {
-            System.out.println("Instructions: \nTo begin play browse to: \n    http://" + inetAddress.getHostAddress() + ":4567/play \nTo view lyrics browse to \n    http://" + inetAddress.getHostAddress() + ":4567/stream" ); 
+            System.out.println("Instructions: \nTo begin play browse to: \n    http://" + inetAddress.getHostAddress() + ":4567/play \nTo view lyrics browse to \n    http://" + inetAddress.getHostAddress() + ":4567/stream/" +voiceList.get(0) ); 
         }
         else {
             System.out.println("Instructions: \nTo begin play browse to: \n    http://" + inetAddress.getHostAddress() + ":4567/play \n");

@@ -99,7 +99,6 @@ public class Note implements Music {
     @Override
     public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         player.addNote(instrument, pitch, atBeat, duration);
-        
         player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals("-1")) { try {
             queue.get(this.voice).put(lyrics);
         } catch (InterruptedException e) {

@@ -72,9 +72,10 @@ public class MusicWebServer {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         this.filePath = filePath;
         this.voices = voices;
-        for (String voice:voices) {
-            voiceMap.put(voice, new LinkedBlockingQueue<String>());
-            outMap.put(voice, new ArrayList<PrintWriter>());
+        
+        for (String v:voices) {
+            this.voiceMap.put(v, new LinkedBlockingQueue<String>());
+            this.outMap.put(v, new ArrayList<PrintWriter>());
         }
         server.setExecutor(Executors.newCachedThreadPool());
         server.createContext("/stream", exchange -> {
@@ -135,8 +136,8 @@ public class MusicWebServer {
         String startPath = exchange.getHttpContext().getPath();
         String  getPath = exchange.getRequestURI().getPath();
         String path = getPath.substring(startPath.length());
-        String[] arguments = path.split("/");
-        String voice = arguments[0].trim();
+
+        String voice = path.substring(path.indexOf('/')+1);
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         OutputStream body = exchange.getResponseBody();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(body, UTF_8), true);
@@ -144,9 +145,8 @@ public class MusicWebServer {
         for (int i = 0; i < enoughBytesToStartStreaming; ++i) {
             out.print(' ');
         }
-        
-        outMap.get(voice).add(out);
-        
+        this.outMap.get(voice).add(out);
+
         while (!play) {
             synchronized (lock) {
                 lock.wait();
@@ -154,13 +154,10 @@ public class MusicWebServer {
         }
         try {
             out.println();
-            this.displayLyrics(voice);
+            out.println("HELLO ONE");
+            displayLyrics(voice, exchange);
         } finally
          {
-            synchronized(this) {
-                this.wait();
-                System.out.print("waiting for lyrics to end");
-            } 
             exchange.close(); }
     }
     
@@ -193,7 +190,7 @@ public class MusicWebServer {
         out.println(response);
         //out.println(MusicLanguage.parse(readFile(filePath)));
         AbcTune tune = MusicLanguage.parse(readFile(filePath));
-        SoundPlayback.play(tune.getMusic(), voiceMap ,Integer.parseInt(tune.getTempo())); 
+        SoundPlayback.play(tune.getMusic(), this.voiceMap ,Integer.parseInt(tune.getTempo())); 
 
         exchange.close(); 
         
@@ -201,18 +198,16 @@ public class MusicWebServer {
 
     }
     
-    private void displayLyrics(String voice) throws InterruptedException {
+    private void displayLyrics(String voice, HttpExchange exchange) throws InterruptedException {
         while (!done) {
-            String line =  voiceMap.get(voice).take();
-            for (PrintWriter out: outMap.get(voice)) {
+            String line =  this.voiceMap.get(voice).take();
+            for (PrintWriter out: this.outMap.get(voice)) {
                 if (!line.equals("$") ) {
                     out.println(line);
                 }
                 else {
                     done = true;
-                    synchronized (this) {
-                        this.notifyAll();
-                    }
+                    exchange.close();
                 }
             }
         }
