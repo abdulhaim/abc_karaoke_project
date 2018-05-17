@@ -47,15 +47,13 @@ public class MusicLanguage {
 
         MusicLanguage abcLanguage = new MusicLanguage();
     
-        String music = readFile("sample-abc/paddy.abc");
+        String music = readFile("sample-abc/despacito.abc");
         final AbcTune musicPiece = abcLanguage.parse(music);
     
         final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
         final int ticksPerBeat = 12; 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        System.out.println(voice);
-
         Map<String,BlockingQueue<String>> queue = new HashMap<String,BlockingQueue<String>>();
         voice.play(player, 0.0, queue);
         player.play();
@@ -298,8 +296,6 @@ public class MusicLanguage {
                 builder.setInMusic(true);
 
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println(children.get(i));
-                    //if (children.toString().contains(s))
                     if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
@@ -601,7 +597,6 @@ public class MusicLanguage {
             }
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-               //List<Concat> musicLines = TUNE.getMusicLine();
                List<String> lyrics = new ArrayList<String>();
                //boolean atEnding = false;
                boolean waitForNext = false;

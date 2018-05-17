@@ -154,29 +154,6 @@ public class AbcBuilder {
         }
         
     }
-/*    public String getLyricOnCount() {
-        try {
-            if(lyrics.isEmpty()) {
-                return "-1";
-            }
-            if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
-                lyricsCounter++;
-            }
-            if (lyrics.get(lyricsCounter).equals("_")) {
-                int dummyCount = lyricsCounter - 1;
-                lyricsCounter++;
-                while (true) {
-                    if (lyrics.get(dummyCount).equals("_")) {dummyCount = dummyCount -1;}
-                    else {return lyrics.get(dummyCount);}
-                }
-            }
-            return lyrics.get(lyricsCounter++);
-        }
-        catch(IndexOutOfBoundsException exp) {
-            return "-1";
-        }
-        
-    }*/
     
     /**
      * Add Music object to Bar
@@ -219,15 +196,6 @@ public class AbcBuilder {
     public List<Music> getTupletNotes() {
         return tupletNotes;
     }
-
-    /**
-     * Return current accumulation of the music objects
-     * @return list of music gathered so far
-     */
-    public List<Bar> getTotalMusic() {
-        return this.totalMusic;
-    }
-
 
 
     /**

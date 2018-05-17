@@ -23,9 +23,7 @@ public class SoundPlayback {
     public static void play(Voices musicPiece, Map<String,BlockingQueue<String>> queue, int beatsPerMinute) throws MidiUnavailableException, InvalidMidiDataException {
         final double offset = 0.125;
         final int ticksPerBeat = 12;
-//        final int beatsPerMinute = 120;
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
-
         musicPiece.play(player, offset,queue);
         player.play();
 
