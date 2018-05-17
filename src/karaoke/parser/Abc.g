@@ -55,7 +55,6 @@ lyric ::= "w:" lyricalElement*;
 lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
 lyricText ::= [^-_~\-|\n\t\r ]*;
 
-
 backslashHyphen ::= "\\" "-";
 
 comment ::= spaceOrTab* "%" commentText newline;

@@ -3,6 +3,11 @@ package karaoke.sound;
 
 public class WebServerTest {
     
+    /**
+     * Test functionalities of MusicLanguage for parsing lyrics 
+     * @category no_didit
+     */
+
     /*
      * Partitions:
      * 

@@ -51,7 +51,7 @@ public class MusicLanguage {
         MusicLanguage abcLanguage = new MusicLanguage();
     
 
-        String music = readFile("sample-abc/payphone.abc");
+        String music = readFile("sample-abc/star_spangled_banner.abc");
 
         final AbcTune musicPiece = abcLanguage.parse(music);
     
