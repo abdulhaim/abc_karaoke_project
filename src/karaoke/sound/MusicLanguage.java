@@ -713,9 +713,12 @@ public class MusicLanguage {
                    }
                    else if(text.equals("~")) {
                        continue;
-                  }
+                   }
                    else if(text.equals("|")) {
                        continue;
+                   }
+                   else if(text.equals("\\-")) {
+                       lyrics.add("-");
                    }
                    else {
                        if(i+1<children.size()-1 && children.get(i+1).text().equals("~")) {
