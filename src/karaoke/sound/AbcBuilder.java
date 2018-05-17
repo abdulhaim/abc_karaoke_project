@@ -14,30 +14,15 @@ import java.util.Map;
  *
  */
 public class AbcBuilder {
-    //private final List<Bar> totalMusic;
-
     private List<Music> barNotes;
     private List<Music> tupletNotes;
     private List<Note> chordNotes;
     private Map<Character,String> accidentals;
     
-    //private List<Bar> beginRepeat;
-    //private List<Bar> firstRepeat;
-    //private List<Bar> secondRepeat;
-
-    //private int repeatStatus;
     private String status;
-    //private boolean repeatType;
-    private boolean isLastLine;
-    //private final int beginRepeatStatus = 1;
-    //private final int firstRepeatEndingStatus = 2;
-    //private final int secondRepeatEndingStatus = 3;
-    
+    private boolean isLastLine;    
     private static final Map<String, List<String>> KEY_ACCIDENTALS;
     
-    // repeatMap provides information on when to repeat
-    //private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
-
     private final Map<String, VoiceBuilder> musicForVoice;
     
     private double tupletDuration ;
@@ -94,16 +79,10 @@ public class AbcBuilder {
      * with Repeats inside Bar, Bars inside Repeats and Concats
      */
     public AbcBuilder() {
-        //this.totalMusic = new ArrayList<Bar>();
-
         this.barNotes  = new ArrayList<Music>();
         this.tupletNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.accidentals = new HashMap<Character,String>();
-        //this.beginRepeat = new ArrayList<Bar>();
-        //this.firstRepeat = new ArrayList<Bar>();
-        //this.secondRepeat = new ArrayList<Bar>();
-        //this.repeatStatus = 0;
         this.lyricsCounter = 0;
         this.lyrics = new ArrayList<String>();
         this.status = "";
@@ -112,21 +91,37 @@ public class AbcBuilder {
         this.isLastLine = false;
     }
     
+    /**
+     * Resets the Lyrics 
+     */
     public void resetLyricsCounter() {
         this.lyricsCounter=0;
     }
     
+    /**
+     * Returns the music for voice
+     * @return the music map
+     */
     public Map<String, VoiceBuilder> getMusicForVoice(){
         return this.musicForVoice;
     }
     
+    /**
+     * Returns if we are at the last line in the music
+     * @return true if at the last line
+     */
     public boolean isLastLine() {
         return this.isLastLine;
     }
     
+    /**
+     * Set to true if at the last line
+     * @param val true if at the last line
+     */
     public void setLastLine(boolean val) {
         this.isLastLine = val;
     }
+    
     /**
      * @return VoiceBuilder associated with current singer(or voice)
      */
@@ -168,7 +163,6 @@ public class AbcBuilder {
                 s += this.lyrics.get(i);
             }
         }
-        //System.out.println(s);
         return s;
     }
     
@@ -194,11 +188,9 @@ public class AbcBuilder {
             }
             
             return getLyrics(lyricsCounter++);
-            //return lyrics.get(lyricsCounter++);
         }
         catch(IndexOutOfBoundsException exp) {
-            System.out.println("exp ljkfljslfj");
-            return "-1";
+            return "\n";
         }
         
     }
@@ -254,7 +246,6 @@ public class AbcBuilder {
      */
     public void addTuplet(Tuplet tuplet) {
         this.barNotes.add(tuplet);
-        //this.tupletNotes = new ArrayList<Music>(); // is the following necessary after this one
 
     }
 
@@ -278,22 +269,12 @@ public class AbcBuilder {
     /**
      * Add Accidental found in the Bar
      * @param c that accidental is applied on
+     * @param type of the accidental
      */
     public void addAccidental(char c,String type) {
         this.accidentals.put(c, type);
         
     }
-
-
-    /**
-     * Set status of where you are in the Repeat 
-     * @param status of repeat
-     */
-/*    public void setRepeatStatus(int status) {
-        this.repeatStatus = status;
-        
-    }
-*/
 
 
     /**
@@ -331,29 +312,12 @@ public class AbcBuilder {
         
     }
 
-    
     /**
-     * Returns to String representation of Music accumulated so far by the AbcBuilder
-     * @return string of the AbcBuilder Music objects
+     * Apply key accidental to notes 
+     * @param pitchChar the note
+     * @param keyAccidental the key accidental for the music
+     * @return new pitch with applied accidental
      */
-/*    @Override
-    public String toString() {
-        String total = "";
-        for(Music music: this.totalMusic) {
-            total+=music.toString();
-            
-        }
-        return total;
-    }*/
-
-    /**
-     * 
-     * @return
-     */
-/*    public List<Bar> getMusicLine() {
-        return this.totalMusic;
-    }*/
-
     public Pitch applyKeyAccidental(Character pitchChar, String keyAccidental) {
         Pitch pitch = new Pitch(pitchChar);
         List<String> accidentalList = this.KEY_ACCIDENTALS.get(keyAccidental);
@@ -372,34 +336,54 @@ public class AbcBuilder {
             
     }
 
-/*    public void flagSimpleRepeat(boolean b) {
-        this.repeatType = b;
-    }*/
-
+    /**
+     * Get the size of the notes in a Bar
+     * @return the size
+     */
     public int getBarNotesSize() {
         return this.barNotes.size();
     }
 
-/*    public Map<Integer, List<Integer>> getHashMap() {
-        return this.repeatMap;
-    }*/
 
+    /**
+     * Set the duration of the Tuplet
+     * @param duration of the tuplet
+     */
     public void setTupletDuration(double duration) {
        this.tupletDuration = duration;
         
     }
+    
+    /**
+     * Get the tuplet duration
+     * @return duration of the tuplet
+     */
     public double getTupletDuration() {
         return this.tupletDuration;         
      }
 
+    /**
+     * Set the lyrics 
+     * @param lyrics to set
+     */
     public void setLyrics(List<String> lyrics) {
         this.lyrics = new ArrayList<String>(lyrics);
         
     }
+    
+    /**
+     * Get the lyrics
+     * @return the lyrics
+     */
     public List<String> getLyrics() {
         return this.lyrics;
         
     }
+    
+    /**
+     * Get the singer
+     * @return the singer
+     */
     public String getSinger() {
         if(this.currentSinger.length()==0) {
             return "OneVoice";
@@ -407,14 +391,26 @@ public class AbcBuilder {
         return this.currentSinger;
     }
 
+    /**
+     * Set the singer
+     * @param singer to set
+     */
     public void setSinger(String singer) {
         this.currentSinger = singer;
     }
 
+    /**
+     * Check to see if we are parsing music
+     * @return true or false
+     */
     public boolean inMusic() {
         return this.inMusicParsing;
     }
 
+    /**
+     * Set true if we are in music
+     * @param b true if in Music, false otherwise
+     */
     public void setInMusic(boolean b) {
         this.inMusicParsing = b;
         
