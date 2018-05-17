@@ -171,12 +171,17 @@ public class AbcBuilder {
      *         if no lyrics is present, returns "-1"
      */
     public String getLyricOnCount() {
+        System.out.println("Counter " + lyricsCounter);
         try {
             if(lyrics.isEmpty()) {
                 return "No Lyrics";
             }
             if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
                 lyricsCounter++;
+            }
+            if (lyrics.get(lyricsCounter).equals("")) {
+                lyricsCounter++;
+                return getLyrics(-1);
             }
             if (lyrics.get(lyricsCounter).equals("_")) {
                 int dummyCount = lyricsCounter - 1;

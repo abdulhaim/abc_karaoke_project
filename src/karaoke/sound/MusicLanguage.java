@@ -51,7 +51,7 @@ public class MusicLanguage {
         MusicLanguage abcLanguage = new MusicLanguage();
     
 
-        String music = readFile("sample-abc/payphone.abc");
+        String music = readFile("sample-abc/piece3.abc");
 
         final AbcTune musicPiece = abcLanguage.parse(music);
     
@@ -679,6 +679,10 @@ public class MusicLanguage {
                        else {lyrics.add(" ");}
                    }
                    else if (text.equals("-")) {
+                       String lastChar = lyrics.get(lyrics.size()-1);
+                       if (lastChar.equals(" ") || lastChar.equals("-")) {
+                           lyrics.add("");
+                       }
                        continue;
                    }
                    else if (text.equals("_")) {
@@ -717,7 +721,7 @@ public class MusicLanguage {
                List<String> lyrics2 = new ArrayList<String>();
                for (int i = 0; i< lyrics.size(); i++) {
                    if (lyrics.get(i).equals(" ")) {
-                       if (i - 1 >=0 && lyrics.get(i-1).equals(" ")) {
+                       if (i - 1 >=0 && (lyrics.get(i-1).equals(" ") || lyrics.get(i-1).equals(""))) {
                            continue;
                        }
                        else {
@@ -728,6 +732,8 @@ public class MusicLanguage {
                        lyrics2.add(lyrics.get(i));
                    }
                }
+               System.out.println(lyrics2);
+               System.out.println("Size of lyrics2 "+lyrics2.size());
                builder.setLyrics(lyrics2);
                builder.resetLyricsCounter();
                return;

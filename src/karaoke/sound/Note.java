@@ -100,6 +100,7 @@ public class Note implements Music {
     public void play(SequencePlayer player, double atBeat,Map<String,BlockingQueue<String>> queue) {
         player.addNote(instrument, pitch, atBeat, duration);
         player.addEvent(atBeat, (Double beat) -> { if(!lyrics.equals(" ")) { try {
+            System.out.println(lyrics);
             queue.get(this.voice).put(lyrics);
         } catch (InterruptedException e) {
             e.printStackTrace();
