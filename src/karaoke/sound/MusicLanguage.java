@@ -27,13 +27,17 @@ import edu.mit.eecs.parserlib.UnableToParseException;
 public class MusicLanguage {
     private final AbcTune tune;
     private AbcBuilder builder;
-    private List<String> voices;
-    
+    private List<String> singers;
+    private Voices entireMusic;
+    /**
+     * 
+     */
     public MusicLanguage() {
         
         this.tune = new AbcTune();
         this.builder = new AbcBuilder();
-        this.voices = new ArrayList<String>();
+        this.singers = new ArrayList<String>();
+        this.entireMusic = new Voices();
     }
 
     /**
@@ -47,14 +51,13 @@ public class MusicLanguage {
 
         MusicLanguage abcLanguage = new MusicLanguage();
     
-        String music = readFile("sample-abc/paddy.abc");
+        String music = readFile("sample-abc/friday.abc");
         final AbcTune musicPiece = abcLanguage.parse(music);
     
         final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
         final int ticksPerBeat = 12; 
         SequencePlayer player = new MidiSequencePlayer(beatsPerMinute, ticksPerBeat);
         Voices voice = musicPiece.getMusic();
-        System.out.println(voice);
 
         Map<String,BlockingQueue<String>> queue = new HashMap<String,BlockingQueue<String>>();
         voice.play(player, 0.0, queue);
@@ -209,7 +212,7 @@ public class MusicLanguage {
             {
                String name = parseTree.text();
                String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
-               voices.add(singer);
+               singers.add(singer);
                return;
             }
             case FIELDKEY: //   fieldKey ::= "K:" key endOfLine;
@@ -252,20 +255,29 @@ public class MusicLanguage {
 
     private void makeAbstractSyntaxTreeMusic(final ParseTree<MusicGrammar> parseTree) {
         final java.util.List<ParseTree<MusicGrammar>> children = parseTree.children();
+
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
-                Voices voice;
-                if(voices.size()==0) {
-                    voice = new Voices();
+                //Voices voice;
+                if(singers.size()==0) {
+                    this.entireMusic = new Voices();
+                    builder.addSingers();
                 }
                 else {
-                    voice = new Voices(voices);
+                    this.entireMusic = new Voices(singers);
+                    builder.addSingers(singers);
                 }
+                
                 for(int i = 0;i<children.size();i++) {
+                    if (i == children.size()-1) {
+                        builder.setLastLine(true);
+                        
+                    }
                     makeAbstractSyntaxTreeMusic(children.get(i));
-                    if(builder.inMusic()) {
+
+/*                    if(builder.inMusic()) {
                         Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
-                        if(voices.size()==0) {
+                        if(singers.size()==0) {
                             voice = voice.addMusic(music);
                         }
                         else {
@@ -276,75 +288,151 @@ public class MusicLanguage {
                         builder.setInMusic(false);
 
                         
-                    }
+                    }*/
+                    
                 }
-                this.tune.setMusic(voice);
+                this.tune.setMusic(this.entireMusic);
                 return;
                 
             }
             case ABCLINE: //abcLine ::= (noteElement | restElement | tupletElement | barline | nthRepeat | spaceOrTab)+ 
                           //endOfLine (lyric endOfLine)?  | middleOfBodyField | comment;
             {
+                
                 builder.setStatus("Bar");
                 // if lyrics exist, parse it first. Might want to make code more readable.
                 if(children.size() > 2 && children.get(children.size()-2).name().equals(MusicGrammar.LYRIC)) {
                     makeAbstractSyntaxTreeMusic(children.get(children.size()-2));
                 }
-                else if(children.size()==1 && (children.get(0).name().equals(MusicGrammar.MIDDLEOFBODYFIELD) || children.get(0).name().equals(MusicGrammar.COMMENT))) {
+                else if(children.size()==1 && (children.get(0).name().equals(MusicGrammar.MIDDLEOFBODYFIELD) )) {
                     makeAbstractSyntaxTreeMusic(children.get(0));
                     return;
+                }
+                
+                if(children.get(0).name().equals(MusicGrammar.COMMENT) && builder.isLastLine()) {
+                    
+                    builder.resetBar();
+                    Map<String, VoiceBuilder> musicForVoice = builder.getMusicForVoice();
+                    for (String s : musicForVoice.keySet()) {
+                        VoiceBuilder currentVoiceBuilder = musicForVoice.get(s);
+                        Concat music = currentVoiceBuilder.endMajorSection();
+                        
+                        if(singers.size()==0) {
+                            this.entireMusic = this.entireMusic.addMusic(music);
+                        }
+                        else {
+                            this.entireMusic = this.entireMusic.addMusic(s, music);
 
+                        }
+                    }
+                    return;
+                }
+                else if(children.get(0).name().equals(MusicGrammar.COMMENT))
+                {
+                    
+                    return;
                 }
                 builder.setInMusic(true);
 
                 for(int i = 0; i< children.size(); i++) {
-                    System.out.println(children.get(i));
+                    System.out.println("here too");
+                    MusicGrammar childName = children.get(i).name();
+                    String childText = children.get(i).text();
                     //if (children.toString().contains(s))
-                    if(children.get(i).name().equals(MusicGrammar.SPACEORTAB)) {
+
+                    if (builder.isLastLine() && i == children.size() - 1) {
+                        builder.resetBar();
+                        Map<String, VoiceBuilder> musicForVoice = builder.getMusicForVoice();
+                        for (String s : musicForVoice.keySet()) {
+                            VoiceBuilder currentVoiceBuilder = musicForVoice.get(s);
+                            Concat music = currentVoiceBuilder.endMajorSection();
+                            
+                            if(singers.size()==0) {
+                                this.entireMusic = this.entireMusic.addMusic(music);
+                            }
+                            else {
+                                this.entireMusic = this.entireMusic.addMusic(s, music);
+
+                            }
+                        }
+                    }
+                    
+                    else if(childText.equals("||") || childText.equals("[|") || childText.equals("|]")) {
+                         builder.resetBar();
+                         VoiceBuilder currentVoiceBuilder = builder.getCurrentVoiceBuilder();
+                         Concat music = currentVoiceBuilder.endMajorSection();
+                         
+                         if(singers.size()==0) {
+                             this.entireMusic = this.entireMusic.addMusic(music);
+                         }
+                         else {
+                             this.entireMusic = this.entireMusic.addMusic(builder.getSinger(), music);
+
+                         }
+                     }
+                    else if(childName.equals(MusicGrammar.SPACEORTAB)) {
                         continue;
                     }
                     // also how do we parse the last note in the bar if we do this
                     else if(i+1<children.size() && children.get(i+1).text().equals("[1")) { //if at first repeat ending
-                        builder.setRepeatStatus(1);
                         builder.resetBar();
-                        builder.setRepeatStatus(2);
+                        VoiceBuilder currentVoiceBuilder = builder.getCurrentVoiceBuilder();
+                        currentVoiceBuilder.setSimpleRepeat(false);
+                        if (currentVoiceBuilder.getRepeatStatus().equals(RepeatStatus.BEGIN_REPEAT)) {
+                            currentVoiceBuilder.setRepeatStatus(RepeatStatus.FIRST_REPEAT);
+                        }
+                        else {
+                            assert currentVoiceBuilder.getRepeatStatus().equals(RepeatStatus.NO_REPEAT);
+                            currentVoiceBuilder.setRepeatsFromMajorSec(); // put all the major section bars into repeats
+                            currentVoiceBuilder.setRepeatStatus(RepeatStatus.FIRST_REPEAT);
+                        }
+                    }
+                    
+                    else if(children.get(i).text().equals(":|")) {
+                        VoiceBuilder currentVoiceBuilder = builder.getCurrentVoiceBuilder();
+                        builder.resetBar();
+                        if (!currentVoiceBuilder.getSimpleRepeat()) {
+                        //if (children.get(i+1).text().equals("[2")) {
+                            currentVoiceBuilder.stageRegularRepeat();
+                        }
+                        else {
+                            currentVoiceBuilder.stageSimpleRepeat();
+                        }
                     }
                     
                     else if(i+1<children.size() && children.get(i+1).text().equals("[2")) { //if at second repeat ending
-                        builder.resetBar(); // maybe assert repeatStatus(2)
-                        builder.setRepeatStatus(3);
+                        
+                        VoiceBuilder currentVoiceBuilder = builder.getCurrentVoiceBuilder();
+                        assert currentVoiceBuilder.getRepeatStatus().equals(RepeatStatus.FIRST_REPEAT);
+                        builder.resetBar();
+                        currentVoiceBuilder.stageRegularRepeat();
                     }
                     else if(children.get(i).text().equals("[1") || children.get(i).text().equals("[2")) {
                         continue;
-
                     }
                     else if((i+1<children.size() && children.get(i).text().equals("|:"))) {
-                        if(builder.getBarNotesSize()!=0) {
-                            builder.resetBar();
-                        }
-                        builder.setRepeatStatus(2);
-                    }
-
-                    else if(children.get(i).text().equals(":|")) {
-                        builder.flagSimpleRepeat(true);
-                        builder.setRepeatStatus(3);
                         builder.resetBar();
-                        
+                        builder.getCurrentVoiceBuilder().setRepeatStatus(RepeatStatus.BEGIN_REPEAT);
                         
                     }
 
-                    else if(children.get(i).name().equals(MusicGrammar.BARLINE)) {
+
+
+
+                    else if(childName.equals(MusicGrammar.BARLINE)) {
+                        System.out.println("come to barline");
                         builder.resetBar();
                     }
-                    else if(children.get(i).name().equals(MusicGrammar.ENDOFLINE)) {
+                    else if(childName.equals(MusicGrammar.ENDOFLINE)) {
                         builder.resetBar();
                     }
-                    else if(children.get(i).name().equals(MusicGrammar.LYRIC)){
-                        return;
+                    else if(childName.equals(MusicGrammar.LYRIC)){
+                        continue;
                     }
+
                     else {
+                        System.out.println("comees here");
                         makeAbstractSyntaxTreeMusic(children.get(i));
-
                     }
                     
                 }
@@ -673,6 +761,7 @@ public class MusicLanguage {
                 String name = parseTree.text();
                 String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
                 builder.setSinger(singer);
+                System.out.println("sssss " + singer);
                 return;
             }
             case COMMENT:

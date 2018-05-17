@@ -17,7 +17,7 @@ public class Voices implements Music{
      * Constructor of Voices with unspecified voice.
      */
     public Voices() {
-        String singer = "V";
+        String singer = "OneVoice";
         Map<String, List<Concat>> map = new HashMap<String, List<Concat>>();
         map.put(singer, Collections.synchronizedList(Collections.unmodifiableList(new ArrayList<Concat>())));
         this.voiceToMusic = Collections.synchronizedMap(Collections.unmodifiableMap(new HashMap<String, List<Concat>>(map)));
@@ -85,7 +85,7 @@ public class Voices implements Music{
      * @return new Voice object incorporating that change.
      */
     public Voices addMusic(Concat concMusic) {
-        String singer = "V";
+        String singer = "OneVoice";
         return addMusic(singer, concMusic);
     }
 

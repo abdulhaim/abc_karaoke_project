@@ -115,7 +115,7 @@ public class Concat implements Music{
     @Override
     public String toString() {
         String concat = "";
-        for(Music m: music) {
+        for(Music m: this.musicToPlay) {
             concat += m.toString();
         }
         return concat;

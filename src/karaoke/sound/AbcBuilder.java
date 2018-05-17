@@ -14,30 +14,32 @@ import java.util.Map;
  *
  */
 public class AbcBuilder {
-    private final List<Bar> totalMusic;
+    //private final List<Bar> totalMusic;
 
     private List<Music> barNotes;
     private List<Music> tupletNotes;
     private List<Note> chordNotes;
     private Map<Character,String> accidentals;
     
-    private List<Bar> beginRepeat;
-    private List<Bar> firstRepeat;
-    private List<Bar> secondRepeat;
+    //private List<Bar> beginRepeat;
+    //private List<Bar> firstRepeat;
+    //private List<Bar> secondRepeat;
 
-    private int repeatStatus;
+    //private int repeatStatus;
     private String status;
-    private boolean repeatType;
-    
-    private final int beginRepeatStatus = 1;
-    private final int firstRepeatEndingStatus = 2;
-    private final int secondRepeatEndingStatus = 3;
+    //private boolean repeatType;
+    private boolean isLastLine;
+    //private final int beginRepeatStatus = 1;
+    //private final int firstRepeatEndingStatus = 2;
+    //private final int secondRepeatEndingStatus = 3;
     
     private static final Map<String, List<String>> KEY_ACCIDENTALS;
     
     // repeatMap provides information on when to repeat
-    private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
+    //private final Map<Integer, List<Integer>> repeatMap = new HashMap<>();
 
+    private final Map<String, VoiceBuilder> musicForVoice;
+    
     private double tupletDuration ;
     private List<String> lyrics;
     private int lyricsCounter;
@@ -92,22 +94,62 @@ public class AbcBuilder {
      * with Repeats inside Bar, Bars inside Repeats and Concats
      */
     public AbcBuilder() {
-        this.totalMusic = new ArrayList<Bar>();
+        //this.totalMusic = new ArrayList<Bar>();
 
         this.barNotes  = new ArrayList<Music>();
         this.tupletNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.accidentals = new HashMap<Character,String>();
-        this.beginRepeat = new ArrayList<Bar>();
-        this.firstRepeat = new ArrayList<Bar>();
-        this.secondRepeat = new ArrayList<Bar>();
-        this.repeatStatus = 0;
+        //this.beginRepeat = new ArrayList<Bar>();
+        //this.firstRepeat = new ArrayList<Bar>();
+        //this.secondRepeat = new ArrayList<Bar>();
+        //this.repeatStatus = 0;
         this.lyricsCounter = 0;
         this.lyrics = new ArrayList<String>();
         this.status = "";
         this.currentSinger = "";
+        this.musicForVoice = new HashMap<>();
+        this.isLastLine = false;
     }
     
+    public Map<String, VoiceBuilder> getMusicForVoice(){
+        return this.musicForVoice;
+    }
+    
+    public boolean isLastLine() {
+        return this.isLastLine;
+    }
+    
+    public void setLastLine(boolean val) {
+        this.isLastLine = val;
+    }
+    /**
+     * @return VoiceBuilder associated with current singer(or voice)
+     */
+    public VoiceBuilder getCurrentVoiceBuilder() {
+        if (this.getSinger().equals("OneVoice")) {
+            return this.musicForVoice.get("OneVoice");
+        }
+        return this.musicForVoice.get(currentSinger);
+    }
+    
+    /**
+     * @param singers different voices in the music
+     */
+    public void addSingers(List<String> singers) {
+        assert this.musicForVoice.keySet().isEmpty();
+        for (String singer : singers) {
+            this.musicForVoice.put(singer, new VoiceBuilder(singer));
+        }
+    }
+    
+    /**
+     * Add voice when only default voice in music
+     */
+    public void addSingers() {
+        assert this.musicForVoice.keySet().isEmpty();
+        this.musicForVoice.put("OneVoice", new VoiceBuilder("OneVoice"));
+    }
     
     private String getLyrics(int count) {
         String s = "";
@@ -154,29 +196,7 @@ public class AbcBuilder {
         }
         
     }
-/*    public String getLyricOnCount() {
-        try {
-            if(lyrics.isEmpty()) {
-                return "-1";
-            }
-            if (lyrics.get(lyricsCounter).equals(" ")) { //won't work if multiple spaces in the lyrics
-                lyricsCounter++;
-            }
-            if (lyrics.get(lyricsCounter).equals("_")) {
-                int dummyCount = lyricsCounter - 1;
-                lyricsCounter++;
-                while (true) {
-                    if (lyrics.get(dummyCount).equals("_")) {dummyCount = dummyCount -1;}
-                    else {return lyrics.get(dummyCount);}
-                }
-            }
-            return lyrics.get(lyricsCounter++);
-        }
-        catch(IndexOutOfBoundsException exp) {
-            return "-1";
-        }
-        
-    }*/
+
     
     /**
      * Add Music object to Bar
@@ -224,9 +244,9 @@ public class AbcBuilder {
      * Return current accumulation of the music objects
      * @return list of music gathered so far
      */
-    public List<Bar> getTotalMusic() {
+/*    public List<Bar> getTotalMusic() {
         return this.totalMusic;
-    }
+    }*/
 
 
 
@@ -271,11 +291,11 @@ public class AbcBuilder {
      * Set status of where you are in the Repeat 
      * @param status of repeat
      */
-    public void setRepeatStatus(int status) {
+/*    public void setRepeatStatus(int status) {
         this.repeatStatus = status;
         
     }
-
+*/
 
 
     /**
@@ -300,56 +320,12 @@ public class AbcBuilder {
      * Applies Accidentals to Music Notes in the Bar
      */
     public void resetBar() {
-        Bar bar = new Bar(this.barNotes);
-        if(repeatStatus == 0) {
-            this.totalMusic.add(bar);
+        if (!barNotes.isEmpty()) {
+            Bar bar = new Bar(this.barNotes);
+            this.getCurrentVoiceBuilder().addBar(bar); // add bar to currentVoiceBuilder
         }
-        else if(repeatStatus == beginRepeatStatus) {
-            this.beginRepeat.add(bar);
 
-        }
-        else if(repeatStatus == firstRepeatEndingStatus) {
-            this.firstRepeat.add(bar);
-        }
-        else if(this.repeatType && repeatStatus == secondRepeatEndingStatus) { //initial value of repeat type?
-            this.firstRepeat.add(bar);
-            // putting (key, value) into the repeat map. key holds the position of where repeat has to start
-            // value specifies the range of sub-list of bars that has to be repeated at position key.
-            // key = L + l_0
-            // value = [L, L+ l_0]
-            int key = this.totalMusic.size() + this.firstRepeat.size();
-            List<Integer> value = Arrays.asList(this.totalMusic.size(),
-                                                this.totalMusic.size()+this.firstRepeat.size());
-            repeatMap.put(key,value);
-            
-            for(Bar b: this.firstRepeat) {
-                totalMusic.add(b);
-            }
-            this.beginRepeat = new ArrayList<Bar>();
-            this.firstRepeat = new ArrayList<Bar>();
-            this.secondRepeat = new ArrayList<Bar>();
-            this.repeatStatus = 0;
-            this.repeatType = false;
-
-        }
-        else if(repeatStatus == secondRepeatEndingStatus) {
-            this.secondRepeat.add(bar);
-            // key = L + l_0 + l_1
-            // value = [L, L+ l_0]
-            int key = this.totalMusic.size()+this.beginRepeat.size()+this.firstRepeat.size();
-            List<Integer> value = Arrays.asList(this.totalMusic.size(),
-                                                this.totalMusic.size()+this.beginRepeat.size());
-            repeatMap.put(key, value);
-            totalMusic.addAll(this.beginRepeat);
-            totalMusic.addAll(this.firstRepeat);
-            totalMusic.addAll(this.secondRepeat);
-
-            this.beginRepeat = new ArrayList<Bar>();
-            this.firstRepeat = new ArrayList<Bar>();
-            this.secondRepeat = new ArrayList<Bar>();
-            this.repeatStatus = 0;
-            
-        }
+        
         this.barNotes = new ArrayList<Music>();
         this.chordNotes = new ArrayList<Note>();
         this.tupletNotes = new ArrayList<Music>();
@@ -362,7 +338,7 @@ public class AbcBuilder {
      * Returns to String representation of Music accumulated so far by the AbcBuilder
      * @return string of the AbcBuilder Music objects
      */
-    @Override
+/*    @Override
     public String toString() {
         String total = "";
         for(Music music: this.totalMusic) {
@@ -370,15 +346,15 @@ public class AbcBuilder {
             
         }
         return total;
-    }
+    }*/
 
     /**
      * 
      * @return
      */
-    public List<Bar> getMusicLine() {
+/*    public List<Bar> getMusicLine() {
         return this.totalMusic;
-    }
+    }*/
 
     public Pitch applyKeyAccidental(Character pitchChar, String keyAccidental) {
         Pitch pitch = new Pitch(pitchChar);
@@ -398,17 +374,17 @@ public class AbcBuilder {
             
     }
 
-    public void flagSimpleRepeat(boolean b) {
+/*    public void flagSimpleRepeat(boolean b) {
         this.repeatType = b;
-    }
+    }*/
 
     public int getBarNotesSize() {
         return this.barNotes.size();
     }
 
-    public Map<Integer, List<Integer>> getHashMap() {
+/*    public Map<Integer, List<Integer>> getHashMap() {
         return this.repeatMap;
-    }
+    }*/
 
     public void setTupletDuration(double duration) {
        this.tupletDuration = duration;
