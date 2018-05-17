@@ -3,7 +3,6 @@ package karaoke.sound;
 
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -15,8 +14,9 @@ public class SoundPlayback {
 
     /**
      * Play music.
-     * @param beatsPerMinute 
-     * @param AbcTune object with music to play and music piece's attributes
+     * @param beatsPerMinute to play music
+     * @param musicPiece object on Type Music to play
+     * @param queue to store the lyrics
      * @throws MidiUnavailableException if MIDI device unavailable
      * @throws InvalidMidiDataException if MIDI play fails
      */

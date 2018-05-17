@@ -30,7 +30,6 @@ public class MusicLanguage {
     private List<String> voices;
     
     public MusicLanguage() {
-        
         this.tune = new AbcTune();
         this.builder = new AbcBuilder();
         this.voices = new ArrayList<String>();
@@ -622,7 +621,7 @@ public class MusicLanguage {
                        continue;
                   }
                    else if(text.equals("|")) {
-                       // pass
+                       continue;
                    }
                    else {
                        if(i+1<children.size()-1 && children.get(i+1).text().equals("~")) {
