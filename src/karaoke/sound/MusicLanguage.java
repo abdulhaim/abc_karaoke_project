@@ -259,7 +259,6 @@ public class MusicLanguage {
 
         switch (parseTree.name()) {
             case ABCBODY: { //abcBody ::= abcLine+;
-                //Voices voice;
                 if(singers.size()==0) {
                     this.entireMusic = new Voices();
                     builder.addSingers();
@@ -275,22 +274,6 @@ public class MusicLanguage {
                         
                     }
                     makeAbstractSyntaxTreeMusic(children.get(i));
-
-/*                    if(builder.inMusic()) {
-                        Concat music = new Concat(builder.getMusicLine(),builder.getHashMap(),builder.getLyrics());
-                        if(singers.size()==0) {
-                            voice = voice.addMusic(music);
-                        }
-                        else {
-                            voice = voice.addMusic(builder.getSinger(), music);
-
-                        }
-                        builder = new AbcBuilder();
-                        builder.setInMusic(false);
-
-                        
-                    }*/
-                    
                 }
                 this.tune.setMusic(this.entireMusic);
                 return;
@@ -339,8 +322,6 @@ public class MusicLanguage {
 
                     MusicGrammar childName = children.get(i).name();
                     String childText = children.get(i).text();
-                    //if (children.toString().contains(s))
-
                     if (builder.isLastLine() && i == children.size() - 1) {
                         builder.resetBar();
                         Map<String, VoiceBuilder> musicForVoice = builder.getMusicForVoice();
@@ -394,7 +375,6 @@ public class MusicLanguage {
                         VoiceBuilder currentVoiceBuilder = builder.getCurrentVoiceBuilder();
                         builder.resetBar();
                         if (!currentVoiceBuilder.getSimpleRepeat()) {
-                        //if (children.get(i+1).text().equals("[2")) {
                             currentVoiceBuilder.stageRegularRepeat();
                         }
                         else {
@@ -417,9 +397,6 @@ public class MusicLanguage {
                         builder.getCurrentVoiceBuilder().setRepeatStatus(RepeatStatus.BEGIN_REPEAT);
                         
                     }
-
-
-
 
                     else if(childName.equals(MusicGrammar.BARLINE)) {
                         builder.resetBar();
@@ -691,7 +668,6 @@ public class MusicLanguage {
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
                List<String> lyrics = new ArrayList<String>();
-               //boolean atEnding = false;
                boolean waitForNext = false;
                String word = "";
                
@@ -742,7 +718,7 @@ public class MusicLanguage {
                for (int i = 0; i< lyrics.size(); i++) {
                    if (lyrics.get(i).equals(" ")) {
                        if (i - 1 >=0 && lyrics.get(i-1).equals(" ")) {
-                           //skip
+                           continue;
                        }
                        else {
                            lyrics2.add(lyrics.get(i));
@@ -752,7 +728,6 @@ public class MusicLanguage {
                        lyrics2.add(lyrics.get(i));
                    }
                }
-               //System.out.println(lyrics2);
                builder.setLyrics(lyrics2);
                builder.resetLyricsCounter();
                return;
@@ -777,6 +752,11 @@ public class MusicLanguage {
         
     }
 
+    /**
+     * Converts a string fraction to a double
+     * @param ratio to convert
+     * @return the double value
+     */
     private static double convertToDouble(String ratio) {
         if (ratio.contains("/")) {
             String[] rat = ratio.split("/");

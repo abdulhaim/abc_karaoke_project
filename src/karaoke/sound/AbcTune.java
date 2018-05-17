@@ -14,9 +14,7 @@ import java.util.Map;
  *
  */
 
-
 /*
- * 
  *      AF (title, composer, meter, tempo, noteLength, indexNumber, accidental, music, keySignature, voices) = 
  *          represents the contents of a music file with a title (@param title) and a composer (@param composer)
  *          with a specified meter (@param meter), tempo (@param tempo), note length (@param noteLength), and with a track number on its album if applicable (@param indexNumber).
