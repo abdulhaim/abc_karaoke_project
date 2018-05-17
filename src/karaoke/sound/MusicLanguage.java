@@ -53,6 +53,7 @@ public class MusicLanguage {
 
         String music = readFile("sample-abc/piece3.abc");
 
+
         final AbcTune musicPiece = abcLanguage.parse(music);
     
         final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
