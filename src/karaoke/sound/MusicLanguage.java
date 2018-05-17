@@ -33,7 +33,6 @@ public class MusicLanguage {
      * 
      */
     public MusicLanguage() {
-        
         this.tune = new AbcTune();
         this.builder = new AbcBuilder();
         this.singers = new ArrayList<String>();
@@ -51,7 +50,9 @@ public class MusicLanguage {
 
         MusicLanguage abcLanguage = new MusicLanguage();
     
+
         String music = readFile("sample-abc/friday.abc");
+
         final AbcTune musicPiece = abcLanguage.parse(music);
     
         final int beatsPerMinute = Integer.parseInt(musicPiece.getTempo()); 
@@ -335,6 +336,7 @@ public class MusicLanguage {
                 builder.setInMusic(true);
 
                 for(int i = 0; i< children.size(); i++) {
+
                     System.out.println("here too");
                     MusicGrammar childName = children.get(i).name();
                     String childText = children.get(i).text();
@@ -371,6 +373,7 @@ public class MusicLanguage {
                          }
                      }
                     else if(childName.equals(MusicGrammar.SPACEORTAB)) {
+
                         continue;
                     }
                     // also how do we parse the last note in the bar if we do this
@@ -689,7 +692,6 @@ public class MusicLanguage {
             }
             case LYRIC: //lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
             {
-               //List<Concat> musicLines = TUNE.getMusicLine();
                List<String> lyrics = new ArrayList<String>();
                //boolean atEnding = false;
                boolean waitForNext = false;
@@ -715,7 +717,7 @@ public class MusicLanguage {
                        continue;
                   }
                    else if(text.equals("|")) {
-                       // pass
+                       continue;
                    }
                    else {
                        if(i+1<children.size()-1 && children.get(i+1).text().equals("~")) {

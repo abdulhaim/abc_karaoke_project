@@ -12,10 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -48,8 +46,6 @@ public class MusicWebServer {
      * 
      */
     
-    //fields
-
     private final List<String> voices;
     private final HttpServer server;
     private boolean play = false;

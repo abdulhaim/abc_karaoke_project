@@ -240,14 +240,6 @@ public class AbcBuilder {
         return tupletNotes;
     }
 
-    /**
-     * Return current accumulation of the music objects
-     * @return list of music gathered so far
-     */
-/*    public List<Bar> getTotalMusic() {
-        return this.totalMusic;
-    }*/
-
 
 
     /**

@@ -53,7 +53,8 @@ middleOfBodyField ::= fieldVoice;
 
 lyric ::= "w:" lyricalElement*;
 lyricalElement ::= " "+ | "-" | "_" | "*" | "~" | backslashHyphen | "|" | lyricText;
-lyricText ::= [^-_~\-|\n\t\r ];
+lyricText ::= [^-_~\-|\n\t\r ]*;
+
 
 backslashHyphen ::= "\\" "-";
 
