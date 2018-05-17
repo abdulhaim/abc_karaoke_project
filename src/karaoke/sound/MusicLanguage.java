@@ -51,7 +51,7 @@ public class MusicLanguage {
         MusicLanguage abcLanguage = new MusicLanguage();
     
 
-        String music = readFile("sample-abc/friday.abc");
+        String music = readFile("sample-abc/payphone.abc");
 
         final AbcTune musicPiece = abcLanguage.parse(music);
     
@@ -337,7 +337,6 @@ public class MusicLanguage {
 
                 for(int i = 0; i< children.size(); i++) {
 
-                    System.out.println("here too");
                     MusicGrammar childName = children.get(i).name();
                     String childText = children.get(i).text();
                     //if (children.toString().contains(s))
@@ -423,7 +422,6 @@ public class MusicLanguage {
 
 
                     else if(childName.equals(MusicGrammar.BARLINE)) {
-                        System.out.println("come to barline");
                         builder.resetBar();
                     }
                     else if(childName.equals(MusicGrammar.ENDOFLINE)) {
@@ -434,7 +432,7 @@ public class MusicLanguage {
                     }
 
                     else {
-                        System.out.println("comees here");
+
                         makeAbstractSyntaxTreeMusic(children.get(i));
                     }
                     
@@ -751,7 +749,9 @@ public class MusicLanguage {
                        lyrics2.add(lyrics.get(i));
                    }
                }
+               //System.out.println(lyrics2);
                builder.setLyrics(lyrics2);
+               builder.resetLyricsCounter();
                return;
                
             }
@@ -763,7 +763,6 @@ public class MusicLanguage {
                 String name = parseTree.text();
                 String singer = name.substring(name.indexOf(":")+1).replaceAll("\\s","");
                 builder.setSinger(singer);
-                System.out.println("sssss " + singer);
                 return;
             }
             case COMMENT:

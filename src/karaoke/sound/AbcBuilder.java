@@ -112,6 +112,10 @@ public class AbcBuilder {
         this.isLastLine = false;
     }
     
+    public void resetLyricsCounter() {
+        this.lyricsCounter=0;
+    }
+    
     public Map<String, VoiceBuilder> getMusicForVoice(){
         return this.musicForVoice;
     }
@@ -164,6 +168,7 @@ public class AbcBuilder {
                 s += this.lyrics.get(i);
             }
         }
+        //System.out.println(s);
         return s;
     }
     
@@ -192,6 +197,7 @@ public class AbcBuilder {
             //return lyrics.get(lyricsCounter++);
         }
         catch(IndexOutOfBoundsException exp) {
+            System.out.println("exp ljkfljslfj");
             return "-1";
         }
         
